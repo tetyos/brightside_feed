@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       initialRoute: ItemViewScreen.id,
       routes: {
         ItemViewScreen.id : (context) => ItemViewScreen(),
-        ExampleScreen.id: (context) => ExampleScreen(title: 'Flutter Demo Home Page'),
+        ExampleScreen.id: (context) => ExampleScreen(title: 'Flutter Demo Home Page', key: UniqueKey(),),
       },
     );
   }

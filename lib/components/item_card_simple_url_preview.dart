@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/simple_url_preview/simple_url_preview.dart';
+import 'package:simple_url_preview/simple_url_preview.dart';
 
-class ItemCard2 extends StatelessWidget {
+class ItemCardSimpleUrlPreview extends StatelessWidget {
 
   final String url;
 
-  ItemCard2({this.url});
+  ItemCardSimpleUrlPreview({required this.url});
 
 
   @override

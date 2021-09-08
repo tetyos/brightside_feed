@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/components/item_any_link.dart';
-import 'package:inspired/components/item_card.dart';
-import 'package:inspired/components/item_card_2.dart';
-import 'package:inspired/components/item_flutter_link_preview.dart';
+import 'package:inspired/components/item_card_link_preview.dart';
+import 'package:inspired/components/item_card_link_preview_generator..dart';
+import 'package:inspired/components/item_card_link_previewer.dart';
+import 'package:inspired/components/item_card_simple_url_preview.dart';
+import 'package:inspired/components/item_card_simple_url_preview_enhanced.dart';
 
 class ItemViewScreen extends StatelessWidget {
   static const String id = 'item_view_screen';
@@ -26,24 +27,18 @@ class ItemViewScreen extends StatelessWidget {
           reverse: false,
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           children: [
-            // ItemCard2(url: spiegel_url),
-            ItemCard2(url: youtube_url),
-            ItemCard2(url: youtube_url),
-            ItemCard2(url: youtube_url),
-            ItemCard2(url: spotify_url),
-            ItemCard2(url: twitter_url),
-            // ItemCard2(url: 'https://pub.dev/'),
-            ItemAnyLink(url: twitter_url),
-            ItemAnyLink(url: spotify_url),
-            // ItemAnyLink(url: spiegel_url),
-            ItemAnyLink(url: youtube_url),
-            // ItemAnyLink(url: 'https://pub.dev/'),
-            ItemFlutterLinkPreview(url: twitter_url),
-            ItemFlutterLinkPreview(url: spotify_url),
-            // ItemFlutterLinkPreview(url: spiegel_url),
-            ItemFlutterLinkPreview(url: youtube_url),
-            // ItemFlutterLinkPreview(url: 'https://pub.dev/'),
-            // ItemCard(),
+            // ItemCardSimpleUrlPreviewEnhanced(url: spiegel_url),
+            // ItemCardSimpleUrlPreviewEnhanced(url: youtube_url),
+            // ItemCardSimpleUrlPreviewEnhanced(url: spotify_url),
+            // ItemCardSimpleUrlPreviewEnhanced(url: twitter_url),
+            // ItemCardLinkPreviewer(url: spiegel_url),
+            // ItemCardLinkPreviewer(url: youtube_url),
+            // ItemCardLinkPreviewer(url: spotify_url),
+            // ItemCardLinkPreviewer(url: twitter_url),
+            ItemCardLinkPreviewGenerator(url: youtube_url),
+            ItemCardLinkPreviewGenerator(url: spiegel_url),
+            ItemCardLinkPreviewGenerator(url: spotify_url),
+            ItemCardLinkPreviewGenerator(url: twitter_url)
           ],
         ),
       ),
