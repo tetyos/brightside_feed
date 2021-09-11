@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:inspired/components/item_card_custom.dart';
+import 'package:inspired/components/item_card_custom.dart';
 import 'package:inspired/components/item_card_link_preview.dart';
 import 'package:inspired/components/item_card_link_preview_generator..dart';
 import 'package:inspired/components/item_card_link_previewer.dart';
 import 'package:inspired/components/item_card_simple_url_preview.dart';
 import 'package:inspired/components/item_card_simple_url_preview_enhanced.dart';
+import 'package:inspired/components/preview_data_loader.dart';
 
 class ItemViewScreen extends StatelessWidget {
+  final List<LinkPreviewData> _initialData;
   static const String id = 'item_view_screen';
 
   static const String spotify_url = 'https://open.spotify.com/track/7abZZqdxmt369pf6VSHiy7?si=y2NdAmC_QW6MrhjVtgAjrA&utm_source=whatsapp';
@@ -14,39 +20,32 @@ class ItemViewScreen extends StatelessWidget {
   static const String spiegel_url =
       'https://www.spiegel.de/politik/ausland/recep-tayyip-erdogan-tuerkei-nimmt-zehn-pensionierte-admirale-nach-kritik-am-kanal-istanbul-fest-a-166bdd33-6227-4fe9-92aa-94e12626d9be';
 
+  ItemViewScreen({required List<LinkPreviewData> initialData}) : _initialData = initialData;
+
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> itemList = [];
+    for (LinkPreviewData linkPreviewData in _initialData) {
+      itemList.add(ItemCardCustom(linkPreviewData: linkPreviewData));
+    }
+
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text("Item viewer"),
       ),
       body: SafeArea(
         child: ListView(
           reverse: false,
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          children: [
-            // ItemCardSimpleUrlPreviewEnhanced(url: spiegel_url),
-            // ItemCardSimpleUrlPreviewEnhanced(url: youtube_url),
-            // ItemCardSimpleUrlPreviewEnhanced(url: spotify_url),
-            // ItemCardSimpleUrlPreviewEnhanced(url: twitter_url),
-            // ItemCardLinkPreviewer(url: spiegel_url),
-            // ItemCardLinkPreviewer(url: youtube_url),
-            // ItemCardLinkPreviewer(url: spotify_url),
-            // ItemCardLinkPreviewer(url: twitter_url),
-            ItemCardLinkPreviewGenerator(url: youtube_url),
-            ItemCardLinkPreviewGenerator(url: spiegel_url),
-            ItemCardLinkPreviewGenerator(url: spotify_url),
-            ItemCardLinkPreviewGenerator(url: twitter_url)
-          ],
+          children: itemList,
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _doSomething,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 
@@ -60,4 +59,43 @@ class ItemViewScreen extends StatelessWidget {
     //   _counter++;
     // });
   }
+
+  List<Widget> staticItemList = [
+    // ItemCardSimpleUrlPreviewEnhanced(url: spiegel_url),
+    // ItemCardSimpleUrlPreviewEnhanced(url: youtube_url),
+    // ItemCardSimpleUrlPreviewEnhanced(url: spotify_url),
+    // ItemCardSimpleUrlPreviewEnhanced(url: twitter_url),
+    // ItemCardLinkPreviewer(url: spiegel_url),
+    // ItemCardLinkPreviewer(url: youtube_url),
+    // ItemCardLinkPreviewer(url: spotify_url),
+    // ItemCardLinkPreviewer(url: twitter_url),
+    // ItemCardLinkPreviewer(url: spiegel_url),
+    // ItemCardLinkPreviewer(url: youtube_url),
+    // ItemCardLinkPreviewer(url: spotify_url),
+    // ItemCardLinkPreviewer(url: twitter_url),
+    // ItemCardLinkPreviewer(url: spiegel_url),
+    // ItemCardLinkPreviewer(url: youtube_url),
+    // ItemCardLinkPreviewer(url: spotify_url),
+    // ItemCardLinkPreviewer(url: twitter_url),
+    // ItemCardLinkPreviewer(url: spiegel_url),
+    // ItemCardLinkPreviewer(url: youtube_url),
+    // ItemCardLinkPreviewer(url: spotify_url),
+    // ItemCardLinkPreviewer(url: twitter_url),
+    // ItemCardLinkPreviewer(url: spiegel_url),
+    // ItemCardLinkPreviewer(url: youtube_url),
+    // ItemCardLinkPreviewer(url: spotify_url),
+    // ItemCardLinkPreviewer(url: twitter_url),
+    // ItemCardCustom(url: twitter_url),
+    // ItemCardCustom(url: twitter_url),
+    // ItemCardCustom(url: twitter_url),
+    // ItemCardCustom(url: twitter_url),
+    // ItemCardCustom(url: spiegel_url),
+    // ItemCardCustom(url: spotify_url),
+    // ItemCardCustom(url: youtube_url),
+    // ItemCardCustom(url: spiegel_url),
+    // ItemCardCustom(url: spotify_url),
+    // ItemCardCustom(url: youtube_url),
+    // ItemCardCustom(url: spiegel_url),
+    // ItemCardCustom(url: spotify_url),
+  ];
 }

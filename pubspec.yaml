@@ -32,6 +32,8 @@ dependencies:
   flutter_link_previewer: ^2.4.1
   link_preview_flutter : ^0.0.5
   link_preview_generator: ^1.0.1
+  flutter_spinkit: ^5.1.0
+  cached_network_image: ^3.1.0
 
 dev_dependencies:
   flutter_test:

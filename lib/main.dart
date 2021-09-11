@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inspired/screens/example_screen.dart';
-import 'package:inspired/screens/item_view_screen.dart';
+import 'package:inspired/screens/loading_screen.dart';
 
 void main() {
   // // Ensure that Firebase is initialized
@@ -28,9 +28,11 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: ItemViewScreen.id,
+      initialRoute: LoadingScreen.id,
       routes: {
-        ItemViewScreen.id : (context) => ItemViewScreen(),
+        LoadingScreen.id : (context) => LoadingScreen(),
+        // todo fix this route, get it working with arguments?
+        // ItemViewScreen.id : (context) => ItemViewScreen(),
         ExampleScreen.id: (context) => ExampleScreen(title: 'Flutter Demo Home Page', key: UniqueKey(),),
       },
     );
