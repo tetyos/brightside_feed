@@ -1,5 +1,5 @@
 class BasicTestUrls {
-  List<String> testURLs = [
+  static List<String> testURLs = [
   'https://www.spiegel.de/politik/ausland/recep-tayyip-erdogan-tuerkei-nimmt-zehn-pensionierte-admirale-nach-kritik-am-kanal-istanbul-fest-a-166bdd33-6227-4fe9-92aa-94e12626d9be',
   'https://www.tagesschau.de/wirtschaft/verbraucher/bgh-influencer-101.html',
   'https://www.tagesschau.de/wirtschaft/technologie/intel-halbleiter-deutschland-gelsinger-101.html',

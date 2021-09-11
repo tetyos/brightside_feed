@@ -17,14 +17,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   void getInitialData() async {
     List<Future<LinkPreviewData>> futures = [];
-    futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls().testURLs.first));
-    futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls().testURLs.elementAt(1)));
-    futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls().testURLs.elementAt(2)));
-    futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls().testURLs.elementAt(3)));
-    futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls().testURLs.elementAt(4)));
-    futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls().testURLs.elementAt(5)));
-    futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls().testURLs.elementAt(6)));
-    futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls().testURLs.elementAt(7)));
+    for (int i = 0; i < 2; i++) {
+    futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls.testURLs.elementAt(i)));
+    }
     List<LinkPreviewData> initialData = await Future.wait(futures);
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
