@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-    as FlutterLinkPreviewer;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:inspired/components/preview_data_loader.dart';
 
