@@ -29,6 +29,11 @@ class PreviewDataLoader {
           description: webInfo.description,
           imageUrl: webInfo.image);
     }
+    // print('\n\n\nLinkPreviewData('
+    //     +' url: \'' + linkPreviewData.url + '\','
+    //     +'title: \'' + linkPreviewData.title + '\','
+    //     +'description: \'' + linkPreviewData.description + '\','
+    //     +'imageUrl: \'' + linkPreviewData.imageUrl! + '\'),');
     await linkPreviewData.preLoadImage();
     return linkPreviewData;
   }
@@ -74,7 +79,7 @@ class LinkPreviewData {
 
       final listener = (ImageInfo info, bool _) {
         if (!completer.isCompleted) {
-          print('Completer complete' + imageUrl!);
+          //print('Completer complete' + imageUrl!);
           completer.complete();
         }
         imageStream.removeListener(streamListener);
@@ -84,7 +89,7 @@ class LinkPreviewData {
 
       imageStream.addListener(streamListener);
       await completer.future;
-      print('Future complete' + imageUrl!);
+      //print('Future complete' + imageUrl!);
     }
   }
 }

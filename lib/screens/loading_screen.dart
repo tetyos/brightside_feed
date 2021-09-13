@@ -16,11 +16,12 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
 
   void getInitialData() async {
-    List<Future<LinkPreviewData>> futures = [];
-    for (int i = 0; i < 2; i++) {
-    futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls.testURLs.elementAt(i)));
+    List<LinkPreviewData> initialData = BasicTestUrls.testPreviewData.sublist(0,2);
+    List<Future<void>> futures = [];
+    for (LinkPreviewData previewData in initialData) {
+      futures.add(previewData.preLoadImage());
     }
-    List<LinkPreviewData> initialData = await Future.wait(futures);
+    await Future.wait(futures);
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return ItemViewScreen(initialData: initialData);

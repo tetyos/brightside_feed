@@ -48,10 +48,10 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
   /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.
   void scrollingListener() {
     double maxScrollExtent = _scrollController.position.maxScrollExtent;
-    double currentScollPosition = _scrollController.position.pixels;
-    double avarageItemSize = maxScrollExtent / itemList.length;
-    double scrollAmountLeft = maxScrollExtent - currentScollPosition;
-    bool isEnoughItemsLeft = scrollAmountLeft / avarageItemSize > 3;
+    double currentScrollPosition = _scrollController.position.pixels;
+    double averageItemSize = maxScrollExtent / itemList.length;
+    double scrollAmountLeft = maxScrollExtent - currentScrollPosition;
+    bool isEnoughItemsLeft = scrollAmountLeft / averageItemSize > 3;
     if (!isEnoughItemsLeft){
       _getMoreData();
     }
@@ -140,11 +140,18 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
   }
 
   Future<List<Widget>> requestMoreItems(int from, int to) async {
-    List<Future<LinkPreviewData>> futures = [];
-    for (int i = from; i <= to && i < BasicTestUrls.testURLs.length; i++) {
-      futures.add(PreviewDataLoader.fetchDataFromUrl(BasicTestUrls.testURLs.elementAt(i)));
+    var testDataLength = BasicTestUrls.testPreviewData.length;
+    if (from > testDataLength) {
+      return [];
     }
-    List<LinkPreviewData> newData = await Future.wait(futures);
+    int end = to > testDataLength ? testDataLength : to;
+    List<LinkPreviewData> newData = BasicTestUrls.testPreviewData.sublist(from, end);
+
+    List<Future<void>> futures = [];
+    for (LinkPreviewData linkPreviewData in newData) {
+      futures.add(linkPreviewData.preLoadImage());
+    }
+    await Future.wait(futures);
     List<Widget> newItems = [];
     for (LinkPreviewData linkPreviewData in newData) {
       newItems.add(ItemCardCustom(linkPreviewData: linkPreviewData));
