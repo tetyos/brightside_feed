@@ -1,13 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:inspired/components/item_card_custom.dart';
 import 'package:inspired/components/item_card_custom.dart';
 import 'package:inspired/components/item_card_link_preview.dart';
 import 'package:inspired/components/item_card_link_preview_generator..dart';
 import 'package:inspired/components/item_card_link_previewer.dart';
 import 'package:inspired/components/item_card_simple_url_preview.dart';
 import 'package:inspired/components/item_card_simple_url_preview_enhanced.dart';
+import 'package:inspired/components/navi_left.dart';
 import 'package:inspired/components/preview_data_loader.dart';
 import 'package:inspired/testdata/basic_test_urls.dart';
 
@@ -67,23 +65,36 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Item viewer"),
-      ),
+      // appBar: AppBar(
+      //   title: Text("Item viewer"),
+      // ),
+      drawer: NaviLeft(),
       body: SafeArea(
-        child:
-          ListView.builder(
-            itemCount: itemList.length + 1,
-            itemBuilder: (context, index) {
-              if (index == itemList.length) {
-                return _buildProgressIndicator();
-              } else {
-                return itemList[index];
-              }
-            },
-            controller: _scrollController,
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          )
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            SliverAppBar(
+              title: Text('Horizons'),
+              backgroundColor: Colors.teal[800],
+              floating: true,
+              // expandedHeight: 200.0,
+              // TODO: Add a FlexibleSpaceBar
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (index == itemList.length) {
+                    return _buildProgressIndicator();
+                  } else {
+                    return itemList[index];
+                  }
+                },
+                childCount: itemList.length + 1,
+              ),
+            ),
+            // padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _doSomething,
