@@ -3,9 +3,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:inspired/components/preview_data_loader.dart';
 
 class ItemCardCustom extends StatelessWidget {
-  final LinkPreviewData _linkPreviewData;
+  final ItemData _linkPreviewData;
 
-  ItemCardCustom({required LinkPreviewData linkPreviewData})
+  ItemCardCustom({required ItemData linkPreviewData})
       : _linkPreviewData = linkPreviewData;
 
   @override
@@ -52,4 +52,6 @@ class ItemCardCustom extends StatelessWidget {
       ),
     );
   }
+
+  ItemData get linkPreviewData => _linkPreviewData;
 }

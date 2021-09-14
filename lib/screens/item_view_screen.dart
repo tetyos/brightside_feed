@@ -3,18 +3,28 @@ import 'package:inspired/components/item_list_view.dart';
 import 'package:inspired/components/navi_left.dart';
 import 'package:inspired/components/preview_data_loader.dart';
 
-class ItemViewScreen extends StatelessWidget {
-  final List<LinkPreviewData> _initialData;
+class ItemViewScreen extends StatefulWidget {
+  final List<ItemData> _initialData;
   static const String id = 'item_view_screen';
 
-  ItemViewScreen({required List<LinkPreviewData> initialData}) : _initialData = initialData;
+  ItemViewScreen({required List<ItemData> initialData}) : _initialData = initialData;
+
+  @override
+  _ItemViewScreenState createState() => _ItemViewScreenState(_initialData);
+}
+
+class _ItemViewScreenState extends State<ItemViewScreen> {
+  ItemListViewModel _itemListViewModel;
+
+  _ItemViewScreenState(List<ItemData> initialData)
+      : _itemListViewModel = ItemListViewModel(initialData: initialData);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NaviLeft(),
+      drawer: NaviLeft(itemListViewModel: _itemListViewModel),
       body: SafeArea(
-        child: ItemListView(initialData: _initialData),
+        child: ItemListView(itemListViewModel: _itemListViewModel),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _doSomething,

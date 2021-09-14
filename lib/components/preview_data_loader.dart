@@ -12,36 +12,36 @@ class PreviewDataLoader {
   static final RegExp _twitterUrl =
   RegExp(r'^(https?:\/\/(www)?\.?)?twitter\.com\/.+');
 
-  static Future<LinkPreviewData> fetchDataFromUrl(String url) async {
-    LinkPreviewData linkPreviewData;
+  static Future<ItemData> fetchDataFromUrl(String url) async {
+    ItemData itemData;
     if (!isTwitter(url)) {
       PreviewData previewData = await FlutterLinkPreviewer.getPreviewData(url);
       String? imageURL = previewData.image == null ? null : previewData.image!.url;
-      linkPreviewData = LinkPreviewData(url: previewData.link!,
+      itemData = ItemData(url: previewData.link!,
           title: previewData.title,
           description: previewData.description,
           imageUrl: imageURL);
     } else {
       WebInfo webInfo = await LinkPreview.scrapeFromURL(url);
-      linkPreviewData = LinkPreviewData(
+      itemData = ItemData(
           url: url,
           title: webInfo.title,
           description: webInfo.description,
           imageUrl: webInfo.image);
     }
     // print('\n\n\nLinkPreviewData('
-    //     +' url: \'' + linkPreviewData.url + '\','
-    //     +'title: \'' + linkPreviewData.title + '\','
-    //     +'description: \'' + linkPreviewData.description + '\','
-    //     +'imageUrl: \'' + linkPreviewData.imageUrl! + '\'),');
-    await linkPreviewData.preLoadImage();
-    return linkPreviewData;
+    //     +' url: \'' + itemData.url + '\','
+    //     +'title: \'' + itemData.title + '\','
+    //     +'description: \'' + itemData.description + '\','
+    //     +'imageUrl: \'' + itemData.imageUrl! + '\'),');
+    await itemData.preLoadImage();
+    return itemData;
   }
 
   static bool isTwitter(String url) => _twitterUrl.hasMatch(url);
 }
 
-class LinkPreviewData {
+class ItemData {
   String title = "Undefined";
   String description = "Undefined";
   CachedNetworkImage? image;
@@ -49,7 +49,7 @@ class LinkPreviewData {
   String url;
   String? imageUrl;
 
-  LinkPreviewData({required this.url, String? title, String? description, this.imageUrl, }) {
+  ItemData({required this.url, String? title, String? description, this.imageUrl, }) {
     if (title != null) {
       this.title = title;
     }
@@ -65,6 +65,19 @@ class LinkPreviewData {
     //   );
     // }
   }
+
+  ItemData.fromJson(Map<String, String> json)
+      : title = json['title'] ?? 'Undefined',
+        description = json['description'] ?? 'Undefined',
+        url = json['url'] ?? '',
+        imageUrl = json['imageUrl'];
+
+  Map<String, String?> toJson() => {
+    'title': title,
+    'description': description,
+    'url': url,
+    'imageUrl': imageUrl,
+  };
 
   Future<void> preLoadImage() async {
     if (imageUrl != null) {

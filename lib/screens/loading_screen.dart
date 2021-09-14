@@ -16,9 +16,9 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
 
   void getInitialData() async {
-    List<LinkPreviewData> initialData = BasicTestUrls.testPreviewData.sublist(0,2);
+    List<ItemData> initialData = BasicTestUrls.testPreviewData.sublist(0,2);
     List<Future<void>> futures = [];
-    for (LinkPreviewData previewData in initialData) {
+    for (ItemData previewData in initialData) {
       futures.add(previewData.preLoadImage());
     }
     await Future.wait(futures);
