@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inspired/route_generator.dart';
 import 'package:inspired/screens/example_screen.dart';
 import 'package:inspired/screens/loading_screen.dart';
 
@@ -21,10 +22,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal
       ),
       initialRoute: LoadingScreen.id,
+      onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
       routes: {
         LoadingScreen.id : (context) => LoadingScreen(),
-        // todo fix this route, get it working with arguments?
-        // ItemViewScreen.id : (context) => ItemViewScreen(),
         ExampleScreen.id: (context) => ExampleScreen(title: 'Flutter Demo Home Page', key: UniqueKey(),),
       },
     );

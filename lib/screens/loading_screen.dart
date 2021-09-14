@@ -22,10 +22,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       futures.add(previewData.preLoadImage());
     }
     await Future.wait(futures);
-
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ItemViewScreen(initialData: initialData);
-    }));
+    Navigator.pushNamed(context, ItemViewScreen.id, arguments: initialData);
   }
 
   @override
