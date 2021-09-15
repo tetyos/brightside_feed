@@ -66,7 +66,7 @@ class ItemData {
     // }
   }
 
-  ItemData.fromJson(Map<String, String> json)
+  ItemData.fromJson(Map<String, dynamic> json)
       : title = json['title'] ?? 'Undefined',
         description = json['description'] ?? 'Undefined',
         url = json['url'] ?? '',

@@ -2,6 +2,7 @@ import 'dart:convert' as Dart;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:inspired/components/ImportJsonDialog.dart';
 import 'package:inspired/components/item_card_custom.dart';
 import 'package:inspired/components/item_list_view.dart';
 
@@ -42,12 +43,16 @@ class NaviLeft extends StatelessWidget {
             leading: Icon(Icons.account_circle),
             title: Text('Export JSON'),
             onTap: () {
-              _showMyDialog(context, itemListViewModel);
+              _showExportJsonDialog(context, itemListViewModel);
             },
           ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Import JSON'),
+            onTap: () {
+              Navigator.of(context).pop();
+              _showImportJsonDialog(context, itemListViewModel);
+            },
           ),
         ],
       ),
@@ -55,10 +60,10 @@ class NaviLeft extends StatelessWidget {
   }
 }
 
-Future<void> _showMyDialog(BuildContext context, ItemListViewModel itemListViewModel) async {
+Future<void> _showExportJsonDialog(BuildContext context, ItemListViewModel itemListViewModel) async {
   String clipboardString = '';
   for (ItemCardCustom itemCardCustom  in itemListViewModel.itemList) {
-    clipboardString  += Dart.jsonEncode(itemCardCustom.linkPreviewData) + '\n';
+    clipboardString  += Dart.jsonEncode(itemCardCustom.linkPreviewData) + '___\n ';
   }
 
   return showDialog<void>(
@@ -84,6 +89,16 @@ Future<void> _showMyDialog(BuildContext context, ItemListViewModel itemListViewM
           ),
         ],
       );
+    },
+  );
+}
+
+Future<void> _showImportJsonDialog(BuildContext context, ItemListViewModel itemListViewModel) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return ImportJsonDialog();
     },
   );
 }
