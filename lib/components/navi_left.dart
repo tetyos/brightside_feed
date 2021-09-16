@@ -2,7 +2,7 @@ import 'dart:convert' as Dart;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:inspired/components/ImportJsonDialog.dart';
+import 'package:inspired/components/import_json_dialog.dart';
 import 'package:inspired/components/item_card_custom.dart';
 import 'package:inspired/components/item_list_view.dart';
 

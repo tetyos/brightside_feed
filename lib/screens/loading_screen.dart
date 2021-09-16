@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:inspired/components/preview_data_loader.dart';
+import 'package:inspired/utils/preview_data_loader.dart';
 import 'package:inspired/screens/item_view_screen.dart';
 import 'package:inspired/testdata/basic_test_urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';

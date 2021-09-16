@@ -1,4 +1,4 @@
-import 'package:inspired/components/preview_data_loader.dart';
+import 'package:inspired/utils/preview_data_loader.dart';
 
 class BasicTestUrls {
   static const String items_stored_string = 'number_of_items_stored';

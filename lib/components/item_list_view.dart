@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inspired/components/item_card_custom.dart';
-import 'package:inspired/components/preview_data_loader.dart';
+import 'package:inspired/utils/preview_data_loader.dart';
 import 'package:inspired/testdata/basic_test_urls.dart';
 
 class ItemListView extends StatefulWidget {
@@ -33,8 +33,7 @@ class _ItemListViewState extends State<ItemListView> {
       controller: _scrollController,
       slivers: [
         SliverAppBar(
-          title: Text('Items'),
-          backgroundColor: Colors.teal[800],
+          title: Text('Recent'),
           floating: true,
           // expandedHeight: 200.0,
           // TODO: Add a FlexibleSpaceBar

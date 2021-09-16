@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/components/preview_data_loader.dart';
+import 'package:inspired/utils/preview_data_loader.dart';
 import 'package:inspired/screens/item_view_screen.dart';
 
 class RouteGenerator {
