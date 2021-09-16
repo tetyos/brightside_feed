@@ -16,14 +16,7 @@ class ItemCardCustom extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: GestureDetector (
-        onTap: () async {
-          String url = _linkPreviewData.url;
-          if (await canLaunch(url)) {
-          await launch(url);
-          } else {
-          throw 'Could not launch $url';
-          }
-        },
+        onTap: launchUrl,
         child: Center(
           child: Card(
             child: Column(
@@ -63,6 +56,19 @@ class ItemCardCustom extends StatelessWidget {
       ),
     );
   }
+
+  void launchUrl() async {
+        String url = _linkPreviewData.url;
+        if (await canLaunch(url)) {
+          await launch(url);
+        } else {
+          try {
+            await launch(url);
+          } catch (err) {
+            throw Exception('Could not launch $url. Error: $err');
+          }
+        }
+      }
 
   ItemData get linkPreviewData => _linkPreviewData;
 }
