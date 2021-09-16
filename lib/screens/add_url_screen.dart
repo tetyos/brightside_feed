@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_link_previewer/flutter_link_previewer.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:inspired/components/add_url_preview_card.dart';
 import 'package:inspired/testdata/basic_test_urls.dart';
+import 'package:inspired/utils/constants.dart' as Constants;
 import 'package:inspired/utils/import_export_utils.dart';
 import 'package:inspired/utils/preview_data_loader.dart';
 import 'package:inspired/utils/ui_utils.dart';
@@ -11,8 +15,17 @@ class AddUrlScreen extends StatefulWidget {
 }
 
 class _AddUrlScreenState extends State<AddUrlScreen> {
+  static const String no_input_yet_label = "Preview appears after entering a link.";
   TextEditingController _textEditingController = TextEditingController();
-  String _input = '';
+  Widget _previewCard = PreviewPlaceHolderCard(child: Text(no_input_yet_label),);
+  ItemData? _itemData;
+  String? _lastInput;
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingController.addListener(urlInputChanged);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,56 +38,63 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
           topRight: Radius.circular(20.0),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Add Url',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 30.0),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _textEditingController,
-                  // autofocus: true,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Add Url',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 30.0),
+            ),
+            _previewCard,
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _textEditingController,
+                    // autofocus: true,
+                  ),
                 ),
-              ),
-              SizedBox(width: 10,),
-              ElevatedButton(
-                onPressed: () async {
-                  ClipboardData? data = await Clipboard.getData('text/plain');
-                  if (data != null) {
-                    setState(() {
-                      _textEditingController.text = data.text.toString();
-                      // _textEditingController.value = TextEditingValue(text : data.text.toString());
-                    });
-                  }
-                },
-                child: Text('Paste'),
-              )
-            ],
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () async {
-              String input = _textEditingController.text;
-              FocusScope.of(context).unfocus();
-              if (input == '') {
-                UIUtils.showSnackBar("Please insert json", context);
-              } else {
-                ItemData itemData = await PreviewDataLoader.fetchDataFromUrl(input);
-                BasicTestUrls.testPreviewData.add(itemData);
-                ImportExportUtils.addURLToLocalData(itemData);
-              }
-              Navigator.pop(context);
-            },
-            child: Text('Add'),
-          ),
-        ],
+                SizedBox(width: 10,),
+                ElevatedButton(
+                  onPressed: onPaste,
+                  child: Text('Paste'),
+                )
+              ],
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: onAdd,
+              child: Text('Add'),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> onAdd() async {
+    String input = _textEditingController.text;
+    FocusScope.of(context).unfocus();
+    if (input == '' || _itemData == null) {
+      UIUtils.showSnackBar("Please insert valid link", context);
+    } else {
+      BasicTestUrls.testPreviewData.add(_itemData!);
+      ImportExportUtils.addURLToLocalData(_itemData!);
+      UIUtils.showSnackBar("Link added!", context);
+    }
+    Navigator.pop(context);
+  }
+
+  Future<void> onPaste() async {
+    ClipboardData? data = await Clipboard.getData('text/plain');
+    if (data != null) {
+      setState(() {
+        _textEditingController.text = data.text.toString();
+        // _textEditingController.value = TextEditingValue(text : data.text.toString());
+      });
+    }
   }
 
   // void _printLatestValue() {
@@ -94,4 +114,72 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
     super.dispose();
   }
 
+
+  Future<void> urlInputChanged() async {
+    String input = _textEditingController.text;
+
+    if (input == _lastInput) {
+      return;
+    }
+    if (input ==  "") {
+      setState(() {
+        _lastInput = input;
+        _itemData = null;
+        _previewCard = PreviewPlaceHolderCard(child: Text(no_input_yet_label),);
+      });
+    } else if (isValidUrl(input)) {
+      loadPreviewData(input);
+    } else {
+      setState(() {
+        _lastInput = input;
+        _itemData = null;
+        _previewCard = PreviewPlaceHolderCard(child: Text("Not a valid link."));
+      });
+    }
+
+  }
+
+  bool isValidUrl(String input) {
+    final emailRegexp = RegExp(REGEX_EMAIL, caseSensitive: false);
+    final textWithoutEmails = input.replaceAllMapped(emailRegexp, (match) => '').trim();
+    if (textWithoutEmails.isEmpty) return false;
+
+    final urlRegexp = RegExp(REGEX_LINK, caseSensitive: false);
+    final matches = urlRegexp.allMatches(textWithoutEmails);
+    if (matches.isEmpty) return false;
+    return true;
+  }
+
+  void loadPreviewData(String input) async {
+    setState(() {
+      _previewCard = PreviewPlaceHolderCard(child: SpinKitCircle(color: Constants.kColorPrimaryLight,),);
+      _lastInput = input;
+    });
+    _itemData = await PreviewDataLoader.fetchDataFromUrl(input);
+    setState(() {
+      _previewCard = AddUrlPreviewCard(linkPreviewData: _itemData!);
+      // todo catch parsing exception (also valid semantic links might lead to nowhere)
+    });
+  }
+}
+
+class PreviewPlaceHolderCard extends StatelessWidget {
+
+  final Widget child;
+
+  PreviewPlaceHolderCard({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Card(
+        color: Constants.kColorGreyLight,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(child: child),
+        ),
+      ),
+    );
+  }
 }

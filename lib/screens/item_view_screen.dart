@@ -59,7 +59,7 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => FractionallySizedBox(
-        heightFactor: MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.3 : 0.7,
+        heightFactor: MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.9 : 0.9,
         child: AddUrlScreen(),
       ),
     );

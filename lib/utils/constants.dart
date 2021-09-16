@@ -15,10 +15,11 @@ import 'package:flutter/material.dart';
 const kColorPrimary = Color(0xFF00695c);
 const kColorPrimaryLight = Color(0xFF439889);
 const kColorPrimaryDark = Color(0xFF003d33);
-const kColorSecondary = Color(0xFF424242);
-const kColorSecondaryLight = Color(0x6d6d6d);
-const kColorSecondaryDark = Color(0xFF1b1b1b);
+const kColorSecondary = Color(0xFF455a64);
+const kColorSecondaryLight = Color(0xFF718792);
+const kColorSecondaryDark = Color(0xFF1c313a);
 
+const kColorGreyLight = Color(0xFFe1e2e1);
 // const kBottomContainerHeight = 65.0;
 
 // const kLargeButtonTextStyle = TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold);
