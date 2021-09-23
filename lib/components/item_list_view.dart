@@ -6,7 +6,9 @@ import 'package:inspired/testdata/basic_test_urls.dart';
 class ItemListView extends StatefulWidget {
   final ItemListViewModel _itemListViewModel;
 
-  ItemListView({required ItemListViewModel itemListViewModel}) : _itemListViewModel = itemListViewModel;
+  ItemListView({required ItemListViewModel itemListViewModel, required Key key})
+      : _itemListViewModel = itemListViewModel,
+        super(key: key);
 
   @override
   _ItemListViewState createState() => _ItemListViewState();

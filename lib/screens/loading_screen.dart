@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:inspired/components/item_list_view.dart';
+import 'package:inspired/navigation/app_state.dart';
 import 'package:inspired/utils/preview_data_loader.dart';
-import 'package:inspired/screens/item_view_screen.dart';
 import 'package:inspired/testdata/basic_test_urls.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -26,7 +28,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
       futures.add(previewData.preLoadImage());
     }
     await Future.wait(futures);
-    Navigator.pushNamed(context, ItemViewScreen.id, arguments: initialData);
+    Provider.of<AppState>(context, listen: false).itemListViewModel = ItemListViewModel(initialData: initialData);
+    Provider.of<AppState>(context, listen: false).isInitializing = false;
   }
 
   @override

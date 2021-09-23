@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/route_generator.dart';
-import 'package:inspired/screens/example_screen.dart';
-import 'package:inspired/screens/loading_screen.dart';
+import 'package:inspired/navigation/main_route_information_parser.dart';
+import 'package:inspired/navigation/main_router_delegate.dart';
 import 'package:inspired/utils/constants.dart' as Constants;
 
 void main() {
@@ -9,14 +8,27 @@ void main() {
   // WidgetsFlutterBinding.ensureInitialized();
   // // Initialize Firebase
   // await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(InspiredApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class InspiredApp extends StatefulWidget {
+  @override
+  _InspiredAppState createState() => _InspiredAppState();
+}
+
+class _InspiredAppState extends State<InspiredApp> {
+  final MainRouterDelegate _mainRouterDelegate = MainRouterDelegate();
+  final MainRouteInformationParser _mainRouteInformationParser = MainRouteInformationParser();
+
+  @override
+  void dispose() {
+    _mainRouterDelegate.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Inspired',
       darkTheme: ThemeData.dark(),
       theme: ThemeData(
@@ -51,14 +63,8 @@ class MyApp extends StatelessWidget {
         ),
         primaryColor: Constants.kColorPrimary,
       ),
-      initialRoute: LoadingScreen.id,
-      onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
-      routes: {
-        LoadingScreen.id : (context) => LoadingScreen(),
-        ExampleScreen.id: (context) => ExampleScreen(title: 'Flutter Demo Home Page', key: UniqueKey(),),
-      },
+      routerDelegate: _mainRouterDelegate,
+      routeInformationParser: _mainRouteInformationParser,
     );
   }
 }
-
-
