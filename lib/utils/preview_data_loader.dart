@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart'
 as FlutterLinkPreviewer;
 import 'package:flutter_chat_types/flutter_chat_types.dart';
+import 'package:inspired/screens/item_list_view_model.dart';
 import 'package:link_preview_generator/link_preview_generator.dart';
 
 class PreviewDataLoader {
@@ -48,8 +49,9 @@ class ItemData {
   CachedNetworkImageProvider? imageProvider;
   String url;
   String? imageUrl;
+  ItemCategory? itemCategory;
 
-  ItemData({required this.url, String? title, String? description, this.imageUrl, }) {
+  ItemData({required this.url, String? title, String? description, this.imageUrl, this.itemCategory}) {
     if (title != null) {
       this.title = title;
     }
@@ -70,13 +72,15 @@ class ItemData {
       : title = json['title'] ?? 'Undefined',
         description = json['description'] ?? 'Undefined',
         url = json['url'] ?? '',
-        imageUrl = json['imageUrl'];
+        imageUrl = json['imageUrl'],
+        itemCategory = getItemCategoryFromString(json['itemCategory']);
 
   Map<String, String?> toJson() => {
     'title': title,
     'description': description,
     'url': url,
     'imageUrl': imageUrl,
+    'itemCategory' : itemCategory.toString(),
   };
 
   Future<void> preLoadImage() async {

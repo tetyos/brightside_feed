@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/components/item_list_view.dart';
+import 'package:inspired/screens/explore_screen.dart';
+import 'package:inspired/screens/incubator_screen.dart';
+import 'package:inspired/screens/recent_screen.dart';
 import 'package:inspired/navigation/app_state.dart';
 import 'package:inspired/navigation/inspired_route_paths.dart';
 import 'package:provider/provider.dart';
@@ -16,20 +18,20 @@ class InnerRouterDelegate extends RouterDelegate<InspiredRoutePath>
           key: navigatorKey,
           pages: [
             MaterialPage(
-              child: ItemListView(itemListViewModel: appState.itemListViewModel, key: appState.itemListViewKey),
+              child: RecentScreen(itemListViewModel: appState.itemListViewModel, key: appState.recentScreenKey),
             ),
             if (appState.routePath is InspiredExplorePath)
               MaterialPage(
                 key: ValueKey('Explorer'),
                 child: Center(
-                  child: Text('Explorer View.'),
+                  child: ExplorerScreen(itemListViewModel: appState.itemListViewModel, key: appState.explorerScreenKey),
                 ),
               )
             else if (appState.routePath is InspiredIncubatorPath)
               MaterialPage(
                 child: Center(
                   key: ValueKey('Incubator'),
-                  child: Text('Incubator View.'),
+                  child: IncubatorScreen(itemListViewModel: appState.itemListViewModel, key: appState.incubatorScreenKey),
                 ),
               )
           ],

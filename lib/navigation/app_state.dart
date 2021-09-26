@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/components/item_list_view.dart';
+import 'package:inspired/screens/item_list_view_model.dart';
 import 'package:inspired/navigation/inspired_route_paths.dart';
 
 class AppState extends ChangeNotifier {
-  final GlobalKey itemListViewKey = GlobalKey();
+  final GlobalKey recentScreenKey = GlobalKey();
+  final GlobalKey incubatorScreenKey = GlobalKey();
+  final GlobalKey explorerScreenKey = GlobalKey();
   bool _isInitializing = true;
   InspiredRoutePath _routePath = InspiredHomePath();
-  ItemListViewModel _itemListViewModel = ItemListViewModel(initialData:[]);
+  ItemListViewModel _itemListViewModel = ItemListViewModel();
 
   bool get isInitializing => _isInitializing;
 

@@ -16,7 +16,7 @@ class ImportExportUtils {
           Map<String, dynamic> itemMap = Dart.jsonDecode(jsonRow);
           ItemData itemData = ItemData.fromJson(itemMap);
           await addJsonToLocalData(jsonRow);
-          BasicTestUrls.testPreviewData.add(itemData);
+          BasicTestUrls.testItemsRecent.add(itemData);
           anythingImported = true;
         }
       }

@@ -47,7 +47,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 IconButton(icon: Icon(Icons.home, size: 24, color: Colors.white,), onPressed: () {appState.routePath = InspiredHomePath();},),
-                IconButton(icon: Icon(Icons.travel_explore, color: Colors.white,), onPressed: () {appState.routePath = InspiredExplorePath();},),
+                IconButton(icon: Icon(Icons.category, color: Colors.white,), onPressed: () {appState.routePath = InspiredExplorePath();},),
                 IconButton(icon: Icon(Icons.post_add, color: Colors.white,), onPressed: () {appState.routePath = InspiredIncubatorPath();},),
                 IconButton(icon: Icon(Icons.person, color: Colors.white,), onPressed: () {},),
                 IconButton(icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)), onPressed: () {},),

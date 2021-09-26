@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:inspired/components/item_card_custom.dart';
+import 'package:inspired/screens/item_list_view_model.dart';
 import 'package:inspired/utils/preview_data_loader.dart';
 import 'package:inspired/testdata/basic_test_urls.dart';
 
-class ItemListView extends StatefulWidget {
+class RecentScreen extends StatefulWidget {
   final ItemListViewModel _itemListViewModel;
 
-  ItemListView({required ItemListViewModel itemListViewModel, required Key key})
+  RecentScreen({required ItemListViewModel itemListViewModel, required Key key})
       : _itemListViewModel = itemListViewModel,
         super(key: key);
 
   @override
-  _ItemListViewState createState() => _ItemListViewState();
+  _RecentScreenState createState() => _RecentScreenState();
 }
 
-class _ItemListViewState extends State<ItemListView> {
+class _RecentScreenState extends State<RecentScreen> {
   ScrollController _scrollController = new ScrollController();
   bool isPerformingRequest = false;
 
   @override
   void initState() {
     super.initState();
-    for (ItemData linkPreviewData in widget._itemListViewModel.initialData) {
+    for (ItemData linkPreviewData in widget._itemListViewModel.initialDataRecent) {
       _itemList.add(ItemCardCustom(linkPreviewData: linkPreviewData));
     }
     // initial data is kept low, so loading screen is short. Hence, we need to load more data here.
@@ -63,7 +64,7 @@ class _ItemListViewState extends State<ItemListView> {
     super.dispose();
   }
 
-  List<ItemCardCustom> get _itemList => widget._itemListViewModel.itemList;
+  List<ItemCardCustom> get _itemList => widget._itemListViewModel.recentItemList;
 
   /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.
   void scrollingListener() {
@@ -110,12 +111,12 @@ class _ItemListViewState extends State<ItemListView> {
   }
 
   Future<List<ItemCardCustom>> requestMoreItems(int from, int to) async {
-    var testDataLength = BasicTestUrls.testPreviewData.length;
+    var testDataLength = BasicTestUrls.testItemsRecent.length;
     if (from > testDataLength) {
       return [];
     }
     int end = to > testDataLength ? testDataLength : to;
-    List<ItemData> newData = BasicTestUrls.testPreviewData.sublist(from, end);
+    List<ItemData> newData = BasicTestUrls.testItemsRecent.sublist(from, end);
 
     List<Future<void>> futures = [];
     for (ItemData linkPreviewData in newData) {
@@ -128,11 +129,4 @@ class _ItemListViewState extends State<ItemListView> {
     }
     return newItems;
   }
-}
-
-class ItemListViewModel {
-  final List<ItemData> initialData;
-  List<ItemCardCustom> itemList = [];
-
-  ItemListViewModel({required this.initialData});
 }

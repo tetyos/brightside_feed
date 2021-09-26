@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:inspired/components/add_url_preview_card.dart';
+import 'package:inspired/screens/item_list_view_model.dart';
 import 'package:inspired/testdata/basic_test_urls.dart';
 import 'package:inspired/utils/constants.dart' as Constants;
 import 'package:inspired/utils/import_export_utils.dart';
@@ -20,6 +21,8 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
   Widget _previewCard = PreviewPlaceHolderCard(child: Text(no_input_yet_label),);
   ItemData? _itemData;
   String? _lastInput;
+  ItemCategory? _categorySelection;
+  String? _languageSelection;
 
   @override
   void initState() {
@@ -63,7 +66,17 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
                 )
               ],
             ),
+            SizedBox(height: 40),
+            Text(
+              'Add meta data',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20.0),
+            ),
             SizedBox(height: 20),
+            CategoryDropdownButton(callback: (ItemCategory? value) => _categorySelection = value),
+            SizedBox(height: 10),
+            LanguageDropdownButton(callback: (String? value) => _languageSelection = value),
+            SizedBox(height: 30),
             ElevatedButton(
               onPressed: onAdd,
               child: Text('Add'),
@@ -80,7 +93,8 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
     if (input == '' || _itemData == null) {
       UIUtils.showSnackBar("Please insert valid link", context);
     } else {
-      BasicTestUrls.testPreviewData.add(_itemData!);
+      _itemData!.itemCategory = _categorySelection;
+      BasicTestUrls.testItemsRecent.add(_itemData!);
       ImportExportUtils.addURLToLocalData(_itemData!);
       UIUtils.showSnackBar("Link added!", context);
     }
@@ -179,6 +193,102 @@ class PreviewPlaceHolderCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Center(child: child),
         ),
+      ),
+    );
+  }
+}
+
+class CategoryDropdownButton extends StatefulWidget {
+  final Function(ItemCategory?) callback;
+
+  CategoryDropdownButton({required this.callback});
+
+  @override
+  _CategoryDropdownButtonState createState() => _CategoryDropdownButtonState();
+}
+
+class _CategoryDropdownButtonState extends State<CategoryDropdownButton> {
+  ItemCategory? dropdownValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(
+        Icons.category_rounded,
+      ),
+      title: DropdownButton<ItemCategory>(
+        value: dropdownValue,
+        hint: Text('Choose a category for content'),
+        //icon: const Icon(Icons.arrow_downward),
+        //iconSize: 24,
+        //elevation: 16,
+        isExpanded: true,
+        style: const TextStyle(color: Constants.kColorPrimary),
+        underline: Container(
+          height: 2,
+          color: Color(0xFFBDBDBD),
+        ),
+        onChanged: (ItemCategory? newValue) {
+          widget.callback(newValue);
+          setState(() {
+            dropdownValue = newValue;
+          });
+        },
+        items: ItemCategory.values.map<DropdownMenuItem<ItemCategory>>((ItemCategory value) {
+          return DropdownMenuItem<ItemCategory>(
+            value: value,
+            child: Text(value.displayTitle),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class LanguageDropdownButton extends StatefulWidget {
+  final Function(String?) callback;
+
+  LanguageDropdownButton({required this.callback});
+
+  @override
+  _LanguageDropdownButtonState createState() => _LanguageDropdownButtonState();
+}
+
+class _LanguageDropdownButtonState extends State<LanguageDropdownButton> {
+  String? dropdownValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(
+        Icons.language,
+      ),
+      title: DropdownButton<String>(
+        value: dropdownValue,
+        hint: Text('Language of content'),
+        //icon: const Icon(Icons.arrow_downward),
+        //iconSize: 24,
+        //elevation: 16,
+        isExpanded: true,
+        style: const TextStyle(color: Constants.kColorPrimary),
+        underline: Container(
+          height: 2,
+          color: Color(0xFFBDBDBD),
+        ),
+        onChanged: (String? newValue) {
+          widget.callback(newValue);
+          setState(() {
+            dropdownValue = newValue;
+          });
+        },
+        items: <String>[
+          'English', 'German',
+        ].map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
       ),
     );
   }

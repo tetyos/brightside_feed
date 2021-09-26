@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:inspired/components/item_list_view.dart';
 import 'package:inspired/navigation/app_state.dart';
+import 'package:inspired/screens/item_list_view_model.dart';
+import 'package:inspired/utils/constants.dart';
 import 'package:inspired/utils/preview_data_loader.dart';
 import 'package:inspired/testdata/basic_test_urls.dart';
 import 'package:provider/provider.dart';
@@ -22,14 +23,28 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   void getInitialData() async {
     await addDataFromLocalStorage();
-    List<ItemData> initialData = BasicTestUrls.testPreviewData.sublist(0,2);
+    List<ItemData> initialData = BasicTestUrls.testItemsRecent.sublist(0,2);
+    List<ItemData> initialDataExploreScreen = BasicTestUrls.testItemsRecent
+        .where((itemData) => itemData.itemCategory == ItemCategory.energy)
+        .toList()
+        .sublist(0, 2);
+    List<ItemData> initialDataIncubatorScreen = BasicTestUrls.testItemsIncubator.sublist(0,2);
     List<Future<void>> futures = [];
     for (ItemData previewData in initialData) {
       futures.add(previewData.preLoadImage());
     }
+    for (ItemData previewData in initialDataIncubatorScreen) {
+      futures.add(previewData.preLoadImage());
+    }
+    for (ItemData previewData in initialDataExploreScreen) {
+      futures.add(previewData.preLoadImage());
+    }
     await Future.wait(futures);
-    Provider.of<AppState>(context, listen: false).itemListViewModel = ItemListViewModel(initialData: initialData);
+    Provider.of<AppState>(context, listen: false).itemListViewModel.initialDataRecent.addAll(initialData);
+    Provider.of<AppState>(context, listen: false).itemListViewModel.initialDataIncubator.addAll(initialDataIncubatorScreen);
+    Provider.of<AppState>(context, listen: false).itemListViewModel.initialDataExplore.addAll(initialDataExploreScreen);
     Provider.of<AppState>(context, listen: false).isInitializing = false;
+    print("Loading initial data finished.");
   }
 
   @override
@@ -45,7 +60,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return Scaffold(
         body : Center(
           child: SpinKitCubeGrid(
-            color: Colors.blueAccent,
+            color: kColorPrimary,
             size: 100.0,
           ),
         )
@@ -63,7 +78,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       }
       Map<String, dynamic> itemMap = jsonDecode(itemJson);
       ItemData itemData = ItemData.fromJson(itemMap);
-      BasicTestUrls.testPreviewData.add(itemData);
+      BasicTestUrls.testItemsRecent.add(itemData);
     }
   }
 }
