@@ -218,7 +218,7 @@ class _CategoryDropdownButtonState extends State<CategoryDropdownButton> {
       ),
       title: DropdownButton<ItemCategory>(
         value: dropdownValue,
-        hint: Text('Choose a category for content'),
+        hint: Text('Category of content'),
         //icon: const Icon(Icons.arrow_downward),
         //iconSize: 24,
         //elevation: 16,

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:inspired/components/item_card_custom.dart';
 import 'package:inspired/utils/preview_data_loader.dart';
 
@@ -9,7 +10,55 @@ class ItemListViewModel {
   List<ItemCardCustom> incubatorItemList = [];
   List<ItemCardCustom> exploreItemList = [];
 
+  // category item lists
+  List<ItemData> _energyItemList = [];
+  List<ItemData> _informationItemList = [];
+  List<ItemData> _healthItemList = [];
+  List<ItemData> _mobilityItemList = [];
+  List<ItemData> _foodItemList = [];
+  List<ItemData> _otherItemList = [];
+
   ItemListViewModel();
+
+  void setCategoryItems(ItemCategory itemCategory, List<ItemData> items) {
+    switch (itemCategory) {
+      case ItemCategory.energy:
+        _energyItemList = items;
+        break;
+      case ItemCategory.information:
+        _informationItemList = items;
+        break;
+      case ItemCategory.health:
+        _healthItemList = items;
+        break;
+      case ItemCategory.mobility:
+        _mobilityItemList = items;
+        break;
+      case ItemCategory.food:
+        _foodItemList = items;
+        break;
+      case ItemCategory.other:
+        _otherItemList = items;
+        break;
+    }
+  }
+
+  List<ItemData> getCategoryItems(ItemCategory itemCategory) {
+    switch (itemCategory) {
+      case ItemCategory.energy:
+        return _energyItemList;
+      case ItemCategory.information:
+        return _informationItemList;
+      case ItemCategory.health:
+        return _healthItemList;
+      case ItemCategory.mobility:
+        return _mobilityItemList;
+      case ItemCategory.food:
+        return _foodItemList;
+      case ItemCategory.other:
+        return _otherItemList;
+    }
+  }
 }
 
 enum ItemCategory {energy, information, health, mobility, food, other}
@@ -24,7 +73,7 @@ ItemCategory? getItemCategoryFromString(String? itemCategory) {
   if (itemCategory == ItemCategory.other.toString()) return ItemCategory.other;
 }
 
-extension SelectedColorExtension on ItemCategory {
+extension ItemCategoryExtension on ItemCategory {
   String get displayTitle {
     switch (this) {
       case ItemCategory.energy:
@@ -39,6 +88,23 @@ extension SelectedColorExtension on ItemCategory {
         return 'Food';
       case ItemCategory.other:
         return 'Other';
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case ItemCategory.energy:
+        return Icons.lightbulb;
+      case ItemCategory.information:
+        return Icons.bolt;
+      case ItemCategory.health:
+        return Icons.health_and_safety;
+      case ItemCategory.mobility:
+        return Icons.directions_car;
+      case ItemCategory.food:
+        return Icons.agriculture;
+      case ItemCategory.other:
+        return Icons.pending;
     }
   }
 }

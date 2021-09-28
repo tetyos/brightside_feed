@@ -23,26 +23,25 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   void getInitialData() async {
     await addDataFromLocalStorage();
-    List<ItemData> initialData = BasicTestUrls.testItemsRecent.sublist(0,2);
-    List<ItemData> initialDataExploreScreen = BasicTestUrls.testItemsRecent
-        .where((itemData) => itemData.itemCategory == ItemCategory.energy)
-        .toList()
-        .sublist(0, 2);
-    List<ItemData> initialDataIncubatorScreen = BasicTestUrls.testItemsIncubator.sublist(0,2);
+    List<ItemData> initialDataRecent = BasicTestUrls.testItemsRecent.sublist(0,2);
+    List<List<ItemData>> initialDataPerCategory = getItemsPerCategory();
+    List<ItemData> initialDataIncubator = BasicTestUrls.testItemsIncubator.sublist(0,2);
+
+    // preload images
     List<Future<void>> futures = [];
-    for (ItemData previewData in initialData) {
-      futures.add(previewData.preLoadImage());
+    futures.addAll(loadAllImages(initialDataRecent));
+    futures.addAll(loadAllImages(initialDataIncubator));
+    for (List<ItemData> itemsOfCategory in initialDataPerCategory) {
+      futures.addAll(loadAllImages(itemsOfCategory));
     }
-    for (ItemData previewData in initialDataIncubatorScreen) {
-      futures.add(previewData.preLoadImage());
-    }
-    for (ItemData previewData in initialDataExploreScreen) {
-      futures.add(previewData.preLoadImage());
-    }
+
     await Future.wait(futures);
-    Provider.of<AppState>(context, listen: false).itemListViewModel.initialDataRecent.addAll(initialData);
-    Provider.of<AppState>(context, listen: false).itemListViewModel.initialDataIncubator.addAll(initialDataIncubatorScreen);
-    Provider.of<AppState>(context, listen: false).itemListViewModel.initialDataExplore.addAll(initialDataExploreScreen);
+    ItemListViewModel itemListViewModel = Provider.of<AppState>(context, listen: false).itemListViewModel;
+    itemListViewModel.initialDataRecent.addAll(initialDataRecent);
+    itemListViewModel.initialDataIncubator.addAll(initialDataIncubator);
+    for (ItemCategory itemCategory in ItemCategory.values) {
+      itemListViewModel.setCategoryItems(itemCategory, initialDataPerCategory.elementAt(itemCategory.index));
+    }
     Provider.of<AppState>(context, listen: false).isInitializing = false;
     print("Loading initial data finished.");
   }
@@ -80,5 +79,28 @@ class _LoadingScreenState extends State<LoadingScreen> {
       ItemData itemData = ItemData.fromJson(itemMap);
       BasicTestUrls.testItemsRecent.add(itemData);
     }
+  }
+
+  List<List<ItemData>> getItemsPerCategory() {
+    List<List<ItemData>> itemsPerCategory = [];
+    for (ItemCategory currentItemCategory in ItemCategory.values) {
+      List<ItemData> itemsOfCurrentCategory = BasicTestUrls.testItemsRecent
+          .where((itemData) => itemData.itemCategory == currentItemCategory)
+          .toList();
+      if (itemsOfCurrentCategory.length > 2) {
+        itemsPerCategory.add(itemsOfCurrentCategory.sublist(0, 2));
+      } else {
+        itemsPerCategory.add(itemsOfCurrentCategory);
+      }
+    }
+    return itemsPerCategory;
+  }
+
+  List<Future<void>> loadAllImages(List<ItemData> dataToLoad) {
+    List<Future<void>> futures = [];
+    for(ItemData itemData in dataToLoad) {
+      futures.add(itemData.preLoadImage());
+    }
+    return futures;
   }
 }

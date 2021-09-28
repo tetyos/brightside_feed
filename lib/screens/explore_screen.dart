@@ -15,9 +15,10 @@ class ExplorerScreen extends StatefulWidget {
   _ExplorerScreenState createState() => _ExplorerScreenState();
 }
 
-class _ExplorerScreenState extends State<ExplorerScreen> {
-  ScrollController _scrollController = new ScrollController();
+class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   bool isPerformingRequest = false;
+  final GlobalKey<NestedScrollViewState> _globalKey = new GlobalKey();
 
   @override
   void initState() {
@@ -26,68 +27,141 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
       _itemList.add(ItemCardCustom(linkPreviewData: linkPreviewData));
     }
     // initial data is kept low, so loading screen is short. Hence, we need to load more data here.
-    _getMoreData();
-    _scrollController.addListener(scrollingListener);
+    _getMoreData(true);
+    _tabController = new TabController(length: ItemCategory.values.length, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        SliverAppBar(
-          title: Text('Incubator'),
-          floating: true,
-          // expandedHeight: 200.0,
-          // TODO: Add a FlexibleSpaceBar
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              if (index == _itemList.length) {
-                return _buildProgressIndicator();
-              } else {
-                return _itemList[index];
-              }
-            },
-            childCount: _itemList.length + 1,
-          ),
-        ),
-        // padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-      ],
+    return NestedScrollView(
+      key: _globalKey,
+      floatHeaderSlivers: true,
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
+              title: Text('Explore'),
+              pinned: true,
+              floating: true,
+              forceElevated: innerBoxIsScrolled,
+              bottom: TabBar(
+                tabs: [
+                  for (ItemCategory itemCategory in ItemCategory.values)
+                    CategoryTab(itemCategory: itemCategory,),
+                ],
+                isScrollable: true,
+                controller: _tabController,
+              ),
+            ),
+        ];
+      },
+      body: TabBarView(
+        controller: _tabController,
+          children: [
+            SafeArea(
+              top: false,
+              bottom: false,
+              child: Builder(
+                // This Builder is needed to be able to add listener to inner controller
+                builder: (BuildContext context) {
+                  innerController.addListener(scrollingListener);
+                  return CustomScrollView(
+                    controller: innerController,
+                    key: PageStorageKey<String>("tab1"),
+                    slivers: <Widget>[
+                      SliverPadding(
+                        padding: const EdgeInsets.all(8.0),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                              if (index == _itemList.length) {
+                                return _buildProgressIndicator();
+                              } else {
+                                return _itemList[index];
+                              }
+                            },
+                            childCount: _itemList.length + 1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            SafeArea(child: Text('test')),
+            SafeArea(child: Text('test')),
+            SafeArea(child: Text('test')),
+            SafeArea(child: Text('test')),
+            SafeArea(
+              top: false,
+              bottom: false,
+              child: Builder(
+                // This Builder is needed to be able to add listener to inner controller
+                builder: (BuildContext context) {
+                  innerController.addListener(scrollingListener);
+                  return CustomScrollView(
+                    controller: innerController,
+                    key: PageStorageKey<String>("tab1"),
+                    slivers: <Widget>[
+                      SliverPadding(
+                        padding: const EdgeInsets.all(8.0),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                              if (index == _itemList.length) {
+                                return _buildProgressIndicator();
+                              } else {
+                                return _itemList[index];
+                              }
+                            },
+                            childCount: _itemList.length + 1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ]
+      ),
     );
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _tabController.dispose();
     super.dispose();
+  }
+
+  ScrollController get innerController {
+    return _globalKey.currentState!.innerController;
   }
 
   List<ItemCardCustom> get _itemList => widget._itemListViewModel.exploreItemList;
 
   /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.
   void scrollingListener() {
-    double maxScrollExtent = _scrollController.position.maxScrollExtent;
-    double currentScrollPosition = _scrollController.position.pixels;
+    double maxScrollExtent = innerController.position.maxScrollExtent;
+    double currentScrollPosition = innerController.position.pixels;
     double averageItemSize = maxScrollExtent / _itemList.length;
     double scrollAmountLeft = maxScrollExtent - currentScrollPosition;
     bool isEnoughItemsLeft = scrollAmountLeft / averageItemSize > 3;
     if (!isEnoughItemsLeft) {
-      _getMoreData();
+      _getMoreData(false);
     }
   }
 
-  Future<void> _getMoreData() async {
+  Future<void> _getMoreData(bool isInitializing) async {
     if (!isPerformingRequest) {
       setState(() => isPerformingRequest = true);
       List<ItemCardCustom> newEntries = await requestMoreItems(_itemList.length, _itemList.length + 2);
-      if (newEntries.isEmpty) {
+      if (newEntries.isEmpty && !isInitializing) {
         double edge = 50.0;
         double offsetFromBottom =
-            _scrollController.position.maxScrollExtent - _scrollController.position.pixels;
+            innerController.position.maxScrollExtent - innerController.position.pixels;
         if (offsetFromBottom < edge) {
-          _scrollController.animateTo(_scrollController.offset - (edge - offsetFromBottom),
+          innerController.animateTo(innerController.offset - (edge - offsetFromBottom),
               duration: new Duration(milliseconds: 500), curve: Curves.easeOut);
         }
       }
@@ -131,5 +205,22 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
       newItems.add(ItemCardCustom(linkPreviewData: linkPreviewData));
     }
     return newItems;
+  }
+}
+
+class CategoryTab extends StatelessWidget {
+  final ItemCategory itemCategory;
+
+  CategoryTab({required this.itemCategory});
+
+  @override
+  Widget build(BuildContext context) {
+    return Tab(
+      child: Row(children: [
+        Icon(itemCategory.icon),
+        SizedBox(width: 5),
+        Text(itemCategory.displayTitle)
+      ]),
+    );
   }
 }
