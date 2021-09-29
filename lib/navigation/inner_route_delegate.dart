@@ -24,7 +24,7 @@ class InnerRouterDelegate extends RouterDelegate<InspiredRoutePath>
               MaterialPage(
                 key: ValueKey('Explorer'),
                 child: Center(
-                  child: ExplorerScreen(itemListViewModel: appState.itemListViewModel, key: appState.explorerScreenKey),
+                  child: ExplorerScreen(key: appState.explorerScreenKey),
                 ),
               )
             else if (appState.routePath is InspiredIncubatorPath)
