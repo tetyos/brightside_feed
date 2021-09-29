@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'package:inspired/components/category_scroll_view.dart';
 import 'package:inspired/screens/item_list_view_model.dart';
+import 'package:inspired/utils/constants.dart';
 
 class ExplorerScreen extends StatefulWidget {
   ExplorerScreen({required Key key}) : super(key: key);
@@ -11,7 +13,6 @@ class ExplorerScreen extends StatefulWidget {
 
 class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final GlobalKey<NestedScrollViewState> _globalKey = new GlobalKey();
 
   @override
   void initState() {
@@ -21,49 +22,36 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
-      key: _globalKey,
-      floatHeaderSlivers: true,
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          SliverOverlapAbsorber(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            sliver: SliverAppBar(
-              title: Text('Explore'),
-              pinned: true,
-              floating: true,
-              forceElevated: innerBoxIsScrolled,
-              bottom: TabBar(
-                tabs: [
-                  for (ItemCategory itemCategory in ItemCategory.values)
-                    CategoryTab(
-                      itemCategory: itemCategory,
-                    ),
-                ],
-                isScrollable: true,
-                controller: _tabController,
+    return Column(children: [
+      Container(
+        color: kColorPrimary,
+        child: TabBar(
+          tabs: [
+            for (ItemCategory itemCategory in ItemCategory.values)
+              CategoryTab(
+                itemCategory: itemCategory,
               ),
-            ),
-          ),
-        ];
-      },
-      body: Builder(builder: (BuildContext context) {
-        return TabBarView(controller: _tabController, children: [
+          ],
+          isScrollable: true,
+          controller: _tabController,
+        ),
+      ),
+      Expanded(
+        child: TabBarView(controller: _tabController, physics: CustomPageViewScrollPhysics(), children: [
           for (ItemCategory itemCategory in ItemCategory.values)
-            CategoryScrollView(category: itemCategory, controller: innerController, key: PageStorageKey<String>(itemCategory.displayTitle),),
-        ]);
-      }),
-    );
+            CategoryScrollView(
+              category: itemCategory,
+              key: PageStorageKey<String>(itemCategory.displayTitle),
+            ),
+        ]),
+      ),
+    ]);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
-  }
-
-  ScrollController get innerController {
-    return _globalKey.currentState!.outerController;
   }
 }
 
@@ -82,4 +70,29 @@ class CategoryTab extends StatelessWidget {
       ]),
     );
   }
+}
+
+class CustomPageViewScrollPhysics extends ScrollPhysics {
+
+  const CustomPageViewScrollPhysics({ScrollPhysics? parent})
+      : super(parent: parent);
+
+  @override
+  CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return CustomPageViewScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  // @override
+  // SpringDescription get spring => SpringDescription.withDampingRatio(
+  //   mass: 0.1,
+  //   stiffness: 100,
+  //   ratio: 1.1,
+  // );
+
+  @override
+  SpringDescription get spring => SpringDescription(
+    mass: 30,
+    stiffness: 100,
+    damping: 1.1,
+  );
 }

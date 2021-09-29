@@ -8,9 +8,8 @@ import 'package:provider/provider.dart';
 
 class CategoryScrollView extends StatefulWidget {
   final ItemCategory category;
-  final ScrollController controller;
 
-  CategoryScrollView({required this.category, required this.controller, required key}) : super(key: key);
+  CategoryScrollView({required this.category, required key}) : super(key: key);
 
   @override
   _CategoryScrollViewState createState() => _CategoryScrollViewState();
@@ -33,47 +32,30 @@ class _CategoryScrollViewState extends State<CategoryScrollView> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        top: false,
-        bottom: false,
-        child: NotificationListener(
-          onNotification: (notification) {
-            if (notification is OverscrollNotification) {
-              _nestedScrollViewController.jumpTo(_nestedScrollViewController.offset + notification.overscroll);
-            }
-            if (notification is ScrollUpdateNotification) {
-              if (notification.scrollDelta != null) {
-              _nestedScrollViewController.jumpTo(_nestedScrollViewController.offset + notification.scrollDelta!);
-              }
-            }
-            return true;
-          },
-          child: CustomScrollView(
-            controller: _scrollController,
-            key: PageStorageKey<String>(widget.category.displayTitle),
-            slivers: <Widget>[
-              SliverOverlapInjector(
-                handle:
-                NestedScrollView.sliverOverlapAbsorberHandleFor(
-                    context),
+      top: false,
+      bottom: false,
+      child: CustomScrollView(
+        controller: _scrollController,
+        key: PageStorageKey<String>(widget.category.displayTitle),
+        slivers: <Widget>[
+          SliverPadding(
+            padding: const EdgeInsets.all(8.0),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (index == _itemList.length) {
+                    return _buildProgressIndicator();
+                  } else {
+                    return ItemCardCustom(linkPreviewData: _itemList[index]);
+                  }
+                },
+                childCount: _itemList.length + 1,
               ),
-              SliverPadding(
-                padding: const EdgeInsets.all(8.0),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      if (index == _itemList.length) {
-                        return _buildProgressIndicator();
-                      } else {
-                        return ItemCardCustom(linkPreviewData: _itemList[index]);
-                      }
-                    },
-                    childCount: _itemList.length + 1,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ));
+        ],
+      ),
+    );
   }
 
   @override
@@ -82,13 +64,8 @@ class _CategoryScrollViewState extends State<CategoryScrollView> {
     super.dispose();
   }
 
-  void absorbScrollBehaviour(double scrolled) {
-    _nestedScrollViewController.jumpTo(_nestedScrollViewController.offset + scrolled);
-  }
-
   List<ItemData> get _itemList => _itemListViewModel.getCategoryItems(widget.category);
 
-  ScrollController get _nestedScrollViewController => widget.controller;
 
   /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.
   void scrollingListener() {
