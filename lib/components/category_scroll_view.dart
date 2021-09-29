@@ -25,9 +25,8 @@ class _CategoryScrollViewState extends State<CategoryScrollView> {
   void initState() {
     super.initState();
     _itemListViewModel = Provider.of<AppState>(context, listen: false).itemListViewModel;
-    // initial data is kept low, so loading screen is short. Hence, we need to load more data here.
-
     _scrollController.addListener(scrollingListener);
+    // initial data is kept low, so loading screen is short. Hence, we need to load more data here.
     _getMoreData(true);
   }
 
@@ -53,8 +52,6 @@ class _CategoryScrollViewState extends State<CategoryScrollView> {
             key: PageStorageKey<String>(widget.category.displayTitle),
             slivers: <Widget>[
               SliverOverlapInjector(
-                // This is the flip side of the SliverOverlapAbsorber
-                // above.
                 handle:
                 NestedScrollView.sliverOverlapAbsorberHandleFor(
                     context),

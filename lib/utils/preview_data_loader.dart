@@ -105,7 +105,9 @@ class ItemData {
       streamListener = ImageStreamListener(listener, onError: onError);
 
       imageStream.addListener(streamListener);
-      await completer.future;
+      await completer.future.onError((error, stackTrace) {
+        imageProvider = null;
+      });
       //print('Future complete' + imageUrl!);
     }
   }
