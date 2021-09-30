@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/components/navi_left.dart';
-import 'package:inspired/navigation/app_state.dart';
-import 'package:inspired/navigation/inner_route_delegate.dart';
-import 'package:inspired/navigation/inspired_route_paths.dart';
-import 'package:inspired/screens/add_url_screen.dart';
-import 'package:inspired/utils/constants.dart' as Constants;
+import 'package:nexth/components/navi_left.dart';
+import 'package:nexth/navigation/app_state.dart';
+import 'package:nexth/navigation/inner_route_delegate.dart';
+import 'package:nexth/navigation/nexth_route_paths.dart';
+import 'package:nexth/screens/add_url_screen.dart';
+import 'package:nexth/utils/constants.dart' as Constants;
 import 'package:provider/provider.dart';
 
 class AppShellScreen extends StatefulWidget {
@@ -46,9 +46,9 @@ class _AppShellScreenState extends State<AppShellScreen> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                IconButton(icon: Icon(Icons.home, size: 24, color: Colors.white,), onPressed: () {appState.routePath = InspiredHomePath();},),
-                IconButton(icon: Icon(Icons.category, color: Colors.white,), onPressed: () {appState.routePath = InspiredExplorePath();},),
-                IconButton(icon: Icon(Icons.post_add, color: Colors.white,), onPressed: () {appState.routePath = InspiredIncubatorPath();},),
+                IconButton(icon: Icon(Icons.home, size: 24, color: Colors.white,), onPressed: () {appState.routePath = NexthHomePath();},),
+                IconButton(icon: Icon(Icons.category, color: Colors.white,), onPressed: () {appState.routePath = NexthExplorePath();},),
+                IconButton(icon: Icon(Icons.post_add, color: Colors.white,), onPressed: () {appState.routePath = NexthIncubatorPath();},),
                 IconButton(icon: Icon(Icons.person, color: Colors.white,), onPressed: () {},),
                 IconButton(icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)), onPressed: () {},),
               ],

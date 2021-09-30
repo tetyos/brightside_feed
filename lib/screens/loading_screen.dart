@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:inspired/navigation/app_state.dart';
-import 'package:inspired/screens/item_list_view_model.dart';
-import 'package:inspired/utils/constants.dart';
-import 'package:inspired/utils/preview_data_loader.dart';
-import 'package:inspired/testdata/basic_test_urls.dart';
+import 'package:nexth/navigation/app_state.dart';
+import 'package:nexth/screens/item_list_view_model.dart';
+import 'package:nexth/utils/constants.dart';
+import 'package:nexth/utils/preview_data_loader.dart';
+import 'package:nexth/testdata/basic_test_urls.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

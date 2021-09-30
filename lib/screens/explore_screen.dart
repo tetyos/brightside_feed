@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
-import 'package:inspired/components/category_scroll_view.dart';
-import 'package:inspired/screens/item_list_view_model.dart';
-import 'package:inspired/utils/constants.dart';
+import 'package:nexth/components/category_scroll_view.dart';
+import 'package:nexth/screens/item_list_view_model.dart';
+import 'package:nexth/utils/constants.dart';
 
 class ExplorerScreen extends StatefulWidget {
   ExplorerScreen({required Key key}) : super(key: key);

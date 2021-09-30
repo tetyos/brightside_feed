@@ -1,6 +1,7 @@
-# inspired
+# nexth
 
-inspired allows people to collect and share inspiring content
+nexth-news is a community driven news aggregator.
+Focus is content in relation to events, projects, individuals etc. which help to bring our society closer to a next age - an age of freedom - as the think-tank 'rethinkx' calls it.
 
 ## Getting Started
 

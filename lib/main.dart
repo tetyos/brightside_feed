@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/navigation/main_route_information_parser.dart';
-import 'package:inspired/navigation/main_router_delegate.dart';
-import 'package:inspired/utils/constants.dart' as Constants;
+import 'package:nexth/navigation/main_route_information_parser.dart';
+import 'package:nexth/navigation/main_router_delegate.dart';
+import 'package:nexth/utils/constants.dart' as Constants;
 
 void main() {
   // // Ensure that Firebase is initialized
   // WidgetsFlutterBinding.ensureInitialized();
   // // Initialize Firebase
   // await Firebase.initializeApp();
-  runApp(InspiredApp());
+  runApp(NexthApp());
 }
 
-class InspiredApp extends StatefulWidget {
+class NexthApp extends StatefulWidget {
   @override
-  _InspiredAppState createState() => _InspiredAppState();
+  _NexthAppState createState() => _NexthAppState();
 }
 
-class _InspiredAppState extends State<InspiredApp> {
+class _NexthAppState extends State<NexthApp> {
   final MainRouterDelegate _mainRouterDelegate = MainRouterDelegate();
   final MainRouteInformationParser _mainRouteInformationParser = MainRouteInformationParser();
 
@@ -29,7 +29,7 @@ class _InspiredAppState extends State<InspiredApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Inspired',
+      title: 'Nexth news',
       darkTheme: ThemeData.dark(),
       theme: ThemeData(
         // colorScheme: ColorScheme.light(

@@ -1,11 +1,11 @@
 {
-    "name": "inspired",
-    "short_name": "inspired",
+    "name": "nexth-news",
+    "short_name": "nexth",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "inspired allows people to collect and share inspiring content",
+    "description": "nexth-news is a community driven news aggregator.\nFocus is content in relation to events, projects, individuals etc. which help to bring our society closer to a next age - an age of freedom - as the think-tank 'rethinkx' calls it.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

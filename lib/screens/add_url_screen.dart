@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:inspired/components/add_url_preview_card.dart';
-import 'package:inspired/screens/item_list_view_model.dart';
-import 'package:inspired/testdata/basic_test_urls.dart';
-import 'package:inspired/utils/constants.dart' as Constants;
-import 'package:inspired/utils/import_export_utils.dart';
-import 'package:inspired/utils/preview_data_loader.dart';
-import 'package:inspired/utils/ui_utils.dart';
+import 'package:nexth/components/add_url_preview_card.dart';
+import 'package:nexth/screens/item_list_view_model.dart';
+import 'package:nexth/testdata/basic_test_urls.dart';
+import 'package:nexth/utils/constants.dart' as Constants;
+import 'package:nexth/utils/import_export_utils.dart';
+import 'package:nexth/utils/preview_data_loader.dart';
+import 'package:nexth/utils/ui_utils.dart';
 
 class AddUrlScreen extends StatefulWidget {
   @override
@@ -154,11 +154,11 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
   }
 
   bool isValidUrl(String input) {
-    final emailRegexp = RegExp(REGEX_EMAIL, caseSensitive: false);
+    final emailRegexp = RegExp(regexEmail, caseSensitive: false);
     final textWithoutEmails = input.replaceAllMapped(emailRegexp, (match) => '').trim();
     if (textWithoutEmails.isEmpty) return false;
 
-    final urlRegexp = RegExp(REGEX_LINK, caseSensitive: false);
+    final urlRegexp = RegExp(regexLink, caseSensitive: false);
     final matches = urlRegexp.allMatches(textWithoutEmails);
     if (matches.isEmpty) return false;
     return true;

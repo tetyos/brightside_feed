@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inspired/navigation/app_state.dart';
-import 'package:inspired/navigation/inspired_route_paths.dart';
-import 'package:inspired/screens/app_shell_screen.dart';
-import 'package:inspired/screens/loading_screen.dart';
+import 'package:nexth/navigation/app_state.dart';
+import 'package:nexth/navigation/nexth_route_paths.dart';
+import 'package:nexth/screens/app_shell_screen.dart';
+import 'package:nexth/screens/loading_screen.dart';
 import 'package:provider/provider.dart';
 
-class MainRouterDelegate extends RouterDelegate<InspiredRoutePath>
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin<InspiredRoutePath> {
+class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<NexthRoutePath> {
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final AppState _appState = AppState();
@@ -46,12 +46,12 @@ class MainRouterDelegate extends RouterDelegate<InspiredRoutePath>
   }
 
   @override
-  InspiredRoutePath get currentConfiguration {
+  NexthRoutePath get currentConfiguration {
     return _appState.routePath;
   }
 
   @override
-  Future<void> setNewRoutePath(InspiredRoutePath path) {
+  Future<void> setNewRoutePath(NexthRoutePath path) {
     _appState.routePath = path;
     return SynchronousFuture<void>(null);
   }

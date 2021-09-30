@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/screens/explore_screen.dart';
-import 'package:inspired/screens/incubator_screen.dart';
-import 'package:inspired/screens/recent_screen.dart';
-import 'package:inspired/navigation/app_state.dart';
-import 'package:inspired/navigation/inspired_route_paths.dart';
+import 'package:nexth/screens/explore_screen.dart';
+import 'package:nexth/screens/incubator_screen.dart';
+import 'package:nexth/screens/recent_screen.dart';
+import 'package:nexth/navigation/app_state.dart';
+import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:provider/provider.dart';
 
-class InnerRouterDelegate extends RouterDelegate<InspiredRoutePath>
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin<InspiredRoutePath> {
+class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<NexthRoutePath> {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
@@ -20,14 +20,14 @@ class InnerRouterDelegate extends RouterDelegate<InspiredRoutePath>
             MaterialPage(
               child: RecentScreen(itemListViewModel: appState.itemListViewModel, key: appState.recentScreenKey),
             ),
-            if (appState.routePath is InspiredExplorePath)
+            if (appState.routePath is NexthExplorePath)
               MaterialPage(
                 key: ValueKey('Explorer'),
                 child: Center(
                   child: ExplorerScreen(key: appState.explorerScreenKey),
                 ),
               )
-            else if (appState.routePath is InspiredIncubatorPath)
+            else if (appState.routePath is NexthIncubatorPath)
               MaterialPage(
                 child: Center(
                   key: ValueKey('Incubator'),
@@ -40,7 +40,7 @@ class InnerRouterDelegate extends RouterDelegate<InspiredRoutePath>
               return false;
             }
 
-            appState.routePath = InspiredHomePath();
+            appState.routePath = NexthHomePath();
             notifyListeners();
             return true;
           },
@@ -50,7 +50,7 @@ class InnerRouterDelegate extends RouterDelegate<InspiredRoutePath>
   }
 
   @override
-  Future<void> setNewRoutePath(InspiredRoutePath path) async {
+  Future<void> setNewRoutePath(NexthRoutePath path) async {
     // This is not required for inner router delegate because it does not
     // parse route
     throw UnimplementedError();

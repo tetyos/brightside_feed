@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/simple_url_preview_enhanced/simple_url_preview_enhanced.dart';
+import 'package:nexth/simple_url_preview_enhanced/simple_url_preview_enhanced.dart';
 
 class ItemCardSimpleUrlPreviewEnhanced extends StatelessWidget {
 

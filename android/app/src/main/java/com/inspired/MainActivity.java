@@ -1,4 +1,4 @@
-package com.inspired;
+package com.nexth;
 
 import io.flutter.embedding.android.FlutterActivity;
 

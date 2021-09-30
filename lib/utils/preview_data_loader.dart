@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart'
 as FlutterLinkPreviewer;
 import 'package:flutter_chat_types/flutter_chat_types.dart';
-import 'package:inspired/screens/item_list_view_model.dart';
+import 'package:nexth/screens/item_list_view_model.dart';
 import 'package:link_preview_generator/link_preview_generator.dart';
 
 class PreviewDataLoader {

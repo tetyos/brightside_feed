@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/utils/import_export_utils.dart';
-import 'package:inspired/utils/ui_utils.dart';
+import 'package:nexth/utils/import_export_utils.dart';
+import 'package:nexth/utils/ui_utils.dart';
 
 class ImportJsonDialog extends StatefulWidget {
 

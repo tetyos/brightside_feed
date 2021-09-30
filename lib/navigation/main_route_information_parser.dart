@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/navigation/inspired_route_paths.dart';
+import 'package:nexth/navigation/nexth_route_paths.dart';
 
-class MainRouteInformationParser extends RouteInformationParser<InspiredRoutePath> {
+class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> {
 
   @override
-  Future<InspiredRoutePath> parseRouteInformation(
+  Future<NexthRoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
     if (routeInformation.location == null) {
       // todo can this actually happen?
@@ -13,23 +13,23 @@ class MainRouteInformationParser extends RouteInformationParser<InspiredRoutePat
     final uri = Uri.parse(routeInformation.location!);
 
     if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'explore') {
-      return InspiredExplorePath();
+      return NexthExplorePath();
     } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'incubator') {
-      return InspiredIncubatorPath();
+      return NexthIncubatorPath();
     } else {
-      return InspiredHomePath();
+      return NexthHomePath();
     }
   }
 
   @override
-  RouteInformation restoreRouteInformation(InspiredRoutePath path) {
-    if (path is InspiredHomePath) {
+  RouteInformation restoreRouteInformation(NexthRoutePath path) {
+    if (path is NexthHomePath) {
       return RouteInformation(location: '/home');
     }
-    if (path is InspiredExplorePath) {
+    if (path is NexthExplorePath) {
       return RouteInformation(location: '/explore');
     }
-    if (path is InspiredIncubatorPath) {
+    if (path is NexthIncubatorPath) {
       return RouteInformation(location: '/incubator');
     }
     print("NOT GOOD, UNKNOWN PATH");

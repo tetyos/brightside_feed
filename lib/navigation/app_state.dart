@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:inspired/screens/item_list_view_model.dart';
-import 'package:inspired/navigation/inspired_route_paths.dart';
+import 'package:nexth/screens/item_list_view_model.dart';
+import 'package:nexth/navigation/nexth_route_paths.dart';
 
 class AppState extends ChangeNotifier {
   final GlobalKey recentScreenKey = GlobalKey();
   final GlobalKey incubatorScreenKey = GlobalKey();
   final GlobalKey explorerScreenKey = GlobalKey();
   bool _isInitializing = true;
-  InspiredRoutePath _routePath = InspiredHomePath();
+  NexthRoutePath _routePath = NexthHomePath();
   ItemListViewModel _itemListViewModel = ItemListViewModel();
 
   bool get isInitializing => _isInitializing;
@@ -17,9 +17,9 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  InspiredRoutePath get routePath => _routePath;
+  NexthRoutePath get routePath => _routePath;
 
-  set routePath(InspiredRoutePath newRoutePath) {
+  set routePath(NexthRoutePath newRoutePath) {
     _routePath = newRoutePath;
     notifyListeners();
   }

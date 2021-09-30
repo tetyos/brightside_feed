@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
-import 'package:inspired/simple_url_preview_enhanced/preview_description.dart';
-import 'package:inspired/simple_url_preview_enhanced/preview_image.dart';
-import 'package:inspired/simple_url_preview_enhanced/preview_site_name.dart';
-import 'package:inspired/simple_url_preview_enhanced/preview_title.dart';
+import 'package:nexth/simple_url_preview_enhanced/preview_description.dart';
+import 'package:nexth/simple_url_preview_enhanced/preview_image.dart';
+import 'package:nexth/simple_url_preview_enhanced/preview_site_name.dart';
+import 'package:nexth/simple_url_preview_enhanced/preview_title.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
