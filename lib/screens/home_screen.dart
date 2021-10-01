@@ -33,32 +33,34 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        SliverAppBar(
-          title: Text('Recently added'),
-          floating: true,
-          // expandedHeight: 200.0,
-          // TODO: Add a FlexibleSpaceBar
-        ),
-        SliverToBoxAdapter(
-          child: const WelcomeCard(),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              if (index == _itemList.length) {
-                return _buildProgressIndicator();
-              } else {
-                return _itemList[index];
-              }
-            },
-            childCount: _itemList.length + 1,
+    return Scrollbar(
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverAppBar(
+            title: Text('Recently added'),
+            floating: true,
+            // expandedHeight: 200.0,
+            // TODO: Add a FlexibleSpaceBar
           ),
-        ),
-        // padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-      ],
+          SliverToBoxAdapter(
+            child: const WelcomeCard(),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                if (index == _itemList.length) {
+                  return _buildProgressIndicator();
+                } else {
+                  return _itemList[index];
+                }
+              },
+              childCount: _itemList.length + 1,
+            ),
+          ),
+          // padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        ],
+      ),
     );
   }
 
@@ -158,9 +160,10 @@ class WelcomeCard extends StatelessWidget {
                     fontSize: 20,
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 10),
                 Text(
-                  "Take a look around, to see what happened since your last login.",
+                  "Scroll down, to catch up on what happened since your last login.",
+                  // "Scroll down, to catch up on the good things fellow human beings have done since your last login.",
                   style: TextStyle(color: kColorSecondaryDark),
                 )
               ],

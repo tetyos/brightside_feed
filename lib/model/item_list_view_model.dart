@@ -4,11 +4,9 @@ import 'package:nexth/model/item_data.dart';
 
 class ItemListViewModel {
   final List<ItemData> initialDataRecent = [];
-  final List<ItemData> initialDataIncubator = [];
-  final List<ItemData> initialDataExplore = [];
   List<ItemCardCustom> recentItemList = [];
-  List<ItemCardCustom> incubatorItemList = [];
-  List<ItemCardCustom> exploreItemList = [];
+  final List<ItemData> incubatorManualItemList = [];
+  final List<ItemData> incubatorScrapedItemList = [];
 
   // category item lists
   List<ItemData> _energyItemList = [];

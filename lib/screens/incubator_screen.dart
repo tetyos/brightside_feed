@@ -1,132 +1,138 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/components/item_card_custom.dart';
+import 'package:nexth/components/incubator_scroll_view.dart';
+import 'package:nexth/model/basic_test_urls.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_view_model.dart';
-import 'package:nexth/model/basic_test_urls.dart';
+import 'package:nexth/navigation/app_state.dart';
+import 'package:nexth/utils/constants.dart';
+import 'package:nexth/utils/custom_page_view_scroll_physics.dart';
+import 'package:provider/provider.dart';
 
 class IncubatorScreen extends StatefulWidget {
-  final ItemListViewModel _itemListViewModel;
-
-  IncubatorScreen({required ItemListViewModel itemListViewModel, required Key key})
-      : _itemListViewModel = itemListViewModel,
-        super(key: key);
+  IncubatorScreen({required Key key}): super(key: key);
 
   @override
   _IncubatorScreenState createState() => _IncubatorScreenState();
 }
 
-class _IncubatorScreenState extends State<IncubatorScreen> {
-  ScrollController _scrollController = new ScrollController();
-  bool isPerformingRequest = false;
+class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    for (ItemData linkPreviewData in widget._itemListViewModel.initialDataIncubator) {
-      _itemList.add(ItemCardCustom(linkPreviewData: linkPreviewData));
-    }
-    // initial data is kept low, so loading screen is short. Hence, we need to load more data here.
-    _getMoreData();
-    _scrollController.addListener(scrollingListener);
+    _tabController = new TabController(length: 2, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        SliverAppBar(
-          title: Text('Incubator'),
-          floating: true,
-          // expandedHeight: 200.0,
-          // TODO: Add a FlexibleSpaceBar
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              if (index == _itemList.length) {
-                return _buildProgressIndicator();
-              } else {
-                return _itemList[index];
-              }
-            },
-            childCount: _itemList.length + 1,
+    return Column(children: [
+      Container(
+        color: kColorPrimary,
+        width: double.infinity,
+        child: Center(
+          child: TabBar(
+            tabs: [
+              Tab(
+                child: Row(children: [
+                  Icon(Icons.people_alt_outlined),
+                  SizedBox(width: 5),
+                  Text('Crowdsourced')
+                ]),
+              ),
+              Tab(
+                child: Row(children: [
+                  Icon(Icons.people_alt_outlined),
+                  SizedBox(width: 5),
+                  Text('Scraped')
+                ]),
+              ),
+            ],
+            isScrollable: true,
+            controller: _tabController,
           ),
         ),
-        // padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-      ],
-    );
+      ),
+      Expanded(
+        child: TabBarView(
+            controller: _tabController,
+            physics: CustomPageViewScrollPhysics(),
+            children: [
+              IncubatorListView(
+                incubatorType: IncubatorType.manual,
+                key: PageStorageKey<String>(IncubatorType.manual.toString()),
+              ),
+              IncubatorListView(
+                incubatorType: IncubatorType.scraped,
+                key: PageStorageKey<String>(IncubatorType.scraped.toString()),
+              ),
+            ]),
+      ),
+    ]);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
+}
 
-  List<ItemCardCustom> get _itemList => widget._itemListViewModel.incubatorItemList;
+class IncubatorListView extends StatefulWidget {
+  final Key key;
+  final IncubatorType incubatorType;
 
-  /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.
-  void scrollingListener() {
-    double maxScrollExtent = _scrollController.position.maxScrollExtent;
-    double currentScrollPosition = _scrollController.position.pixels;
-    double averageItemSize = maxScrollExtent / _itemList.length;
-    double scrollAmountLeft = maxScrollExtent - currentScrollPosition;
-    bool isEnoughItemsLeft = scrollAmountLeft / averageItemSize > 3;
-    if (!isEnoughItemsLeft) {
-      _getMoreData();
+  const IncubatorListView({required this.key, required this.incubatorType}) : super(key: key);
+
+  @override
+  _IncubatorListViewState createState() => _IncubatorListViewState();
+}
+
+class _IncubatorListViewState extends State<IncubatorListView> {
+  late ItemListViewModel _itemListViewModel;
+  late List<ItemData> _itemList;
+
+  @override
+  void initState() {
+    super.initState();
+    _itemListViewModel = Provider.of<AppState>(context, listen: false).itemListViewModel;
+    if (widget.incubatorType == IncubatorType.scraped) {
+      _itemList = _itemListViewModel.incubatorScrapedItemList;
+    } else {
+      _itemList = _itemListViewModel.incubatorManualItemList;
     }
   }
 
-  Future<void> _getMoreData() async {
-    if (!isPerformingRequest) {
-      setState(() => isPerformingRequest = true);
-      List<ItemCardCustom> newEntries = await requestMoreItems(_itemList.length, _itemList.length + 2);
-      if (newEntries.isEmpty) {
-        double edge = 50.0;
-        double offsetFromBottom =
-            _scrollController.position.maxScrollExtent - _scrollController.position.pixels;
-        if (offsetFromBottom < edge) {
-          _scrollController.animateTo(_scrollController.offset - (edge - offsetFromBottom),
-              duration: new Duration(milliseconds: 500), curve: Curves.easeOut);
-        }
+  @override
+  Widget build(BuildContext context) {
+    return GenericScrollView(key: widget.key, loadData: requestMoreItems, items: _itemList,);
+  }
+
+  Future<List<ItemData>> requestMoreItems(int from, int to) async {
+    List<ItemData> newData;
+    if (widget.incubatorType == IncubatorType.manual) {
+      var testDataLength = BasicTestUrls.testItemsManualIncubator.length;
+      if (from > testDataLength) {
+        return [];
       }
-      setState(() {
-        _itemList.addAll(newEntries);
-        isPerformingRequest = false;
-      });
+      int end = to > testDataLength ? testDataLength : to;
+      newData = BasicTestUrls.testItemsManualIncubator.sublist(from, end);
+    } else {
+      var testDataLength = BasicTestUrls.testItemsScrapedIncubator.length;
+      if (from > testDataLength) {
+        return [];
+      }
+      int end = to > testDataLength ? testDataLength : to;
+      newData = BasicTestUrls.testItemsScrapedIncubator.sublist(from, end);
     }
-  }
-
-  Widget _buildProgressIndicator() {
-    return new Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: new Center(
-        child: new Opacity(
-          opacity: isPerformingRequest ? 1.0 : 0.0,
-          child: new CircularProgressIndicator(),
-        ),
-      ),
-    );
-  }
-
-  Future<List<ItemCardCustom>> requestMoreItems(int from, int to) async {
-    var testDataLength = BasicTestUrls.testItemsIncubator.length;
-    if (from > testDataLength) {
-      return [];
-    }
-    int end = to > testDataLength ? testDataLength : to;
-    List<ItemData> newData = BasicTestUrls.testItemsIncubator.sublist(from, end);
 
     List<Future<void>> futures = [];
     for (ItemData linkPreviewData in newData) {
       futures.add(linkPreviewData.preLoadImage());
     }
     await Future.wait(futures);
-    List<ItemCardCustom> newItems = [];
-    for (ItemData linkPreviewData in newData) {
-      newItems.add(ItemCardCustom(linkPreviewData: linkPreviewData));
-    }
-    return newItems;
+    return newData;
   }
 }
+
+enum IncubatorType {manual, scraped}

@@ -31,7 +31,7 @@ class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
               MaterialPage(
                 child: Center(
                   key: ValueKey('Incubator'),
-                  child: IncubatorScreen(itemListViewModel: appState.itemListViewModel, key: appState.incubatorScreenKey),
+                  child: IncubatorScreen(key: appState.incubatorScreenKey),
                 ),
               )
           ],

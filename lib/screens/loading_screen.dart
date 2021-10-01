@@ -25,12 +25,14 @@ class _LoadingScreenState extends State<LoadingScreen> {
     await addDataFromLocalStorage();
     List<ItemData> initialDataRecent = BasicTestUrls.testItemsRecent.sublist(0,2);
     List<List<ItemData>> initialDataPerCategory = getItemsPerCategory();
-    List<ItemData> initialDataIncubator = BasicTestUrls.testItemsIncubator.sublist(0,2);
+    List<ItemData> initialDataManualIncubator = BasicTestUrls.testItemsManualIncubator.sublist(0,1);
+    List<ItemData> initialDataScrapedIncubator = BasicTestUrls.testItemsScrapedIncubator.sublist(0,2);
 
     // preload images
     List<Future<void>> futures = [];
     futures.addAll(loadAllImages(initialDataRecent));
-    futures.addAll(loadAllImages(initialDataIncubator));
+    futures.addAll(loadAllImages(initialDataManualIncubator));
+    futures.addAll(loadAllImages(initialDataScrapedIncubator));
     for (List<ItemData> itemsOfCategory in initialDataPerCategory) {
       futures.addAll(loadAllImages(itemsOfCategory));
     }
@@ -38,7 +40,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
     await Future.wait(futures);
     ItemListViewModel itemListViewModel = Provider.of<AppState>(context, listen: false).itemListViewModel;
     itemListViewModel.initialDataRecent.addAll(initialDataRecent);
-    itemListViewModel.initialDataIncubator.addAll(initialDataIncubator);
+    itemListViewModel.incubatorManualItemList.addAll(initialDataManualIncubator);
+    itemListViewModel.incubatorScrapedItemList.addAll(initialDataScrapedIncubator);
     for (ItemCategory itemCategory in ItemCategory.values) {
       itemListViewModel.setCategoryItems(itemCategory, initialDataPerCategory.elementAt(itemCategory.index));
     }

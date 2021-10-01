@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 import 'package:nexth/components/category_scroll_view.dart';
 import 'package:nexth/model/item_list_view_model.dart';
 import 'package:nexth/utils/constants.dart';
+import 'package:nexth/utils/custom_page_view_scroll_physics.dart';
 
 class ExplorerScreen extends StatefulWidget {
   ExplorerScreen({required Key key}) : super(key: key);
@@ -70,29 +70,4 @@ class CategoryTab extends StatelessWidget {
       ]),
     );
   }
-}
-
-class CustomPageViewScrollPhysics extends ScrollPhysics {
-
-  const CustomPageViewScrollPhysics({ScrollPhysics? parent})
-      : super(parent: parent);
-
-  @override
-  CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return CustomPageViewScrollPhysics(parent: buildParent(ancestor));
-  }
-
-  // @override
-  // SpringDescription get spring => SpringDescription.withDampingRatio(
-  //   mass: 0.1,
-  //   stiffness: 100,
-  //   ratio: 1.1,
-  // );
-
-  @override
-  SpringDescription get spring => SpringDescription(
-    mass: 30,
-    stiffness: 100,
-    damping: 1.1,
-  );
 }
