@@ -92,10 +92,12 @@ class _CategoryScrollViewState extends State<CategoryScrollView> {
               duration: new Duration(milliseconds: 500), curve: Curves.easeOut);
         }
       }
-      setState(() {
-        _itemList.addAll(newEntries);
-        isPerformingRequest = false;
-      });
+      if (mounted) {
+        setState(() {
+          _itemList.addAll(newEntries);
+          isPerformingRequest = false;
+        });
+      }
     }
   }
 

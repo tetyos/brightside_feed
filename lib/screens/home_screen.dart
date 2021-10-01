@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/item_card_custom.dart';
 import 'package:nexth/screens/item_list_view_model.dart';
+import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
 import 'package:nexth/testdata/basic_test_urls.dart';
 
-class RecentScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   final ItemListViewModel _itemListViewModel;
 
-  RecentScreen({required ItemListViewModel itemListViewModel, required Key key})
+  HomeScreen({required ItemListViewModel itemListViewModel, required Key key})
       : _itemListViewModel = itemListViewModel,
         super(key: key);
 
   @override
-  _RecentScreenState createState() => _RecentScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _RecentScreenState extends State<RecentScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   ScrollController _scrollController = new ScrollController();
   bool isPerformingRequest = false;
 
@@ -36,10 +37,13 @@ class _RecentScreenState extends State<RecentScreen> {
       controller: _scrollController,
       slivers: [
         SliverAppBar(
-          title: Text('Recent'),
+          title: Text('Recently added'),
           floating: true,
           // expandedHeight: 200.0,
           // TODO: Add a FlexibleSpaceBar
+        ),
+        SliverToBoxAdapter(
+          child: const WelcomeCard(),
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
@@ -91,10 +95,12 @@ class _RecentScreenState extends State<RecentScreen> {
               duration: new Duration(milliseconds: 500), curve: Curves.easeOut);
         }
       }
-      setState(() {
-        _itemList.addAll(newEntries);
-        isPerformingRequest = false;
-      });
+      if (mounted) {
+        setState(() {
+          _itemList.addAll(newEntries);
+          isPerformingRequest = false;
+        });
+      }
     }
   }
 
@@ -128,5 +134,41 @@ class _RecentScreenState extends State<RecentScreen> {
       newItems.add(ItemCardCustom(linkPreviewData: linkPreviewData));
     }
     return newItems;
+  }
+}
+
+class WelcomeCard extends StatelessWidget {
+  const WelcomeCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(22.0),
+            child: Column(
+              children: [
+                Text(
+                  "Welcome back!",
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontFamily: "Pacifico",
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "Take a look around, to see what happened since your last login.",
+                  style: TextStyle(color: kColorSecondaryDark),
+                )
+              ],
+            ),
+          ),
+          color: kColorPrimaryLight,
+        ),
+      ),
+    );
   }
 }
