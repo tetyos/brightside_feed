@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:nexth/components/category_scroll_view.dart';
-import 'package:nexth/screens/item_list_view_model.dart';
+import 'package:nexth/model/item_list_view_model.dart';
 import 'package:nexth/utils/constants.dart';
 
 class ExplorerScreen extends StatefulWidget {

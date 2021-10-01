@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:nexth/utils/preview_data_loader.dart';
+import 'package:nexth/model/item_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ItemCardCustom extends StatelessWidget {

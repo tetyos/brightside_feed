@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/item_card_custom.dart';
-import 'package:nexth/utils/preview_data_loader.dart';
+import 'package:nexth/model/item_data.dart';
 
 class ItemListViewModel {
   final List<ItemData> initialDataRecent = [];

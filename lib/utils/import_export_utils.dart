@@ -1,7 +1,7 @@
 import 'dart:convert' as Dart;
 import 'package:flutter/cupertino.dart';
-import 'package:nexth/utils/preview_data_loader.dart';
-import 'package:nexth/testdata/basic_test_urls.dart';
+import 'package:nexth/model/basic_test_urls.dart';
+import 'package:nexth/model/item_data.dart';
 import 'package:nexth/utils/ui_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/item_card_custom.dart';
-import 'package:nexth/screens/item_list_view_model.dart';
+import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/item_list_view_model.dart';
 import 'package:nexth/utils/constants.dart';
-import 'package:nexth/utils/preview_data_loader.dart';
-import 'package:nexth/testdata/basic_test_urls.dart';
+import 'package:nexth/model/basic_test_urls.dart';
 
 class HomeScreen extends StatefulWidget {
   final ItemListViewModel _itemListViewModel;

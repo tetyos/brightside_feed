@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:nexth/model/item_data.dart';
 import 'package:nexth/utils/constants.dart' as Constants;
-import 'package:nexth/utils/preview_data_loader.dart';
 
 class AddUrlPreviewCard extends StatelessWidget {
   final ItemData _linkPreviewData;

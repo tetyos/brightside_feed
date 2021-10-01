@@ -1,5 +1,5 @@
-import 'package:nexth/screens/item_list_view_model.dart';
-import 'package:nexth/utils/preview_data_loader.dart';
+import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/item_list_view_model.dart';
 
 class BasicTestUrls {
   static const String items_stored_string = 'number_of_items_stored';
