@@ -24,7 +24,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
     return Consumer<AppState>(
       builder: (context, appState, child) {
         return Scaffold(
-          drawer: NaviLeft(itemListViewModel: Provider.of<AppState>(context).itemListViewModel),
+          drawer: NaviLeft(itemListViewModel: appState.itemListViewModel),
           body: SafeArea(
             child: Router(
               routerDelegate: InnerRouterDelegate(),
@@ -46,10 +46,10 @@ class _AppShellScreenState extends State<AppShellScreen> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                IconButton(icon: Icon(Icons.home, size: 24, color: Colors.white,), onPressed: () {appState.routePath = NexthHomePath();},),
-                IconButton(icon: Icon(Icons.category, color: Colors.white,), onPressed: () {appState.routePath = NexthExplorePath();},),
-                IconButton(icon: Icon(Icons.post_add, color: Colors.white,), onPressed: () {appState.routePath = NexthIncubatorPath();},),
-                IconButton(icon: Icon(Icons.person, color: Colors.white,), onPressed: () {},),
+                BottomNavItem(icon: Icons.home_outlined, currentlySelected: appState.routePath is NexthHomePath, onPressed: () {appState.routePath = NexthHomePath();}),
+                BottomNavItem(icon: Icons.category_outlined, currentlySelected: appState.routePath is NexthExplorePath, onPressed: () {appState.routePath = NexthExplorePath();}),
+                BottomNavItem(icon: Icons.post_add, currentlySelected: appState.routePath is NexthIncubatorPath, onPressed: () {appState.routePath = NexthIncubatorPath();}),
+                BottomNavItem(icon: Icons.person_outline, currentlySelected: false, onPressed: () {}),
                 IconButton(icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)), onPressed: () {},),
               ],
             ),
@@ -73,5 +73,18 @@ class _AppShellScreenState extends State<AppShellScreen> {
         child: AddUrlScreen(),
       ),
     );
+  }
+}
+
+class BottomNavItem extends StatelessWidget {
+  final IconData icon;
+  final bool currentlySelected;
+  final void Function() onPressed;
+
+  const BottomNavItem({required this.icon, required this.currentlySelected, required this.onPressed,});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(icon: Icon(icon, color: currentlySelected ? Colors.amber[800] : Colors.white,), onPressed: onPressed,);
   }
 }
