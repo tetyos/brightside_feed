@@ -34,6 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
+      // todo: interaction does not work
+      interactive: true,
+      thickness: 4,
       child: CustomScrollView(
         controller: _scrollController,
         slivers: [

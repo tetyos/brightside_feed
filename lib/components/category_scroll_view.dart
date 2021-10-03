@@ -30,7 +30,7 @@ class _CategoryScrollViewState extends State<CategoryScrollView> {
 
   @override
   Widget build(BuildContext context) {
-    return GenericScrollView(key: widget.key, loadData: requestMoreItems, items: _itemList,);
+    return GenericScrollView(key: widget.key, dataLoader: requestMoreItems, items: _itemList,);
   }
 
   Future<List<ItemData>> requestMoreItems(int from, int to) async {

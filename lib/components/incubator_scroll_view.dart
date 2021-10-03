@@ -4,10 +4,10 @@ import 'package:nexth/model/item_data.dart';
 
 class GenericScrollView extends StatefulWidget {
   final List<ItemData> items;
-  final Function loadData;
+  final Function dataLoader;
   final Key key;
 
-  GenericScrollView({required this.items, required this.loadData, required this.key}) : super(key: key);
+  GenericScrollView({required this.items, required this.dataLoader, required this.key}) : super(key: key);
 
   @override
   _GenericScrollViewState createState() => _GenericScrollViewState();
@@ -21,7 +21,7 @@ class _GenericScrollViewState extends State<GenericScrollView> {
   void initState() {
     super.initState();
     _scrollController.addListener(scrollingListener);
-    // initial data is kept low, so loading screen is short. Hence, we need to load more data here.
+    // initial data is kept low, so loading times are short. Hence, we need to load more data here.
     _getMoreData(true);
   }
 
@@ -37,6 +37,9 @@ class _GenericScrollViewState extends State<GenericScrollView> {
       top: false,
       bottom: false,
       child: Scrollbar(
+        // todo interaction does not work
+        interactive: true,
+        thickness: 4,
         child: CustomScrollView(
           controller: _scrollController,
           key: widget.key,
@@ -79,7 +82,7 @@ class _GenericScrollViewState extends State<GenericScrollView> {
   Future<void> _getMoreData(bool isInitializing) async {
     if (!isPerformingRequest) {
       setState(() => isPerformingRequest = true);
-      List<ItemData> newEntries = await widget.loadData(_itemList.length, _itemList.length + 2);
+      List<ItemData> newEntries = await widget.dataLoader(_itemList.length, _itemList.length + 2);
       if (newEntries.isEmpty && !isInitializing) {
         double edge = 50.0;
         double offsetFromBottom =
