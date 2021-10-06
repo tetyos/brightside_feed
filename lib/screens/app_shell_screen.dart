@@ -49,14 +49,14 @@ class _AppShellScreenState extends State<AppShellScreen> {
               children: <Widget>[
                 BottomNavItem(icon: Icons.home_outlined, currentlySelected: appState.currentRoutePath is NexthHomePath, onPressed: () {appState.currentRoutePath = NexthHomePath();}),
                 BottomNavItem(
-                    icon: Icons.category_outlined,
+                    icon: Icons.dashboard_outlined,
                     currentlySelected: appState.currentRoutePath is NexthExplorePath,
                     onPressed: () {
                       appState
                           .setExplorerScreenCurrentTabAndNotify(appState.explorerScreenStartTab);
                       appState.currentRoutePath = NexthExplorePath();
                     }),
-                BottomNavItem(icon: Icons.post_add, currentlySelected: appState.currentRoutePath is NexthIncubatorPath, onPressed: () {appState.currentRoutePath = NexthIncubatorPath();}),
+                BottomNavItem(icon: Icons.rule_outlined, currentlySelected: appState.currentRoutePath is NexthIncubatorPath, onPressed: () {appState.currentRoutePath = NexthIncubatorPath();}),
                 BottomNavItem(icon: Icons.person_outline, currentlySelected: false, onPressed: () {}),
                 IconButton(icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)), onPressed: () {},),
               ],

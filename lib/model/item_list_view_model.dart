@@ -92,17 +92,17 @@ extension ItemCategoryExtension on ItemCategory {
   IconData get icon {
     switch (this) {
       case ItemCategory.energy:
-        return Icons.lightbulb;
-      case ItemCategory.information:
         return Icons.bolt;
+      case ItemCategory.information:
+        return Icons.lightbulb_outline;
       case ItemCategory.health:
-        return Icons.health_and_safety;
+        return Icons.health_and_safety_outlined;
       case ItemCategory.mobility:
-        return Icons.directions_car;
+        return Icons.directions_car_outlined;
       case ItemCategory.food:
-        return Icons.agriculture;
+        return Icons.agriculture_outlined;
       case ItemCategory.other:
-        return Icons.pending;
+        return Icons.pending_outlined;
     }
   }
 }

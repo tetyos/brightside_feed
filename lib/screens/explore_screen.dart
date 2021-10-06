@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/category_scroll_view.dart';
+import 'package:nexth/components/explore_add_custom_filter.dart';
 import 'package:nexth/components/explore_start_page.dart';
 import 'package:nexth/model/item_list_view_model.dart';
 import 'package:nexth/navigation/app_state.dart';
@@ -39,10 +40,10 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
         child: TabBar(
           tabs: [
             Tab(
-              child: Row(children: [Icon(Icons.add_outlined), SizedBox(width: 5), Text("Custom Tab")]),
+              child: Row(children: [Icon(Icons.add_outlined), SizedBox(width: 5), Text("Custom filter")]),
             ),
             Tab(
-              child: Row(children: [Icon(Icons.home), SizedBox(width: 5), Text("Explore Home")]),
+              child: Row(children: [Icon(Icons.dashboard_outlined), SizedBox(width: 5), Text("Explore Home")]),
             ),
             for (ItemCategory itemCategory in ItemCategory.values)
               CategoryTab(
@@ -55,7 +56,7 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
       ),
       Expanded(
         child: TabBarView(controller: _tabController, physics: CustomPageViewScrollPhysics(), children: [
-          ExploreStartPage(),
+          ExploreAddCustomFilter(),
           ExploreStartPage(),
           for (ItemCategory itemCategory in ItemCategory.values)
             CategoryScrollView(

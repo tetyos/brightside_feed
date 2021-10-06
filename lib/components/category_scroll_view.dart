@@ -5,7 +5,7 @@ import 'package:nexth/model/item_list_view_model.dart';
 import 'package:nexth/model/basic_test_urls.dart';
 import 'package:provider/provider.dart';
 
-import 'incubator_scroll_view.dart';
+import 'generic_scroll_view.dart';
 
 class CategoryScrollView extends StatefulWidget {
   final Key key;

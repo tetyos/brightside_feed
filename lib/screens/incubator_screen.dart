@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/components/incubator_scroll_view.dart';
+import 'package:nexth/components/generic_scroll_view.dart';
 import 'package:nexth/model/basic_test_urls.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_view_model.dart';
@@ -42,7 +42,7 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
               ),
               Tab(
                 child: Row(children: [
-                  Icon(Icons.people_alt_outlined),
+                  Icon(Icons.travel_explore_outlined),
                   SizedBox(width: 5),
                   Text('Scraped')
                 ]),
@@ -58,11 +58,11 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
             controller: _tabController,
             physics: CustomPageViewScrollPhysics(),
             children: [
-              IncubatorListView(
+              IncubatorScrollView(
                 incubatorType: IncubatorType.manual,
                 key: PageStorageKey<String>(IncubatorType.manual.toString()),
               ),
-              IncubatorListView(
+              IncubatorScrollView(
                 incubatorType: IncubatorType.scraped,
                 key: PageStorageKey<String>(IncubatorType.scraped.toString()),
               ),
@@ -78,17 +78,17 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
   }
 }
 
-class IncubatorListView extends StatefulWidget {
+class IncubatorScrollView extends StatefulWidget {
   final Key key;
   final IncubatorType incubatorType;
 
-  const IncubatorListView({required this.key, required this.incubatorType}) : super(key: key);
+  const IncubatorScrollView({required this.key, required this.incubatorType}) : super(key: key);
 
   @override
-  _IncubatorListViewState createState() => _IncubatorListViewState();
+  _IncubatorScrollViewState createState() => _IncubatorScrollViewState();
 }
 
-class _IncubatorListViewState extends State<IncubatorListView> {
+class _IncubatorScrollViewState extends State<IncubatorScrollView> {
   late ItemListViewModel _itemListViewModel;
   late List<ItemData> _itemList;
 
