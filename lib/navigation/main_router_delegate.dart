@@ -31,7 +31,7 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
         key: navigatorKey,
         pages: [
             MaterialPage(
-              child: _appState.isInitializing ? LoadingScreen() : AppShellScreen(),
+              child: _appState.isAppInitializing ? LoadingScreen() : AppShellScreen(),
             )
         ],
         onPopPage: (route, result) {
@@ -47,12 +47,12 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
 
   @override
   NexthRoutePath get currentConfiguration {
-    return _appState.routePath;
+    return _appState.currentRoutePath;
   }
 
   @override
   Future<void> setNewRoutePath(NexthRoutePath path) {
-    _appState.routePath = path;
+    _appState.currentRoutePath = path;
     return SynchronousFuture<void>(null);
   }
 

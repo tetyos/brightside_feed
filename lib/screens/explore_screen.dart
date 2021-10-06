@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/category_scroll_view.dart';
+import 'package:nexth/components/explore_start_page.dart';
 import 'package:nexth/model/item_list_view_model.dart';
+import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/custom_page_view_scroll_physics.dart';
+import 'package:provider/provider.dart';
 
 class ExplorerScreen extends StatefulWidget {
   ExplorerScreen({required Key key}) : super(key: key);
@@ -17,16 +20,30 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: ItemCategory.values.length, vsync: this);
+    AppState appState = Provider.of<AppState>(context, listen: false);
+    _tabController = new TabController(
+        length: 1 + appState.numberOfUserDefinedTabs + ItemCategory.values.length,
+        vsync: this,
+        initialIndex: appState.explorerScreenStartTab);
+    _tabController.addListener(() {
+      appState.explorerScreenCurrentTab = _tabController.index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    _tabController.index = Provider.of<AppState>(context, listen: true).explorerScreenCurrentTab;
     return Column(children: [
       Container(
         color: kColorPrimary,
         child: TabBar(
           tabs: [
+            Tab(
+              child: Row(children: [Icon(Icons.add_outlined), SizedBox(width: 5), Text("Custom Tab")]),
+            ),
+            Tab(
+              child: Row(children: [Icon(Icons.home), SizedBox(width: 5), Text("Explore Home")]),
+            ),
             for (ItemCategory itemCategory in ItemCategory.values)
               CategoryTab(
                 itemCategory: itemCategory,
@@ -38,6 +55,8 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
       ),
       Expanded(
         child: TabBarView(controller: _tabController, physics: CustomPageViewScrollPhysics(), children: [
+          ExploreStartPage(),
+          ExploreStartPage(),
           for (ItemCategory itemCategory in ItemCategory.values)
             CategoryScrollView(
               category: itemCategory,

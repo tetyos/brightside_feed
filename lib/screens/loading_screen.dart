@@ -21,8 +21,34 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
 
+  @override
+  void initState() {
+    super.initState();
+    print("Initialising state");
+    getInitialData();
+    print("Initialising state finished.");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body : Center(
+          child: SpinKitCubeGrid(
+            color: kColorPrimary,
+            size: 100.0,
+          ),
+        )
+    );
+  }
+
   void getInitialData() async {
-    await addDataFromLocalStorage();
+    await loadDataFromLocalStorage();
+    await initializeItemListViewModel();
+    Provider.of<AppState>(context, listen: false).isAppInitializing = false;
+    print("Loading initial data finished.");
+  }
+
+  Future<void> initializeItemListViewModel() async {
     List<ItemData> initialDataRecent = BasicTestUrls.testItemsRecent.sublist(0,2);
     List<List<ItemData>> initialDataPerCategory = getItemsPerCategory();
     List<ItemData> initialDataManualIncubator = BasicTestUrls.testItemsManualIncubator.sublist(0,1);
@@ -45,33 +71,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
     for (ItemCategory itemCategory in ItemCategory.values) {
       itemListViewModel.setCategoryItems(itemCategory, initialDataPerCategory.elementAt(itemCategory.index));
     }
-    Provider.of<AppState>(context, listen: false).isInitializing = false;
-    print("Loading initial data finished.");
   }
 
-  @override
-  void initState() {
-    super.initState();
-    print("Initialising state");
-    getInitialData();
-    print("Initialising state finished.");
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body : Center(
-          child: SpinKitCubeGrid(
-            color: kColorPrimary,
-            size: 100.0,
-          ),
-        )
-    );
-  }
-
+  /// Loads user defined categories.
   /// Adds all items stored as json in shared preferences to the hardcoded test data.
-  Future<void> addDataFromLocalStorage() async {
+  Future<void> loadDataFromLocalStorage() async {
     final prefs = await SharedPreferences.getInstance();
+    initializeUserDefinedCategories();
     int itemsStored = prefs.getInt(BasicTestUrls.items_stored_string) ?? 0;
     for (int i = 0; i < itemsStored; i++) {
       String? itemJson = prefs.getString(i.toString());
@@ -105,5 +111,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
       futures.add(itemData.preLoadImage());
     }
     return futures;
+  }
+
+  void initializeUserDefinedCategories() {
+    // todo load user defined screens here and set base tab correctly.
+    Provider.of<AppState>(context, listen: false).numberOfUserDefinedTabs = 1;
   }
 }

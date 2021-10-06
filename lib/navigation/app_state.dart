@@ -3,24 +3,27 @@ import 'package:nexth/model/item_list_view_model.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 
 class AppState extends ChangeNotifier {
+  bool _isAppInitializing = true;
+  NexthRoutePath _currentRoutePath = NexthHomePath();
+  ItemListViewModel _itemListViewModel = ItemListViewModel();
+  int explorerScreenCurrentTab = 1;
+  int numberOfUserDefinedTabs = 0;
+
   final GlobalKey recentScreenKey = GlobalKey();
   final GlobalKey incubatorScreenKey = GlobalKey();
   final GlobalKey explorerScreenKey = GlobalKey();
-  bool _isInitializing = true;
-  NexthRoutePath _routePath = NexthHomePath();
-  ItemListViewModel _itemListViewModel = ItemListViewModel();
 
-  bool get isInitializing => _isInitializing;
+  bool get isAppInitializing => _isAppInitializing;
 
-  set isInitializing(bool isInitializing) {
-    _isInitializing = isInitializing;
+  set isAppInitializing(bool isInitializing) {
+    _isAppInitializing = isInitializing;
     notifyListeners();
   }
 
-  NexthRoutePath get routePath => _routePath;
+  NexthRoutePath get currentRoutePath => _currentRoutePath;
 
-  set routePath(NexthRoutePath newRoutePath) {
-    _routePath = newRoutePath;
+  set currentRoutePath(NexthRoutePath newRoutePath) {
+    _currentRoutePath = newRoutePath;
     notifyListeners();
   }
 
@@ -30,4 +33,11 @@ class AppState extends ChangeNotifier {
     _itemListViewModel = itemListViewModel;
     notifyListeners();
   }
+
+  void setExplorerScreenCurrentTabAndNotify (int currentTabExplorerScreen) {
+    explorerScreenCurrentTab = currentTabExplorerScreen;
+    notifyListeners();
+  }
+
+  int get explorerScreenStartTab => numberOfUserDefinedTabs;
 }

@@ -20,6 +20,9 @@ const kColorSecondaryLight = Color(0xFF718792);
 const kColorSecondaryDark = Color(0xFF1c313a);
 
 const kColorGreyLight = Color(0xFFe1e2e1);
+const kColorWhiteTransparent = Color(0xb2ffffff);
+
+
 // const kBottomContainerHeight = 65.0;
 
 // const kLargeButtonTextStyle = TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold);

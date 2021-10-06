@@ -5,6 +5,7 @@ import 'package:nexth/navigation/inner_route_delegate.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/screens/add_url_screen.dart';
 import 'package:nexth/utils/constants.dart' as Constants;
+import 'package:nexth/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class AppShellScreen extends StatefulWidget {
@@ -46,9 +47,16 @@ class _AppShellScreenState extends State<AppShellScreen> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                BottomNavItem(icon: Icons.home_outlined, currentlySelected: appState.routePath is NexthHomePath, onPressed: () {appState.routePath = NexthHomePath();}),
-                BottomNavItem(icon: Icons.category_outlined, currentlySelected: appState.routePath is NexthExplorePath, onPressed: () {appState.routePath = NexthExplorePath();}),
-                BottomNavItem(icon: Icons.post_add, currentlySelected: appState.routePath is NexthIncubatorPath, onPressed: () {appState.routePath = NexthIncubatorPath();}),
+                BottomNavItem(icon: Icons.home_outlined, currentlySelected: appState.currentRoutePath is NexthHomePath, onPressed: () {appState.currentRoutePath = NexthHomePath();}),
+                BottomNavItem(
+                    icon: Icons.category_outlined,
+                    currentlySelected: appState.currentRoutePath is NexthExplorePath,
+                    onPressed: () {
+                      appState
+                          .setExplorerScreenCurrentTabAndNotify(appState.explorerScreenStartTab);
+                      appState.currentRoutePath = NexthExplorePath();
+                    }),
+                BottomNavItem(icon: Icons.post_add, currentlySelected: appState.currentRoutePath is NexthIncubatorPath, onPressed: () {appState.currentRoutePath = NexthIncubatorPath();}),
                 BottomNavItem(icon: Icons.person_outline, currentlySelected: false, onPressed: () {}),
                 IconButton(icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)), onPressed: () {},),
               ],
@@ -85,6 +93,6 @@ class BottomNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(icon: Icon(icon, color: currentlySelected ? Colors.amber[800] : Colors.white,), onPressed: onPressed,);
+    return IconButton(icon: Icon(icon, color: currentlySelected ? Colors.white : kColorWhiteTransparent,), onPressed: onPressed,);
   }
 }

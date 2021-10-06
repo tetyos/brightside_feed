@@ -20,14 +20,14 @@ class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
             MaterialPage(
               child: HomeScreen(itemListViewModel: appState.itemListViewModel, key: appState.recentScreenKey),
             ),
-            if (appState.routePath is NexthExplorePath)
+            if (appState.currentRoutePath is NexthExplorePath)
               MaterialPage(
                 key: ValueKey('Explorer'),
                 child: Center(
                   child: ExplorerScreen(key: appState.explorerScreenKey),
                 ),
               )
-            else if (appState.routePath is NexthIncubatorPath)
+            else if (appState.currentRoutePath is NexthIncubatorPath)
               MaterialPage(
                 child: Center(
                   key: ValueKey('Incubator'),
@@ -39,8 +39,12 @@ class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
             if (!route.didPop(result)) {
               return false;
             }
-
-            appState.routePath = NexthHomePath();
+            if (appState.currentRoutePath is NexthExplorePath &&
+                appState.explorerScreenCurrentTab != appState.explorerScreenStartTab) {
+              appState.setExplorerScreenCurrentTabAndNotify(appState.explorerScreenStartTab);
+            } else {
+              appState.currentRoutePath = NexthHomePath();
+            }
             notifyListeners();
             return true;
           },
