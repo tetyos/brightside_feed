@@ -5,7 +5,7 @@ import 'package:nexth/navigation/nexth_route_paths.dart';
 class AppState extends ChangeNotifier {
   bool _isAppInitializing = true;
   NexthRoutePath _currentRoutePath = NexthHomePath();
-  ItemListViewModel _itemListViewModel = ItemListViewModel();
+  ModelManager _modelManager = ModelManager();
   int explorerScreenCurrentTab = 1;
   int numberOfUserDefinedTabs = 0;
 
@@ -27,10 +27,10 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  ItemListViewModel get itemListViewModel => _itemListViewModel;
+  ModelManager get modelManager => _modelManager;
 
-  set itemListViewModel (ItemListViewModel itemListViewModel) {
-    _itemListViewModel = itemListViewModel;
+  set modelManager (ModelManager modelManager) {
+    _modelManager = modelManager;
     notifyListeners();
   }
 

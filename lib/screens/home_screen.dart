@@ -6,10 +6,10 @@ import 'package:nexth/utils/constants.dart';
 import 'package:nexth/model/basic_test_urls.dart';
 
 class HomeScreen extends StatefulWidget {
-  final ItemListViewModel _itemListViewModel;
+  final ModelManager _modelManager;
 
-  HomeScreen({required ItemListViewModel itemListViewModel, required Key key})
-      : _itemListViewModel = itemListViewModel,
+  HomeScreen({required ModelManager modelManager, required Key key})
+      : _modelManager = modelManager,
         super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    for (ItemData linkPreviewData in widget._itemListViewModel.initialDataRecent) {
+    for (ItemData linkPreviewData in widget._modelManager.initialDataRecent) {
       _itemList.add(ItemCardCustom(linkPreviewData: linkPreviewData));
     }
     // initial data is kept low, so loading screen is short. Hence, we need to load more data here.
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  List<ItemCardCustom> get _itemList => widget._itemListViewModel.recentItemList;
+  List<ItemCardCustom> get _itemList => widget._modelManager.recentItemList;
 
   /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.
   void scrollingListener() {

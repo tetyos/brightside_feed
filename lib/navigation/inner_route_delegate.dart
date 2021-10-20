@@ -18,7 +18,7 @@ class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
           key: navigatorKey,
           pages: [
             MaterialPage(
-              child: HomeScreen(itemListViewModel: appState.itemListViewModel, key: appState.recentScreenKey),
+              child: HomeScreen(modelManager: appState.modelManager, key: appState.recentScreenKey),
             ),
             if (appState.currentRoutePath is NexthExplorePath)
               MaterialPage(

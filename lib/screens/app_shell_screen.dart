@@ -25,7 +25,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
     return Consumer<AppState>(
       builder: (context, appState, child) {
         return Scaffold(
-          drawer: NaviLeft(itemListViewModel: appState.itemListViewModel),
+          drawer: NaviLeft(modelManager: appState.modelManager),
           body: SafeArea(
             child: Router(
               routerDelegate: InnerRouterDelegate(),

@@ -89,17 +89,17 @@ class IncubatorScrollView extends StatefulWidget {
 }
 
 class _IncubatorScrollViewState extends State<IncubatorScrollView> {
-  late ItemListViewModel _itemListViewModel;
+  late ModelManager _modelManager;
   late List<ItemData> _itemList;
 
   @override
   void initState() {
     super.initState();
-    _itemListViewModel = Provider.of<AppState>(context, listen: false).itemListViewModel;
+    _modelManager = Provider.of<AppState>(context, listen: false).modelManager;
     if (widget.incubatorType == IncubatorType.scraped) {
-      _itemList = _itemListViewModel.incubatorScrapedItemList;
+      _itemList = _modelManager.incubatorScrapedItemList;
     } else {
-      _itemList = _itemListViewModel.incubatorManualItemList;
+      _itemList = _modelManager.incubatorManualItemList;
     }
   }
 

@@ -7,10 +7,10 @@ import 'package:nexth/components/item_card_custom.dart';
 import 'package:nexth/model/item_list_view_model.dart';
 
 class NaviLeft extends StatelessWidget {
-  final ItemListViewModel itemListViewModel;
+  final ModelManager modelManager;
 
 
-  NaviLeft({required this.itemListViewModel});
+  NaviLeft({required this.modelManager});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class NaviLeft extends StatelessWidget {
             leading: Icon(Icons.message),
             title: Text('Print JSON'),
             onTap: () {
-              for (ItemCardCustom itemCardCustom  in itemListViewModel.recentItemList) {
+              for (ItemCardCustom itemCardCustom  in modelManager.recentItemList) {
                 print(Dart.jsonEncode(itemCardCustom.linkPreviewData));
               }
             },
@@ -43,7 +43,7 @@ class NaviLeft extends StatelessWidget {
             leading: Icon(Icons.account_circle),
             title: Text('Export JSON'),
             onTap: () {
-              _showExportJsonDialog(context, itemListViewModel);
+              _showExportJsonDialog(context, modelManager);
             },
           ),
           ListTile(
@@ -51,7 +51,7 @@ class NaviLeft extends StatelessWidget {
             title: Text('Import JSON'),
             onTap: () {
               Navigator.of(context).pop();
-              _showImportJsonDialog(context, itemListViewModel);
+              _showImportJsonDialog(context);
             },
           ),
         ],
@@ -60,9 +60,9 @@ class NaviLeft extends StatelessWidget {
   }
 }
 
-Future<void> _showExportJsonDialog(BuildContext context, ItemListViewModel itemListViewModel) async {
+Future<void> _showExportJsonDialog(BuildContext context, ModelManager modelManager) async {
   String clipboardString = '';
-  for (ItemCardCustom itemCardCustom  in itemListViewModel.recentItemList) {
+  for (ItemCardCustom itemCardCustom  in modelManager.recentItemList) {
     clipboardString  += Dart.jsonEncode(itemCardCustom.linkPreviewData) + '___\n ';
   }
 
@@ -93,7 +93,7 @@ Future<void> _showExportJsonDialog(BuildContext context, ItemListViewModel itemL
   );
 }
 
-Future<void> _showImportJsonDialog(BuildContext context, ItemListViewModel itemListViewModel) async {
+Future<void> _showImportJsonDialog(BuildContext context) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: true,

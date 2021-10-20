@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nexth/components/item_card_custom.dart';
 import 'package:nexth/model/item_data.dart';
 
-class ItemListViewModel {
+class ModelManager {
   final List<ItemData> initialDataRecent = [];
   List<ItemCardCustom> recentItemList = [];
   final List<ItemData> incubatorManualItemList = [];
@@ -16,7 +16,7 @@ class ItemListViewModel {
   List<ItemData> _foodItemList = [];
   List<ItemData> _otherItemList = [];
 
-  ItemListViewModel();
+  ModelManager();
 
   void setCategoryItems(ItemCategory itemCategory, List<ItemData> items) {
     switch (itemCategory) {

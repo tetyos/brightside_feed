@@ -18,14 +18,14 @@ class CategoryScrollView extends StatefulWidget {
 }
 
 class _CategoryScrollViewState extends State<CategoryScrollView> {
-  late ItemListViewModel _itemListViewModel;
+  late ModelManager _modelManager;
   late List<ItemData> _itemList;
 
   @override
   void initState() {
     super.initState();
-    _itemListViewModel = Provider.of<AppState>(context, listen: false).itemListViewModel;
-    _itemList = _itemListViewModel.getCategoryItems(widget.category);
+    _modelManager = Provider.of<AppState>(context, listen: false).modelManager;
+    _itemList = _modelManager.getCategoryItems(widget.category);
   }
 
   @override

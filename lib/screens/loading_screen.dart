@@ -64,7 +64,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     }
 
     await Future.wait(futures);
-    ItemListViewModel itemListViewModel = Provider.of<AppState>(context, listen: false).itemListViewModel;
+    ModelManager itemListViewModel = Provider.of<AppState>(context, listen: false).modelManager;
     itemListViewModel.initialDataRecent.addAll(initialDataRecent);
     itemListViewModel.incubatorManualItemList.addAll(initialDataManualIncubator);
     itemListViewModel.incubatorScrapedItemList.addAll(initialDataScrapedIncubator);
