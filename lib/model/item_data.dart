@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nexth/model/item_list_view_model.dart';
+import 'package:nexth/model/model_manager.dart';
 
 class ItemData {
   String title = "Undefined";

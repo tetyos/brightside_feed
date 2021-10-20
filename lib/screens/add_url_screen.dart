@@ -4,7 +4,7 @@ import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/components/add_url_preview_card.dart';
 import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/item_list_view_model.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/model/basic_test_urls.dart';
 import 'package:nexth/utils/constants.dart' as Constants;
 import 'package:nexth/utils/import_export_utils.dart';

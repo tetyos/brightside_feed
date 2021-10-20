@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nexth/components/import_json_dialog.dart';
 import 'package:nexth/components/item_card_custom.dart';
-import 'package:nexth/model/item_list_view_model.dart';
+import 'package:nexth/model/model_manager.dart';
 
 class NaviLeft extends StatelessWidget {
   final ModelManager modelManager;

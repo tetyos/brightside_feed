@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nexth/components/generic_scroll_view.dart';
 import 'package:nexth/model/basic_test_urls.dart';
 import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/item_list_view_model.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/custom_page_view_scroll_physics.dart';

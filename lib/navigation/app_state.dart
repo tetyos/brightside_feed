@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/model/item_list_view_model.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 
 class AppState extends ChangeNotifier {
