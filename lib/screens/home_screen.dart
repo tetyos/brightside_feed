@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // todo: interaction does not work
       interactive: true,
       thickness: 4,
+      controller: _scrollController,
       child: CustomScrollView(
         controller: _scrollController,
         slivers: [

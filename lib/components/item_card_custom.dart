@@ -12,7 +12,9 @@ class ItemCardCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Widget imageWidget = _linkPreviewData.image!;
-    Widget imageWidget = _linkPreviewData.imageProvider == null ? SpinKitCircle(color: Colors.blueAccent) : Image(image: _linkPreviewData.imageProvider!);
+    Widget imageWidget = _linkPreviewData.imageProvider == null
+        ? SpinKitCircle(color: Colors.blueAccent)
+        : ClipRRect(child: Image(image: _linkPreviewData.imageProvider!), borderRadius: BorderRadius.circular(8),);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: GestureDetector (
@@ -23,8 +25,8 @@ class ItemCardCustom extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 imageWidget,
+                const SizedBox(height: 10),
                 ListTile(
-                  leading: Icon(Icons.album),
                   title: Text(
                     _linkPreviewData.title,
                   ),
@@ -34,14 +36,7 @@ class ItemCardCustom extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     TextButton(
-                      child: const Text('BUY TICKETS'),
-                      onPressed: () {
-                        /* ... */
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    TextButton(
-                      child: const Text('LISTEN'),
+                      child: Text(Uri.parse(_linkPreviewData.url).host),
                       onPressed: () {
                         /* ... */
                       },
@@ -58,17 +53,17 @@ class ItemCardCustom extends StatelessWidget {
   }
 
   void launchUrl() async {
-        String url = _linkPreviewData.url;
-        if (await canLaunch(url)) {
-          await launch(url);
-        } else {
-          try {
-            await launch(url);
-          } catch (err) {
-            throw Exception('Could not launch $url. Error: $err');
-          }
-        }
+    String url = _linkPreviewData.url;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      try {
+        await launch(url);
+      } catch (err) {
+        throw Exception('Could not launch $url. Error: $err');
       }
+    }
+  }
 
   ItemData get linkPreviewData => _linkPreviewData;
 }
