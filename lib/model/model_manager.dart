@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/components/item_card_custom.dart';
 import 'package:nexth/model/item_data.dart';
 
 class ModelManager {
-  final List<ItemData> initialDataRecent = [];
-  List<ItemCardCustom> recentItemList = [];
+  final List<ItemData> homeItemList = [];
   final List<ItemData> incubatorManualItemList = [];
   final List<ItemData> incubatorScrapedItemList = [];
 

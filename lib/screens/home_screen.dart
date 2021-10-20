@@ -23,9 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    for (ItemData linkPreviewData in widget._modelManager.initialDataRecent) {
-      _itemList.add(ItemCardCustom(linkPreviewData: linkPreviewData));
-    }
     // initial data is kept low, so loading screen is short. Hence, we need to load more data here.
     _getMoreData();
     _scrollController.addListener(scrollingListener);
@@ -56,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (index == _itemList.length) {
                   return _buildProgressIndicator();
                 } else {
-                  return _itemList[index];
+                  return ItemCardCustom(linkPreviewData: _itemList[index]);
                 }
               },
               childCount: _itemList.length + 1,
@@ -74,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  List<ItemCardCustom> get _itemList => widget._modelManager.recentItemList;
+  List<ItemData> get _itemList => widget._modelManager.homeItemList;
 
   /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.
   void scrollingListener() {
@@ -91,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _getMoreData() async {
     if (!isPerformingRequest) {
       setState(() => isPerformingRequest = true);
-      List<ItemCardCustom> newEntries = await requestMoreItems(_itemList.length, _itemList.length + 2);
+      List<ItemData> newEntries = await requestMoreItems(_itemList.length, _itemList.length + 2);
       if (newEntries.isEmpty) {
         double edge = 50.0;
         double offsetFromBottom =
@@ -122,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<List<ItemCardCustom>> requestMoreItems(int from, int to) async {
+  Future<List<ItemData>> requestMoreItems(int from, int to) async {
     var testDataLength = BasicTestUrls.testItemsRecent.length;
     if (from > testDataLength) {
       return [];
@@ -135,11 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
       futures.add(linkPreviewData.preLoadImage());
     }
     await Future.wait(futures);
-    List<ItemCardCustom> newItems = [];
-    for (ItemData linkPreviewData in newData) {
-      newItems.add(ItemCardCustom(linkPreviewData: linkPreviewData));
-    }
-    return newItems;
+    return newData;
   }
 }
 

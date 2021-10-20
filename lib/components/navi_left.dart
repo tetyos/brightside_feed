@@ -3,7 +3,7 @@ import 'dart:convert' as Dart;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nexth/components/import_json_dialog.dart';
-import 'package:nexth/components/item_card_custom.dart';
+import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/model_manager.dart';
 
 class NaviLeft extends StatelessWidget {
@@ -34,8 +34,8 @@ class NaviLeft extends StatelessWidget {
             leading: Icon(Icons.message),
             title: Text('Print JSON'),
             onTap: () {
-              for (ItemCardCustom itemCardCustom  in modelManager.recentItemList) {
-                print(Dart.jsonEncode(itemCardCustom.linkPreviewData));
+              for (ItemData itemData  in modelManager.homeItemList) {
+                print(Dart.jsonEncode(itemData));
               }
             },
           ),
@@ -62,8 +62,8 @@ class NaviLeft extends StatelessWidget {
 
 Future<void> _showExportJsonDialog(BuildContext context, ModelManager modelManager) async {
   String clipboardString = '';
-  for (ItemCardCustom itemCardCustom  in modelManager.recentItemList) {
-    clipboardString  += Dart.jsonEncode(itemCardCustom.linkPreviewData) + '___\n ';
+  for (ItemData itemData  in modelManager.homeItemList) {
+    clipboardString  += Dart.jsonEncode(itemData) + '___\n ';
   }
 
   return showDialog<void>(
