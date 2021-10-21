@@ -3,10 +3,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ItemCardCustom extends StatelessWidget {
+class ItemCard extends StatelessWidget {
   final ItemData _linkPreviewData;
 
-  ItemCardCustom({required ItemData linkPreviewData})
+  ItemCard({required ItemData linkPreviewData})
       : _linkPreviewData = linkPreviewData;
 
   @override

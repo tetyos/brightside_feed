@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/components/item_card_custom.dart';
+import 'package:nexth/components/item_card.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/utils/constants.dart';
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (index == _itemList.length) {
                   return _buildProgressIndicator();
                 } else {
-                  return ItemCardCustom(linkPreviewData: _itemList[index]);
+                  return ItemCard(linkPreviewData: _itemList[index]);
                 }
               },
               childCount: _itemList.length + 1,
