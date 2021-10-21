@@ -2,7 +2,8 @@ import 'dart:convert' as Dart;
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:nexth/model/database_query.dart';
+import 'package:nexth/backend_connection/database_query.dart';
+import 'package:nexth/backend_connection/http_request_helper.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
@@ -56,28 +57,25 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Future<void> loadInitialItems() async {
     ModelManager modelManager = Provider.of<AppState>(context, listen: false).modelManager;
 
+    // built queryJson from all model that need to be queried
     List<DatabaseQuery> queries = [];
     for (ItemListModel currentModel in modelManager.allModels) {
       queries.add(currentModel.getDatabaseQueryForInitialization());
     }
     String queryJson = Dart.jsonEncode(queries);
 
-    http.Response response = await http.post(
-      Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_init_data'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: queryJson,
-    );
+    // sent request
+    http.Response response = await HttpRequestHelper.getInitialData(queryJson);
     if (response.statusCode != 200) {
       print("Items could not be loaded. Statuscode: ${response.statusCode}");
       print(response.body);
       return;
     }
 
+    // parse results
     dynamic allResults = Dart.jsonDecode(response.body);
     int currentModelNumber = 0;
-    for(dynamic resultForQuery in allResults) {
+    for (dynamic resultForQuery in allResults) {
       ItemListModel currentModel = modelManager.allModels.elementAt(currentModelNumber);
       for (dynamic itemJson in resultForQuery) {
         currentModel.itemList.add(ItemData.fromJson(itemJson));
@@ -85,6 +83,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       currentModelNumber++;
     }
 
+    // preload images
     List<Future<bool>> futures = [];
     for (ItemListModel currentModel in modelManager.allModels) {
       futures.add(currentModel.preloadNextItems(5));

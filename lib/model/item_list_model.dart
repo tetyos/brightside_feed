@@ -1,4 +1,4 @@
-import 'package:nexth/model/database_query.dart';
+import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/item_data.dart';
 
 /// The ItemListModel provides the basic functions for managing the model behind all item-lists.
