@@ -55,7 +55,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   /// The corresponding item-list-models are filled with the new items.<br>
   /// For a few of the new items the images are preloaded.
   Future<void> loadInitialItems() async {
-    ModelManager modelManager = Provider.of<AppState>(context, listen: false).modelManager;
+    ModelManager modelManager = ModelManager.instance;
 
     // built queryJson from all model that need to be queried
     List<DatabaseQuery> queries = [];

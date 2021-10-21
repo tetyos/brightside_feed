@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/model/home_list_model.dart';
-import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
 
 class ModelManager {
+  static ModelManager _instance = ModelManager._();
   List<ItemListModel> allModels = [];
 
   final ItemListModel homeModel = HomeListModel();
@@ -17,9 +17,9 @@ class ModelManager {
   ItemListModel _foodItemList = CategoryListModel(itemCategory: ItemCategory.food);
   ItemListModel _otherItemList = CategoryListModel(itemCategory: ItemCategory.other);
 
-  final List<ItemData> homeItemList = [];
+  static ModelManager get instance => _instance;
 
-  ModelManager() {
+  ModelManager._() {
     allModels.addAll([homeModel, _energyItemList, _informationItemList, _healthItemList, _mobilityItemList, _foodItemList, _otherItemList]);
   }
 

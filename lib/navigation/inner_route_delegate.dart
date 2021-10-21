@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/screens/explore_screen.dart';
 import 'package:nexth/screens/incubator_screen.dart';
 import 'package:nexth/screens/home_screen.dart';
@@ -18,7 +19,7 @@ class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
           key: navigatorKey,
           pages: [
             MaterialPage(
-              child: HomeScreen(homeModel: appState.modelManager.homeModel, key: appState.recentScreenKey),
+              child: HomeScreen(homeModel: ModelManager.instance.homeModel, key: appState.recentScreenKey),
             ),
             if (appState.currentRoutePath is NexthExplorePath)
               MaterialPage(

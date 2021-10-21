@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nexth/components/generic_scroll_view.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
-import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/custom_page_view_scroll_physics.dart';
-import 'package:provider/provider.dart';
 
 class IncubatorScreen extends StatefulWidget {
   IncubatorScreen({required Key key}): super(key: key);
@@ -88,13 +86,12 @@ class IncubatorScrollView extends StatefulWidget {
 }
 
 class _IncubatorScrollViewState extends State<IncubatorScrollView> {
-  late ModelManager _modelManager;
   late ItemListModel _itemListModel;
 
   @override
   void initState() {
     super.initState();
-    _modelManager = Provider.of<AppState>(context, listen: false).modelManager;
+    ModelManager _modelManager = ModelManager.instance;
     if (widget.incubatorType == IncubatorType.scraped) {
       _itemListModel = _modelManager.getModelForCategory(ItemCategory.food);
     } else {

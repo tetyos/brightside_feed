@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
-import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/model/basic_test_urls.dart';
-import 'package:provider/provider.dart';
 
 import 'generic_scroll_view.dart';
 
@@ -19,14 +17,12 @@ class CategoryScrollView extends StatefulWidget {
 }
 
 class _CategoryScrollViewState extends State<CategoryScrollView> {
-  late ModelManager _modelManager;
   late ItemListModel _itemListModel;
 
   @override
   void initState() {
     super.initState();
-    _modelManager = Provider.of<AppState>(context, listen: false).modelManager;
-    _itemListModel = _modelManager.getModelForCategory(widget.category);
+    _itemListModel = ModelManager.instance.getModelForCategory(widget.category);
   }
 
   @override

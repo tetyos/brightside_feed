@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 
 class AppState extends ChangeNotifier {
   bool _isAppInitializing = true;
   NexthRoutePath _currentRoutePath = NexthHomePath();
-  ModelManager _modelManager = ModelManager();
   int explorerScreenCurrentTab = 1;
   int numberOfUserDefinedTabs = 0;
 
@@ -24,13 +22,6 @@ class AppState extends ChangeNotifier {
 
   set currentRoutePath(NexthRoutePath newRoutePath) {
     _currentRoutePath = newRoutePath;
-    notifyListeners();
-  }
-
-  ModelManager get modelManager => _modelManager;
-
-  set modelManager (ModelManager modelManager) {
-    _modelManager = modelManager;
     notifyListeners();
   }
 
