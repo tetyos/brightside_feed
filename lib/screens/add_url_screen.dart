@@ -1,13 +1,13 @@
+import 'dart:convert' as Dart;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_link_previewer/flutter_link_previewer.dart';
+import 'package:flutter_link_previewer/flutter_link_previewer.dart' as LinkPreviewer;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:nexth/backend_connection/http_request_helper.dart';
 import 'package:nexth/components/add_url_preview_card.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/model_manager.dart';
-import 'package:nexth/model/basic_test_urls.dart';
 import 'package:nexth/utils/constants.dart' as Constants;
-import 'package:nexth/utils/import_export_utils.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
 import 'package:nexth/utils/ui_utils.dart';
 
@@ -90,14 +90,16 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
 
   Future<void> onAdd() async {
     String input = _textEditingController.text;
-    FocusScope.of(context).unfocus();
     if (input == '' || _itemData == null) {
       UIUtils.showSnackBar("Please insert valid link", context);
     } else {
       _itemData!.itemCategory = _categorySelection;
-      BasicTestUrls.testItemsRecent.add(_itemData!);
-      ImportExportUtils.addURLToLocalData(_itemData!);
-      UIUtils.showSnackBar("Link added!", context);
+      bool successful = await HttpRequestHelper.postItem(Dart.jsonEncode(_itemData));
+      if (successful) {
+        UIUtils.showSnackBar("Link added!", context);
+      } else {
+        UIUtils.showSnackBar("Server could not be reached!", context);
+      }
     }
     Navigator.pop(context);
   }
@@ -111,17 +113,6 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
       });
     }
   }
-
-  // void _printLatestValue() {
-  //   _input = _textEditingController.text;
-  //   print('Second text field: ${_textEditingController.text}');
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _textEditingController.addListener(_printLatestValue);
-  // }
 
   @override
   void dispose() {
@@ -155,11 +146,11 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
   }
 
   bool isValidUrl(String input) {
-    final emailRegexp = RegExp(regexEmail, caseSensitive: false);
+    final emailRegexp = RegExp(LinkPreviewer.regexEmail, caseSensitive: false);
     final textWithoutEmails = input.replaceAllMapped(emailRegexp, (match) => '').trim();
     if (textWithoutEmails.isEmpty) return false;
 
-    final urlRegexp = RegExp(regexLink, caseSensitive: false);
+    final urlRegexp = RegExp(LinkPreviewer.regexLink, caseSensitive: false);
     final matches = urlRegexp.allMatches(textWithoutEmails);
     if (matches.isEmpty) return false;
     return true;
