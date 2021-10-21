@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/components/navi_left.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/inner_route_delegate.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
@@ -25,7 +24,6 @@ class _AppShellScreenState extends State<AppShellScreen> {
     return Consumer<AppState>(
       builder: (context, appState, child) {
         return Scaffold(
-          drawer: NaviLeft(modelManager: appState.modelManager),
           body: SafeArea(
             child: Router(
               routerDelegate: InnerRouterDelegate(),
