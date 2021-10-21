@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/item_card_custom.dart';
 import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/item_list_model.dart';
 
 class GenericScrollView extends StatefulWidget {
-  final List<ItemData> items;
-  final Function dataLoader;
+  final ItemListModel itemListModel;
   final Key key;
 
-  GenericScrollView({required this.items, required this.dataLoader, required this.key}) : super(key: key);
+  GenericScrollView({required this.itemListModel, required this.key}) : super(key: key);
 
   @override
   _GenericScrollViewState createState() => _GenericScrollViewState();
@@ -20,15 +20,9 @@ class _GenericScrollViewState extends State<GenericScrollView> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(scrollingListener);
     // initial data is kept low, so loading times are short. Hence, we need to load more data here.
     _getMoreData(true);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(scrollingListener);
-    super.dispose();
+    _scrollController.addListener(scrollingListener);
   }
 
   @override
@@ -66,6 +60,12 @@ class _GenericScrollViewState extends State<GenericScrollView> {
     );
   }
 
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.
   void scrollingListener() {
     double maxScrollExtent = _scrollController.position.maxScrollExtent;
@@ -78,13 +78,13 @@ class _GenericScrollViewState extends State<GenericScrollView> {
     }
   }
 
-  List<ItemData> get _itemList => widget.items;
+  List<ItemData> get _itemList => widget.itemListModel.loadedItemList;
 
   Future<void> _getMoreData(bool isInitializing) async {
     if (!isPerformingRequest) {
       setState(() => isPerformingRequest = true);
-      List<ItemData> newEntries = await widget.dataLoader(_itemList.length, _itemList.length + 2);
-      if (newEntries.isEmpty && !isInitializing) {
+      bool anyItemsLoaded = await widget.itemListModel.preloadNextItems(2);
+      if (!isInitializing && !anyItemsLoaded && !widget.itemListModel.hasMoreItems()) {
         double edge = 50.0;
         double offsetFromBottom =
             _scrollController.position.maxScrollExtent - _scrollController.position.pixels;
@@ -95,7 +95,6 @@ class _GenericScrollViewState extends State<GenericScrollView> {
       }
       if (mounted) {
         setState(() {
-          _itemList.addAll(newEntries);
           isPerformingRequest = false;
         });
       }

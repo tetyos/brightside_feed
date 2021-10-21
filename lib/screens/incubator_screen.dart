@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/generic_scroll_view.dart';
-import 'package:nexth/model/basic_test_urls.dart';
-import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
@@ -90,48 +89,22 @@ class IncubatorScrollView extends StatefulWidget {
 
 class _IncubatorScrollViewState extends State<IncubatorScrollView> {
   late ModelManager _modelManager;
-  late List<ItemData> _itemList;
+  late ItemListModel _itemListModel;
 
   @override
   void initState() {
     super.initState();
     _modelManager = Provider.of<AppState>(context, listen: false).modelManager;
     if (widget.incubatorType == IncubatorType.scraped) {
-      _itemList = _modelManager.incubatorScrapedItemList;
+      _itemListModel = _modelManager.getModelForCategory(ItemCategory.food);
     } else {
-      _itemList = _modelManager.incubatorManualItemList;
+      _itemListModel = _modelManager.getModelForCategory(ItemCategory.energy);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return GenericScrollView(key: widget.key, dataLoader: requestMoreItems, items: _itemList,);
-  }
-
-  Future<List<ItemData>> requestMoreItems(int from, int to) async {
-    List<ItemData> newData;
-    if (widget.incubatorType == IncubatorType.manual) {
-      var testDataLength = BasicTestUrls.testItemsManualIncubator.length;
-      if (from > testDataLength) {
-        return [];
-      }
-      int end = to > testDataLength ? testDataLength : to;
-      newData = BasicTestUrls.testItemsManualIncubator.sublist(from, end);
-    } else {
-      var testDataLength = BasicTestUrls.testItemsScrapedIncubator.length;
-      if (from > testDataLength) {
-        return [];
-      }
-      int end = to > testDataLength ? testDataLength : to;
-      newData = BasicTestUrls.testItemsScrapedIncubator.sublist(from, end);
-    }
-
-    List<Future<void>> futures = [];
-    for (ItemData linkPreviewData in newData) {
-      futures.add(linkPreviewData.preLoadImage());
-    }
-    await Future.wait(futures);
-    return newData;
+    return GenericScrollView(key: widget.key, itemListModel: _itemListModel);
   }
 }
 

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/item_card_custom.dart';
 import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/model_manager.dart';
+import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/utils/constants.dart';
-import 'package:nexth/model/basic_test_urls.dart';
 
 class HomeScreen extends StatefulWidget {
-  final ModelManager _modelManager;
+  final ItemListModel _homeModel;
 
-  HomeScreen({required ModelManager modelManager, required Key key})
-      : _modelManager = modelManager,
+  HomeScreen({required ItemListModel homeModel, required Key key})
+      : _homeModel = homeModel,
         super(key: key);
 
   @override
@@ -17,14 +16,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ScrollController _scrollController = new ScrollController();
+  ScrollController _scrollController = ScrollController();
   bool isPerformingRequest = false;
 
   @override
   void initState() {
     super.initState();
-    // initial data is kept low, so loading screen is short. Hence, we need to load more data here.
-    _getMoreData();
+    // initial data is kept low, so loading times are short. Hence, we need to load more data here.
+    _getMoreData(true);
     _scrollController.addListener(scrollingListener);
   }
 
@@ -71,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  List<ItemData> get _itemList => widget._modelManager.homeItemList;
+  List<ItemData> get _itemList => widget._homeModel.loadedItemList;
 
   /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.
   void scrollingListener() {
@@ -81,15 +80,15 @@ class _HomeScreenState extends State<HomeScreen> {
     double scrollAmountLeft = maxScrollExtent - currentScrollPosition;
     bool isEnoughItemsLeft = scrollAmountLeft / averageItemSize > 3;
     if (!isEnoughItemsLeft) {
-      _getMoreData();
+      _getMoreData(false);
     }
   }
 
-  Future<void> _getMoreData() async {
+  Future<void> _getMoreData(bool isInitializing) async {
     if (!isPerformingRequest) {
       setState(() => isPerformingRequest = true);
-      List<ItemData> newEntries = await requestMoreItems(_itemList.length, _itemList.length + 2);
-      if (newEntries.isEmpty) {
+      bool anyItemsLoaded = await widget._homeModel.preloadNextItems(2);
+      if (!isInitializing && !anyItemsLoaded && !widget._homeModel.hasMoreItems()) {
         double edge = 50.0;
         double offsetFromBottom =
             _scrollController.position.maxScrollExtent - _scrollController.position.pixels;
@@ -100,7 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }
       if (mounted) {
         setState(() {
-          _itemList.addAll(newEntries);
           isPerformingRequest = false;
         });
       }
@@ -117,22 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  Future<List<ItemData>> requestMoreItems(int from, int to) async {
-    var testDataLength = BasicTestUrls.testItemsRecent.length;
-    if (from > testDataLength) {
-      return [];
-    }
-    int end = to > testDataLength ? testDataLength : to;
-    List<ItemData> newData = BasicTestUrls.testItemsRecent.sublist(from, end);
-
-    List<Future<void>> futures = [];
-    for (ItemData linkPreviewData in newData) {
-      futures.add(linkPreviewData.preLoadImage());
-    }
-    await Future.wait(futures);
-    return newData;
   }
 }
 

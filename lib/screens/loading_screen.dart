@@ -1,14 +1,14 @@
-import 'dart:convert';
-
+import 'dart:convert' as Dart;
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:nexth/model/database_query.dart';
 import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/utils/constants.dart';
-import 'package:nexth/model/basic_test_urls.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -43,74 +43,60 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   void getInitialData() async {
     await loadDataFromLocalStorage();
-    await initializeItemListViewModel();
+    await loadInitialItems();
     Provider.of<AppState>(context, listen: false).isAppInitializing = false;
     print("Loading initial data finished.");
   }
 
-  Future<void> initializeItemListViewModel() async {
-    List<ItemData> initialDataRecent = BasicTestUrls.testItemsRecent.sublist(0,2);
-    List<List<ItemData>> initialDataPerCategory = getItemsPerCategory();
-    List<ItemData> initialDataManualIncubator = BasicTestUrls.testItemsManualIncubator.sublist(0,1);
-    List<ItemData> initialDataScrapedIncubator = BasicTestUrls.testItemsScrapedIncubator.sublist(0,2);
+  /// For every item-list (home-list, categories, user-defined-lists, incubator) a small number of corresponding items is fetched from the backend. <br>
+  /// The fetching is done in one http-request, in order to save traffic aka money.<br><br>
+  ///
+  /// The corresponding item-list-models are filled with the new items.<br>
+  /// For a few of the new items the images are preloaded.
+  Future<void> loadInitialItems() async {
+    ModelManager modelManager = Provider.of<AppState>(context, listen: false).modelManager;
 
-    // preload images
-    List<Future<void>> futures = [];
-    futures.addAll(loadAllImages(initialDataRecent));
-    futures.addAll(loadAllImages(initialDataManualIncubator));
-    futures.addAll(loadAllImages(initialDataScrapedIncubator));
-    for (List<ItemData> itemsOfCategory in initialDataPerCategory) {
-      futures.addAll(loadAllImages(itemsOfCategory));
+    List<DatabaseQuery> queries = [];
+    for (ItemListModel currentModel in modelManager.allModels) {
+      queries.add(currentModel.getDatabaseQueryForInitialization());
+    }
+    String queryJson = Dart.jsonEncode(queries);
+
+    http.Response response = await http.post(
+      Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_init_data'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: queryJson,
+    );
+    if (response.statusCode != 200) {
+      print("Items could not be loaded. Statuscode: ${response.statusCode}");
+      print(response.body);
+      return;
     }
 
+    dynamic allResults = Dart.jsonDecode(response.body);
+    int currentModelNumber = 0;
+    for(dynamic resultForQuery in allResults) {
+      ItemListModel currentModel = modelManager.allModels.elementAt(currentModelNumber);
+      for (dynamic itemJson in resultForQuery) {
+        currentModel.itemList.add(ItemData.fromJson(itemJson));
+      }
+      currentModelNumber++;
+    }
+
+    List<Future<bool>> futures = [];
+    for (ItemListModel currentModel in modelManager.allModels) {
+      futures.add(currentModel.preloadNextItems(5));
+    }
     await Future.wait(futures);
-    ModelManager itemListViewModel = Provider.of<AppState>(context, listen: false).modelManager;
-    itemListViewModel.homeItemList.addAll(initialDataRecent);
-    itemListViewModel.incubatorManualItemList.addAll(initialDataManualIncubator);
-    itemListViewModel.incubatorScrapedItemList.addAll(initialDataScrapedIncubator);
-    for (ItemCategory itemCategory in ItemCategory.values) {
-      itemListViewModel.setCategoryItems(itemCategory, initialDataPerCategory.elementAt(itemCategory.index));
-    }
   }
 
   /// Loads user defined categories.
   /// Adds all items stored as json in shared preferences to the hardcoded test data.
   Future<void> loadDataFromLocalStorage() async {
-    final prefs = await SharedPreferences.getInstance();
+    // final prefs = await SharedPreferences.getInstance();
     initializeUserDefinedCategories();
-    int itemsStored = prefs.getInt(BasicTestUrls.items_stored_string) ?? 0;
-    for (int i = 0; i < itemsStored; i++) {
-      String? itemJson = prefs.getString(i.toString());
-      if (itemJson == null) {
-        continue;
-      }
-      Map<String, dynamic> itemMap = jsonDecode(itemJson);
-      ItemData itemData = ItemData.fromJson(itemMap);
-      BasicTestUrls.testItemsRecent.add(itemData);
-    }
-  }
-
-  List<List<ItemData>> getItemsPerCategory() {
-    List<List<ItemData>> itemsPerCategory = [];
-    for (ItemCategory currentItemCategory in ItemCategory.values) {
-      List<ItemData> itemsOfCurrentCategory = BasicTestUrls.testItemsRecent
-          .where((itemData) => itemData.itemCategory == currentItemCategory)
-          .toList();
-      if (itemsOfCurrentCategory.length > 2) {
-        itemsPerCategory.add(itemsOfCurrentCategory.sublist(0, 2));
-      } else {
-        itemsPerCategory.add(itemsOfCurrentCategory);
-      }
-    }
-    return itemsPerCategory;
-  }
-
-  List<Future<void>> loadAllImages(List<ItemData> dataToLoad) {
-    List<Future<void>> futures = [];
-    for(ItemData itemData in dataToLoad) {
-      futures.add(itemData.preLoadImage());
-    }
-    return futures;
   }
 
   void initializeUserDefinedCategories() {

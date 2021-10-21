@@ -1,45 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:nexth/model/category_list_model.dart';
+import 'package:nexth/model/home_list_model.dart';
 import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/item_list_model.dart';
 
 class ModelManager {
-  final List<ItemData> homeItemList = [];
-  final List<ItemData> incubatorManualItemList = [];
-  final List<ItemData> incubatorScrapedItemList = [];
+  List<ItemListModel> allModels = [];
+
+  final ItemListModel homeModel = HomeListModel();
 
   // category item lists
-  List<ItemData> _energyItemList = [];
-  List<ItemData> _informationItemList = [];
-  List<ItemData> _healthItemList = [];
-  List<ItemData> _mobilityItemList = [];
-  List<ItemData> _foodItemList = [];
-  List<ItemData> _otherItemList = [];
+  ItemListModel _energyItemList = CategoryListModel(itemCategory: ItemCategory.energy);
+  ItemListModel _informationItemList = CategoryListModel(itemCategory: ItemCategory.information);
+  ItemListModel _healthItemList = CategoryListModel(itemCategory: ItemCategory.health);
+  ItemListModel _mobilityItemList = CategoryListModel(itemCategory: ItemCategory.mobility);
+  ItemListModel _foodItemList = CategoryListModel(itemCategory: ItemCategory.food);
+  ItemListModel _otherItemList = CategoryListModel(itemCategory: ItemCategory.other);
 
-  ModelManager();
+  final List<ItemData> homeItemList = [];
 
-  void setCategoryItems(ItemCategory itemCategory, List<ItemData> items) {
-    switch (itemCategory) {
-      case ItemCategory.energy:
-        _energyItemList = items;
-        break;
-      case ItemCategory.information:
-        _informationItemList = items;
-        break;
-      case ItemCategory.health:
-        _healthItemList = items;
-        break;
-      case ItemCategory.mobility:
-        _mobilityItemList = items;
-        break;
-      case ItemCategory.food:
-        _foodItemList = items;
-        break;
-      case ItemCategory.other:
-        _otherItemList = items;
-        break;
-    }
+  ModelManager() {
+    allModels.addAll([homeModel, _energyItemList, _informationItemList, _healthItemList, _mobilityItemList, _foodItemList, _otherItemList]);
   }
 
-  List<ItemData> getCategoryItems(ItemCategory itemCategory) {
+  ItemListModel getModelForCategory(ItemCategory itemCategory) {
     switch (itemCategory) {
       case ItemCategory.energy:
         return _energyItemList;

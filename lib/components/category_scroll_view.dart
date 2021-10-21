@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/model/basic_test_urls.dart';
@@ -19,18 +20,18 @@ class CategoryScrollView extends StatefulWidget {
 
 class _CategoryScrollViewState extends State<CategoryScrollView> {
   late ModelManager _modelManager;
-  late List<ItemData> _itemList;
+  late ItemListModel _itemListModel;
 
   @override
   void initState() {
     super.initState();
     _modelManager = Provider.of<AppState>(context, listen: false).modelManager;
-    _itemList = _modelManager.getCategoryItems(widget.category);
+    _itemListModel = _modelManager.getModelForCategory(widget.category);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GenericScrollView(key: widget.key, dataLoader: requestMoreItems, items: _itemList,);
+    return GenericScrollView(key: widget.key, itemListModel: _itemListModel);
   }
 
   Future<List<ItemData>> requestMoreItems(int from, int to) async {
