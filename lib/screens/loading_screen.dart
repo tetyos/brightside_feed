@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/backend_connection/http_request_helper.dart';
+import 'package:nexth/model/basic_test_urls.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
@@ -45,6 +46,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void getInitialData() async {
     await loadDataFromLocalStorage();
     await loadInitialItems();
+    // commend out above and uncomment to below to use local stuff
+    // await loadInitialHardcodedItems();
     Provider.of<AppState>(context, listen: false).isAppInitializing = false;
     print("Loading initial data finished.");
   }
@@ -89,6 +92,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
       futures.add(currentModel.preloadNextItems(5));
     }
     await Future.wait(futures);
+  }
+
+  Future<void> loadInitialHardcodedItems() async {
+    ModelManager modelManager = ModelManager.instance;
+    modelManager.homeModel.itemList = BasicTestUrls.testItemsRecent;
+    modelManager.getModelForCategory(ItemCategory.food).itemList = BasicTestUrls.testItemsManualIncubator;
+    await modelManager.homeModel.preloadNextItems(2);
   }
 
   /// Loads user defined categories.
