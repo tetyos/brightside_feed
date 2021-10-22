@@ -6,35 +6,29 @@ import 'package:flutter/material.dart';
 import 'package:nexth/model/model_manager.dart';
 
 class ItemData {
-  String title = "Undefined";
-  String description = "Undefined";
+  String title;
+  String description;
   CachedNetworkImage? image;
   CachedNetworkImageProvider? imageProvider;
   String url;
+  String dateAdded;
   String? imageUrl;
   ItemCategory? itemCategory;
 
-  ItemData({required this.url, String? title, String? description, this.imageUrl, this.itemCategory}) {
-    if (title != null) {
-      this.title = title;
-    }
-    if (description != null) {
-      this.description = description;
-    }
-    // if (imageUrl != null) {
-    //   this.image = CachedNetworkImage(
-    //     imageUrl: imageUrl!,
-    //     maxWidthDiskCache: 800,
-    //     progressIndicatorBuilder: (context, url, progress) =>  SpinKitCircle(color: Colors.blueAccent),
-    //   //   // todo add future or listener to image, so that we know when its finished loading
-    //   );
-    // }
-  }
+  ItemData(
+      {required this.url,
+      required this.title,
+      String? description,
+      this.imageUrl,
+      this.itemCategory})
+      : description = description ?? "Undefined",
+        dateAdded = DateTime.now().toIso8601String();
 
   ItemData.fromJson(Map<String, dynamic> json)
-      : title = json['title'] ?? 'Undefined',
+      : url = json['url'],
+        dateAdded = json['dateAdded'],
+        title = json['title'],
         description = json['description'] ?? 'Undefined',
-        url = json['url'] ?? '',
         imageUrl = json['imageUrl'],
         itemCategory = getItemCategoryFromString(json['itemCategory']);
 

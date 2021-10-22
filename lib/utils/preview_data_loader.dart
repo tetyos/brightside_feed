@@ -14,9 +14,10 @@ class PreviewDataLoader {
     ItemData itemData;
     if (!isTwitter(url)) {
       PreviewData previewData = await FlutterLinkPreviewer.getPreviewData(url);
+      String title = previewData.title ?? "Undefined"; // todo return null or throw exception or something
       String? imageURL = previewData.image == null ? null : previewData.image!.url;
       itemData = ItemData(url: previewData.link!,
-          title: previewData.title,
+          title: title,
           description: previewData.description,
           imageUrl: imageURL);
     } else {
