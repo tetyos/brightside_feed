@@ -10,18 +10,15 @@ import 'package:nexth/model/item_list_model.dart';
 /// The ItemList can be preceded by an AppBar and WelcomeCard if needed.
 class ItemListScrollView extends StatefulWidget {
   final ItemListModel itemListModel;
-  final Key key;
   final Widget? _appBar;
   final Widget? _welcomeCard;
 
   ItemListScrollView({
     required this.itemListModel,
-    required this.key,
     Widget? appBar,
     Widget? welcomeCard,
   })  : _appBar = appBar,
-        _welcomeCard = welcomeCard,
-        super(key: key);
+        _welcomeCard = welcomeCard;
 
   @override
   _ItemListScrollViewState createState() => _ItemListScrollViewState();
@@ -48,7 +45,6 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
       controller: _scrollController,
       child: CustomScrollView(
         controller: _scrollController,
-        key: widget.key,
         slivers: <Widget>[
           if (widget._appBar != null)
             widget._appBar!,

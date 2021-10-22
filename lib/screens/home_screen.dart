@@ -4,17 +4,14 @@ import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/utils/constants.dart';
 
 class HomeScreen extends StatelessWidget {
-  final Key _key;
 
   HomeScreen({required Key key})
-      : _key = key,
-        super(key: key);
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ItemListScrollView(
         itemListModel: ModelManager.instance.homeModel,
-        key: _key,
         appBar: sliverAppBar(),
         welcomeCard: welcomeSliver());
   }

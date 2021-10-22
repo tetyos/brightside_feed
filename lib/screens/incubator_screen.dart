@@ -76,10 +76,9 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
 }
 
 class IncubatorScrollView extends StatefulWidget {
-  final Key key;
   final IncubatorType incubatorType;
 
-  const IncubatorScrollView({required this.key, required this.incubatorType}) : super(key: key);
+  const IncubatorScrollView({required Key key, required this.incubatorType}) : super(key: key);
 
   @override
   _IncubatorScrollViewState createState() => _IncubatorScrollViewState();
@@ -101,7 +100,7 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
 
   @override
   Widget build(BuildContext context) {
-    return ItemListScrollView(key: widget.key, itemListModel: _itemListModel);
+    return ItemListScrollView(itemListModel: _itemListModel);
   }
 }
 
