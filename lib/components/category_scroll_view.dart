@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 
-import 'generic_scroll_view.dart';
+import 'item_list_scroll_view.dart';
 
 class CategoryScrollView extends StatefulWidget {
   final Key key;
@@ -25,6 +25,6 @@ class _CategoryScrollViewState extends State<CategoryScrollView> {
 
   @override
   Widget build(BuildContext context) {
-    return GenericScrollView(key: widget.key, itemListModel: _itemListModel);
+    return ItemListScrollView(key: widget.key, itemListModel: _itemListModel);
   }
 }

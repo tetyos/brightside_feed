@@ -1,119 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/components/item_card.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/components/item_list_scroll_view.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/utils/constants.dart';
 
-class HomeScreen extends StatefulWidget {
-  final ItemListModel _homeModel;
+class HomeScreen extends StatelessWidget {
+  final Key _key;
 
-  HomeScreen({required ItemListModel homeModel, required Key key})
-      : _homeModel = homeModel,
+  HomeScreen({required Key key})
+      : _key = key,
         super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  ScrollController _scrollController = ScrollController();
-  bool isPerformingRequest = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // initial data is kept low, so loading times are short. Hence, we need to load more data here.
-    _getMoreData(true);
-    _scrollController.addListener(scrollingListener);
+  Widget build(BuildContext context) {
+    return ItemListScrollView(
+        itemListModel: ModelManager.instance.homeModel,
+        key: _key,
+        appBar: sliverAppBar(),
+        welcomeCard: welcomeSliver());
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scrollbar(
-      // todo: interaction does not work
-      interactive: true,
-      thickness: 4,
-      controller: _scrollController,
-      child: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          SliverAppBar(
-            title: Text('Recently added'),
-            floating: true,
-            // expandedHeight: 200.0,
-            // TODO: Add a FlexibleSpaceBar
-          ),
-          SliverToBoxAdapter(
-            child: const WelcomeCard(),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                if (index == _itemList.length) {
-                  return _buildProgressIndicator();
-                } else {
-                  return ItemCard(linkPreviewData: _itemList[index]);
-                }
-              },
-              childCount: _itemList.length + 1,
-            ),
-          ),
-          // padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-        ],
-      ),
+  Widget sliverAppBar() {
+    return SliverAppBar(
+      title: Text('Recently added'),
+      floating: true,
+      // expandedHeight: 200.0,
+      // TODO: Add a FlexibleSpaceBar
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  List<ItemData> get _itemList => widget._homeModel.loadedItemList;
-
-  /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.
-  void scrollingListener() {
-    double maxScrollExtent = _scrollController.position.maxScrollExtent;
-    double currentScrollPosition = _scrollController.position.pixels;
-    double averageItemSize = maxScrollExtent / _itemList.length;
-    double scrollAmountLeft = maxScrollExtent - currentScrollPosition;
-    bool isEnoughItemsLeft = scrollAmountLeft / averageItemSize > 3;
-    if (!isEnoughItemsLeft) {
-      _getMoreData(false);
-    }
-  }
-
-  Future<void> _getMoreData(bool isInitializing) async {
-    if (!isPerformingRequest) {
-      setState(() => isPerformingRequest = true);
-      bool anyItemsLoaded = await widget._homeModel.preloadNextItems(2);
-      if (!isInitializing && !anyItemsLoaded && !widget._homeModel.hasMoreItems()) {
-        double edge = 50.0;
-        double offsetFromBottom =
-            _scrollController.position.maxScrollExtent - _scrollController.position.pixels;
-        if (offsetFromBottom < edge) {
-          _scrollController.animateTo(_scrollController.offset - (edge - offsetFromBottom),
-              duration: new Duration(milliseconds: 500), curve: Curves.easeOut);
-        }
-      }
-      if (mounted) {
-        setState(() {
-          isPerformingRequest = false;
-        });
-      }
-    }
-  }
-
-  Widget _buildProgressIndicator() {
-    return new Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: new Center(
-        child: new Opacity(
-          opacity: isPerformingRequest ? 1.0 : 0.0,
-          child: new CircularProgressIndicator(),
-        ),
-      ),
+  Widget welcomeSliver() {
+    return SliverToBoxAdapter(
+      child: const WelcomeCard(),
     );
   }
 }

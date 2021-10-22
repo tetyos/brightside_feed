@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/components/generic_scroll_view.dart';
+import 'package:nexth/components/item_list_scroll_view.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/utils/constants.dart';
@@ -101,7 +101,7 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
 
   @override
   Widget build(BuildContext context) {
-    return GenericScrollView(key: widget.key, itemListModel: _itemListModel);
+    return ItemListScrollView(key: widget.key, itemListModel: _itemListModel);
   }
 }
 

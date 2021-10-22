@@ -3,17 +3,31 @@ import 'package:nexth/components/item_card.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
 
-class GenericScrollView extends StatefulWidget {
+/// Creates a scroll view from the given [ItemListModel]. <br>
+/// The [ItemListScrollView] automatically notifies the [ItemListModel], if new items need to be loaded.<br>
+/// During loading progress a loading-spinner is shown. <br><br>
+///
+/// The ItemList can be preceded by an AppBar and WelcomeCard if needed.
+class ItemListScrollView extends StatefulWidget {
   final ItemListModel itemListModel;
   final Key key;
+  final Widget? _appBar;
+  final Widget? _welcomeCard;
 
-  GenericScrollView({required this.itemListModel, required this.key}) : super(key: key);
+  ItemListScrollView({
+    required this.itemListModel,
+    required this.key,
+    Widget? appBar,
+    Widget? welcomeCard,
+  })  : _appBar = appBar,
+        _welcomeCard = welcomeCard,
+        super(key: key);
 
   @override
-  _GenericScrollViewState createState() => _GenericScrollViewState();
+  _ItemListScrollViewState createState() => _ItemListScrollViewState();
 }
 
-class _GenericScrollViewState extends State<GenericScrollView> {
+class _ItemListScrollViewState extends State<ItemListScrollView> {
   ScrollController _scrollController = ScrollController();
   bool isPerformingRequest = false;
 
@@ -27,35 +41,32 @@ class _GenericScrollViewState extends State<GenericScrollView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Scrollbar(
-        // todo interaction does not work
-        interactive: true,
-        thickness: 4,
+    return Scrollbar(
+      // todo interaction does not work
+      interactive: true,
+      thickness: 4,
+      controller: _scrollController,
+      child: CustomScrollView(
         controller: _scrollController,
-        child: CustomScrollView(
-          controller: _scrollController,
-          key: widget.key,
-          slivers: <Widget>[
-            SliverPadding(
-              padding: const EdgeInsets.all(8.0),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    if (index == _itemList.length) {
-                      return _buildProgressIndicator();
-                    } else {
-                      return ItemCard(linkPreviewData: _itemList[index]);
-                    }
-                  },
-                  childCount: _itemList.length + 1,
-                ),
-              ),
+        key: widget.key,
+        slivers: <Widget>[
+          if (widget._appBar != null)
+            widget._appBar!,
+          if (widget._welcomeCard != null)
+            widget._welcomeCard!,
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                if (index == _itemList.length) {
+                  return _buildProgressIndicator();
+                } else {
+                  return ItemCard(linkPreviewData: _itemList[index]);
+                }
+              },
+              childCount: _itemList.length + 1,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
