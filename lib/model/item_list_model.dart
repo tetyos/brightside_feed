@@ -7,8 +7,8 @@ import 'package:nexth/model/item_data.dart';
 abstract class ItemListModel {
 
   /// List which holds all items, whose images have already been preloaded.
-  final List<ItemData> fullyLoadedItems = [];
-  final List<ItemData> items = [];
+  List<ItemData> fullyLoadedItems = [];
+  List<ItemData> items = [];
 
   /// The number of items a model requests when app is starting. It is rather small, since during app start items are loaded for many models in one request.
   final int itemsToFetchDuringAppStart = 0;
@@ -85,9 +85,22 @@ abstract class ItemListModel {
     fullyLoadedItems.addAll(itemsToLoad);
   }
 
-  Future<void> requestMoreItemsFromDB() async {
-    // await Future.delayed(Duration(seconds: 10));
+  /// Preloads the images for the first items. Only preloaded items are used by [ItemListScrollView]
+  Future<void> preloadItemsAfterRefresh() async {
+    int numberOfItemsToPreload = minNumberOfFullyLoadedItems > items.length ? items.length : minNumberOfFullyLoadedItems;
+    _numberOfImagesCurrentlyLoading = numberOfItemsToPreload;
+    List<ItemData> itemsToLoad = items.sublist(0, numberOfItemsToPreload);
 
+    List<Future<void>> futures = [];
+    for (ItemData linkPreviewData in itemsToLoad) {
+      futures.add(linkPreviewData.preLoadImage());
+    }
+    await Future.wait(futures);
+    _numberOfImagesCurrentlyLoading = 0;
+    fullyLoadedItems = itemsToLoad;
+  }
+
+  Future<void> requestMoreItemsFromDB() async {
     List<ItemData> newItems = await HttpRequestHelper.getInitialDataSingleQuery(getMoreItemsDBQuery(items.last.dateAdded));
     items.addAll(newItems);
     if (newItems.length < numberOfItemsToRequest) {
@@ -113,5 +126,15 @@ abstract class ItemListModel {
   bool hasNotEnoughItemsLeft() {
     bool isNotEnoughItemsLeft = items.length - fullyLoadedItems.length - _numberOfImagesCurrentlyLoading < fetchItemDataThreshold;
     return _moreItemsAvailable && isNotEnoughItemsLeft;
+  }
+
+  Future<void > executeRefresh() async {
+    List<ItemData> newItems = await HttpRequestHelper.getInitialDataSingleQuery(getDBQuery());
+    items = newItems;
+    if (newItems.length < numberOfItemsToRequest) {
+      // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here
+      _moreItemsAvailable = false;
+    }
+    await preloadItemsAfterRefresh();
   }
 }

@@ -43,26 +43,29 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
       interactive: true,
       thickness: 4,
       controller: _scrollController,
-      child: CustomScrollView(
-        controller: _scrollController,
-        slivers: <Widget>[
-          if (widget._appBar != null)
-            widget._appBar!,
-          if (widget._welcomeCard != null)
-            widget._welcomeCard!,
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                if (index == _itemList.length) {
-                  return _buildProgressIndicator();
-                } else {
-                  return ItemCard(linkPreviewData: _itemList[index]);
-                }
-              },
-              childCount: _itemList.length + 1,
+      child: RefreshIndicator(
+        onRefresh: () async {await _executeRefresh();},
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: <Widget>[
+            if (widget._appBar != null)
+              widget._appBar!,
+            if (widget._welcomeCard != null)
+              widget._welcomeCard!,
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (index == _itemList.length) {
+                    return _buildProgressIndicator();
+                  } else {
+                    return ItemCard(linkPreviewData: _itemList[index]);
+                  }
+                },
+                childCount: _itemList.length + 1,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -141,6 +144,24 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
           isFetchingItemData = false;
         });
       }
+    }
+  }
+
+  Future<void> _executeRefresh() async {
+    if (isFetchingItemData || isLoadingImages) {
+      // in case something is still loading, wait for it to finish, before beginning refresh
+      // (it would be better to cancel the running process, but that would make things a lot more complicated..)
+      await Future.delayed(Duration(milliseconds: 100));
+      return await _executeRefresh();
+    }
+    isFetchingItemData = true;
+    isLoadingImages = true;
+    await itemListModel.executeRefresh();
+    if (mounted) {
+      setState(() {
+        isFetchingItemData = false;
+        isLoadingImages = false;
+      });
     }
   }
 
