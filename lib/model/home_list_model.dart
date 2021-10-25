@@ -4,7 +4,22 @@ import 'package:nexth/model/item_list_model.dart';
 class HomeListModel extends ItemListModel {
 
   @override
-  DatabaseQuery getDatabaseQueryForInitialization() {
-    return new DatabaseQuery(sortBy: "dateAdded", limit: 10);
+  final int itemsToFetchDuringAppStart = 10;
+  @override
+  final int imagesToPreloadDuringAppStart = 3;
+
+  @override
+  DatabaseQuery getDBQueryForInitialization() {
+    return new DatabaseQuery(sortBy: "dateAdded", limit: itemsToFetchDuringAppStart);
+  }
+
+  @override
+  DatabaseQuery getDBQuery() {
+    return new DatabaseQuery(sortBy: "dateAdded", limit: numberOfItemsToRequest);
+  }
+
+  @override
+  DatabaseQuery getMoreItemsDBQuery(String ltDate) {
+    return new DatabaseQuery(sortBy: "dateAdded", limit: numberOfItemsToRequest, dateLT: ltDate);
   }
 }

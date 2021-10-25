@@ -60,44 +60,42 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Future<void> loadInitialItems() async {
     ModelManager modelManager = ModelManager.instance;
 
-    // built queryJson from all model that need to be queried
+    // built queryJson from all models that need to be queried
     List<DatabaseQuery> queries = [];
     for (ItemListModel currentModel in modelManager.allModels) {
-      queries.add(currentModel.getDatabaseQueryForInitialization());
+      queries.add(currentModel.getDBQueryForInitialization());
     }
-    String queryJson = Dart.jsonEncode(queries);
+    String queriesAsJson = Dart.jsonEncode(queries);
 
     // sent request
-    http.Response response = await HttpRequestHelper.getInitialData(queryJson);
+    http.Response response = await HttpRequestHelper.getInitialData(queriesAsJson);
     if (response.statusCode != 200) {
       print("Items could not be loaded. Statuscode: ${response.statusCode}");
       print(response.body);
       return;
     }
 
-    // parse results
-    dynamic allResults = Dart.jsonDecode(response.body);
+    // parse results and init models
+    dynamic resultsForAllModels = Dart.jsonDecode(response.body);
     int currentModelNumber = 0;
-    for (dynamic resultForQuery in allResults) {
+    List<Future<void>> futures = [];
+    for (dynamic resultsForCurrentModel in resultsForAllModels) {
       ItemListModel currentModel = modelManager.allModels.elementAt(currentModelNumber);
-      for (dynamic itemJson in resultForQuery) {
-        currentModel.itemList.add(ItemData.fromJson(itemJson));
+      List<ItemData> itemsForModel = [];
+      for (dynamic itemJson in resultsForCurrentModel) {
+        itemsForModel.add(ItemData.fromJson(itemJson));
       }
+      futures.add(currentModel.prepareModel(itemsForModel));
       currentModelNumber++;
     }
 
-    // preload images
-    List<Future<bool>> futures = [];
-    for (ItemListModel currentModel in modelManager.allModels) {
-      futures.add(currentModel.preloadNextItems(5));
-    }
     await Future.wait(futures);
   }
 
   Future<void> loadInitialHardcodedItems() async {
     ModelManager modelManager = ModelManager.instance;
-    modelManager.homeModel.itemList = BasicTestUrls.testItemsRecent;
-    modelManager.getModelForCategory(ItemCategory.food).itemList = BasicTestUrls.testItemsManualIncubator;
+    modelManager.homeModel.items.addAll( BasicTestUrls.testItemsRecent);
+    modelManager.getModelForCategory(ItemCategory.food).items.addAll(BasicTestUrls.testItemsManualIncubator);
     await modelManager.homeModel.preloadNextItems(2);
   }
 

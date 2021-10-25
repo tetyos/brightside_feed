@@ -26,13 +26,13 @@ class ItemListScrollView extends StatefulWidget {
 
 class _ItemListScrollViewState extends State<ItemListScrollView> {
   ScrollController _scrollController = ScrollController();
-  bool isPerformingRequest = false;
+  bool isLoadingImages = false;
+  bool isFetchingItemData = false;
 
   @override
   void initState() {
     super.initState();
-    // initial data is kept low, so loading times are short. Hence, we need to load more data here.
-    _getMoreData(true);
+    _initModel();
     _scrollController.addListener(scrollingListener);
   }
 
@@ -81,28 +81,64 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
     double scrollAmountLeft = maxScrollExtent - currentScrollPosition;
     bool isEnoughItemsLeft = scrollAmountLeft / averageItemSize > 3;
     if (!isEnoughItemsLeft) {
-      _getMoreData(false);
+      _loadMoreItems();
+      _requestMoreItemsFromDBIfNecessary();
+    }
+
+    double edge = 50.0;
+    double offsetFromBottom = maxScrollExtent - currentScrollPosition;
+    if (offsetFromBottom < edge && !isPerformingRequest && itemListModel.isEverythingLoaded()) {
+      _scrollController.animateTo(_scrollController.offset - (edge - offsetFromBottom),
+          duration: new Duration(milliseconds: 500), curve: Curves.easeOut);
     }
   }
 
-  List<ItemData> get _itemList => widget.itemListModel.loadedItemList;
+  ItemListModel get itemListModel => widget.itemListModel;
 
-  Future<void> _getMoreData(bool isInitializing) async {
-    if (!isPerformingRequest) {
-      setState(() => isPerformingRequest = true);
-      bool anyItemsLoaded = await widget.itemListModel.preloadNextItems(2);
-      if (!isInitializing && !anyItemsLoaded && !widget.itemListModel.hasMoreItems()) {
-        double edge = 50.0;
-        double offsetFromBottom =
-            _scrollController.position.maxScrollExtent - _scrollController.position.pixels;
-        if (offsetFromBottom < edge) {
-          _scrollController.animateTo(_scrollController.offset - (edge - offsetFromBottom),
-              duration: new Duration(milliseconds: 500), curve: Curves.easeOut);
-        }
-      }
+  List<ItemData> get _itemList => itemListModel.fullyLoadedItems;
+
+  bool get isPerformingRequest => isLoadingImages || isFetchingItemData;
+
+  Future<void> _initModel() async {
+    setState(() {
+      isFetchingItemData = true;
+      isLoadingImages = true;
+    });
+
+    // initially only few items and images are preloaded, so loading times are short. Some ItemListModel don't preload items/images at all.
+    // Hence, we need to load more data here.
+    itemListModel.assureMinNumberOfItems().then((_) {
       if (mounted) {
         setState(() {
-          isPerformingRequest = false;
+          isFetchingItemData = false;
+          isLoadingImages = false;
+        });
+      }
+    });
+  }
+
+  Future<void> _loadMoreItems() async {
+    if (!isLoadingImages && itemListModel.hasImagesToPreload()) {
+      setState(() => isLoadingImages = true);
+      await itemListModel.preloadNextItems(2);
+
+      if (mounted) {
+        setState(() {
+          isLoadingImages = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _requestMoreItemsFromDBIfNecessary() async {
+    if (!isFetchingItemData && itemListModel.hasNotEnoughItemsLeft()) {
+      setState(() => isFetchingItemData = true);
+      await itemListModel.requestMoreItemsFromDB();
+      _loadMoreItems();
+
+      if (mounted) {
+        setState(() {
+          isFetchingItemData = false;
         });
       }
     }
