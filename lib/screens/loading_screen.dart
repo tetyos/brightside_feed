@@ -59,11 +59,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
   /// For a few of the new items the images are preloaded.
   Future<void> loadInitialItems() async {
     ModelManager modelManager = ModelManager.instance;
+    List<ItemListModel> modelsWithQueries = [];
+    modelsWithQueries.addAll(modelManager.allModels);
 
     // built queryJson from all models that need to be queried
     List<DatabaseQuery> queries = [];
     for (ItemListModel currentModel in modelManager.allModels) {
-      queries.add(currentModel.getDBQueryForInitialization());
+      DatabaseQuery? databaseQuery = currentModel.getDBQueryForInitialization();
+      if (databaseQuery == null) {
+        modelsWithQueries.remove(currentModel);
+      } else {
+        queries.add(databaseQuery);
+      }
     }
     String queriesAsJson = Dart.jsonEncode(queries);
 
@@ -80,7 +87,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     int currentModelNumber = 0;
     List<Future<void>> futures = [];
     for (dynamic resultsForCurrentModel in resultsForAllModels) {
-      ItemListModel currentModel = modelManager.allModels.elementAt(currentModelNumber);
+      ItemListModel currentModel = modelsWithQueries.elementAt(currentModelNumber);
       List<ItemData> itemsForModel = [];
       for (dynamic itemJson in resultsForCurrentModel) {
         itemsForModel.add(ItemData.fromJson(itemJson));

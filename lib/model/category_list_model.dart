@@ -14,7 +14,8 @@ class CategoryListModel extends ItemListModel {
   CategoryListModel({required this.itemCategory});
 
   @override
-  DatabaseQuery getDBQueryForInitialization() {
+  DatabaseQuery? getDBQueryForInitialization() {
+    if (itemsToFetchDuringAppStart <= 0) return null;
     return new DatabaseQuery(sortBy: "dateAdded", limit: itemsToFetchDuringAppStart, categories: [itemCategory.toString()]);
   }
 

@@ -9,7 +9,8 @@ class HomeListModel extends ItemListModel {
   final int imagesToPreloadDuringAppStart = 3;
 
   @override
-  DatabaseQuery getDBQueryForInitialization() {
+  DatabaseQuery? getDBQueryForInitialization() {
+    if (itemsToFetchDuringAppStart <= 0) return null;
     return new DatabaseQuery(sortBy: "dateAdded", limit: itemsToFetchDuringAppStart);
   }
 

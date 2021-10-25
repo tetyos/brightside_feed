@@ -12,6 +12,7 @@ abstract class ItemListModel {
 
   /// The number of items a model requests when app is starting. It is rather small, since during app start items are loaded for many models in one request.
   final int itemsToFetchDuringAppStart = 0;
+  /// The number of images a model preloads during app start.
   final int imagesToPreloadDuringAppStart = 0;
 
   /// The number of items that need to be available after a user has opened a the scroll-view to which this model belongs.
@@ -28,7 +29,7 @@ abstract class ItemListModel {
   bool _moreItemsAvailable = false;
   int _numberOfImagesCurrentlyLoading = 0;
 
-  DatabaseQuery getDBQueryForInitialization();
+  DatabaseQuery? getDBQueryForInitialization();
 
   DatabaseQuery getDBQuery();
 
