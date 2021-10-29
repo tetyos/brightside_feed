@@ -47,24 +47,7 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
         onRefresh: () async {await _executeRefresh();},
         child: CustomScrollView(
           controller: _scrollController,
-          slivers: <Widget>[
-            if (widget._appBar != null)
-              widget._appBar!,
-            if (widget._welcomeCard != null)
-              widget._welcomeCard!,
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  if (index == _itemList.length) {
-                    return _buildProgressIndicator();
-                  } else {
-                    return ItemCard(linkPreviewData: _itemList[index]);
-                  }
-                },
-                childCount: _itemList.length + 1,
-              ),
-            ),
-          ],
+          slivers: getSlivers(),
         ),
       ),
     );
@@ -74,6 +57,27 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  List<Widget> getSlivers(){
+    return <Widget>[
+      if (widget._appBar != null)
+        widget._appBar!,
+      if (widget._welcomeCard != null)
+        widget._welcomeCard!,
+      SliverList(
+        delegate: SliverChildBuilderDelegate(
+              (context, index) {
+            if (index == _itemList.length) {
+              return _buildProgressIndicator();
+            } else {
+              return ItemCard(linkPreviewData: _itemList[index]);
+            }
+          },
+          childCount: _itemList.length + 1,
+        ),
+      ),
+    ];
   }
 
   /// Tries to load more data, as soon as there is less to scroll then 3 times the average item size.

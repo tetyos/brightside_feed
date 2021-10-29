@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 
 class AppState extends ChangeNotifier {
-  bool _isAppInitializing = true;
-  NexthRoutePath _currentRoutePath = NexthHomePath();
+  bool _isDataLoading = true;
+  bool _isShowIntro = true;
+  NexthRoutePath _currentRoutePath = LoadingScreen1Path();
   int explorerScreenCurrentTab = 1;
   int numberOfUserDefinedTabs = 0;
 
@@ -11,10 +12,17 @@ class AppState extends ChangeNotifier {
   final GlobalKey incubatorScreenKey = GlobalKey();
   final GlobalKey explorerScreenKey = GlobalKey();
 
-  bool get isAppInitializing => _isAppInitializing;
+  bool get isShowIntro => _isShowIntro;
 
-  set isAppInitializing(bool isInitializing) {
-    _isAppInitializing = isInitializing;
+  set isShowIntro(bool isShowIntro) {
+    _isShowIntro = isShowIntro;
+    notifyListeners();
+  }
+
+  bool get isDataLoading => _isDataLoading;
+
+  set isDataLoading(bool isDataLoading) {
+    _isDataLoading = isDataLoading;
     notifyListeners();
   }
 

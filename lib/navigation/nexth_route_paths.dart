@@ -16,3 +16,19 @@ class NexthExplorePath extends NexthRoutePath {
 class NexthIncubatorPath extends NexthRoutePath {
   const NexthIncubatorPath();
 }
+
+abstract class PreMainScreenPath extends NexthRoutePath {
+  const PreMainScreenPath();
+}
+
+class LoadingScreen1Path extends PreMainScreenPath {
+  const LoadingScreen1Path();
+}
+
+class LoadingScreen2Path extends PreMainScreenPath {
+  const LoadingScreen2Path();
+}
+
+class IntroScreenPath extends PreMainScreenPath {
+  const IntroScreenPath();
+}

@@ -16,8 +16,16 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
       return NexthExplorePath();
     } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'incubator') {
       return NexthIncubatorPath();
-    } else {
+    } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'loadingScreen1') {
+      return LoadingScreen1Path();
+    } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'loadingScreen2') {
+      return LoadingScreen2Path();
+    } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'introScreen') {
+      return IntroScreenPath();
+    } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'home') {
       return NexthHomePath();
+    } else {
+      return LoadingScreen1Path();
     }
   }
 
@@ -31,6 +39,15 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
     }
     if (path is NexthIncubatorPath) {
       return RouteInformation(location: '/incubator');
+    }
+    if (path is LoadingScreen1Path) {
+      return RouteInformation(location: '/loadingScreen1');
+    }
+    if (path is LoadingScreen2Path) {
+      return RouteInformation(location: '/loadingScreen2');
+    }
+    if (path is IntroScreenPath) {
+      return RouteInformation(location: '/introScreen');
     }
     print("NOT GOOD, UNKNOWN PATH");
     // todo replace this with error page or something
