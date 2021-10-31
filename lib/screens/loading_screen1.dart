@@ -61,9 +61,9 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     minDelayAndLocalStorageFuture.add(localStorageFuture);
     minDelayAndLocalStorageFuture.add(minDelayFuture);
 
-    // Future<void> dataLoadingFuture = localStorageFuture.then((_) => _loadInitialItems());
+    Future<void> dataLoadingFuture = localStorageFuture.then((_) => _loadInitialItems());
     // commend out above and uncomment to below to use hardcoded items
-    Future<void> dataLoadingFuture = localStorageFuture.then((_) => _loadInitialHardcodedItems());
+    // Future<void> dataLoadingFuture = localStorageFuture.then((_) => _loadInitialHardcodedItems());
     dataLoadingFuture.then((_) {
       widget.onDataLoaded();
       print("Loading initial data finished.");
