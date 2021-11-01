@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/model/item_data.dart';
+import 'package:nexth/utils/preview_data_loader.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemData _linkPreviewData;
+  final _shortDescription;
 
   ItemCard({required ItemData linkPreviewData})
-      : _linkPreviewData = linkPreviewData;
+      : _linkPreviewData = linkPreviewData,
+        _shortDescription =
+            PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 150);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class ItemCard extends StatelessWidget {
                   title: Text(
                     _linkPreviewData.title,
                   ),
-                  subtitle: Text(_linkPreviewData.description),
+                  subtitle: Text(_shortDescription),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

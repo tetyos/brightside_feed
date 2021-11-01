@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nexth/model/model_manager.dart';
+import 'package:nexth/utils/preview_data_loader.dart';
 
 class ItemData {
   String title;
@@ -22,7 +23,9 @@ class ItemData {
       this.imageUrl,
       this.itemCategory})
       : description = description ?? "Undefined",
-        dateAdded = DateTime.now().toIso8601String();
+        dateAdded = DateTime.now().toIso8601String() {
+    this.description = PreviewDataLoader.shortenDescriptionIfNecessary(this.description, 300);
+  }
 
   ItemData.fromJson(Map<String, dynamic> json)
       : url = json['url'],

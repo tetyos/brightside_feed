@@ -38,4 +38,16 @@ class PreviewDataLoader {
   }
 
   static bool isTwitter(String url) => _twitterUrl.hasMatch(url);
+
+  static String shortenDescriptionIfNecessary(String description, int maxLength) {
+    if (description.length > maxLength) {
+      description = description.substring(0, maxLength);
+      int posOfLastWhitespace = description.lastIndexOf(' ');
+      if (posOfLastWhitespace != -1) {
+        description = description.substring(0, posOfLastWhitespace);
+      }
+      description = description + "...";
+    }
+    return description;
+  }
 }
