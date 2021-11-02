@@ -122,12 +122,13 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
 
 
   Future<void> urlInputChanged() async {
+    // todo introduce mechanism, so that in case text is changed trough typing not x-http requests are triggered.
     String input = _textEditingController.text;
 
     if (input == _lastInput) {
       return;
     }
-    if (input ==  "") {
+    if (input == "") {
       setState(() {
         _lastInput = input;
         _itemData = null;
@@ -142,7 +143,6 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
         _previewCard = PreviewPlaceHolderCard(child: Text("Not a valid link."));
       });
     }
-
   }
 
   bool isValidUrl(String input) {
@@ -158,14 +158,19 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
 
   void loadPreviewData(String input) async {
     setState(() {
-      _previewCard = PreviewPlaceHolderCard(child: SpinKitCircle(color: Constants.kColorPrimaryLight,),);
+      _previewCard =
+          PreviewPlaceHolderCard(child: SpinKitCircle(color: Constants.kColorPrimaryLight,),);
       _lastInput = input;
     });
-    _itemData = await PreviewDataLoader.fetchDataFromUrl(input);
-    setState(() {
+    try {
+      _itemData = await PreviewDataLoader.fetchDataFromUrl(input);
       _previewCard = AddUrlPreviewCard(linkPreviewData: _itemData!);
-      // todo catch parsing exception (also valid semantic links might lead to nowhere)
-    });
+    } catch (e, s) {
+      print(e);
+      print(s);
+      _previewCard = PreviewPlaceHolderCard(child: Text("Link does not work."));
+    }
+    setState(() {});
   }
 }
 

@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemData _itemData;
-  final _shortDescription;
+  final String? _shortDescription;
   final String _dateString;
   final String _host;
 
@@ -38,7 +38,7 @@ class ItemCard extends StatelessWidget {
                   title: Text(
                     _itemData.title,
                   ),
-                  subtitle: Text(_shortDescription),
+                  subtitle: _shortDescription == null ? null : Text(_shortDescription!),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),

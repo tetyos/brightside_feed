@@ -8,7 +8,7 @@ import 'package:nexth/utils/preview_data_loader.dart';
 
 class ItemData {
   String title;
-  String description;
+  String? description;
   CachedNetworkImage? image;
   CachedNetworkImageProvider? imageProvider;
   String url;
@@ -22,16 +22,14 @@ class ItemData {
       String? description,
       this.imageUrl,
       this.itemCategory})
-      : description = description ?? "Undefined",
-        dateAdded = DateTime.now().toIso8601String() {
-    this.description = PreviewDataLoader.shortenDescriptionIfNecessary(this.description, 300);
-  }
+      : description = PreviewDataLoader.shortenDescriptionIfNecessary(description, 300),
+        dateAdded = DateTime.now().toIso8601String();
 
   ItemData.fromJson(Map<String, dynamic> json)
       : url = json['url'],
         dateAdded = json['dateAdded'],
         title = json['title'],
-        description = json['description'] ?? 'Undefined',
+        description = json['description'],
         imageUrl = json['imageUrl'],
         itemCategory = getItemCategoryFromString(json['itemCategory']);
 

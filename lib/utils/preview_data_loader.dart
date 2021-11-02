@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter_link_previewer/flutter_link_previewer.dart'
 as FlutterLinkPreviewer;
@@ -15,14 +16,19 @@ class PreviewDataLoader {
     ItemData itemData;
     if (!isTwitter(url)) {
       PreviewData previewData = await FlutterLinkPreviewer.getPreviewData(url);
-      String title = previewData.title ?? "Undefined"; // todo return null or throw exception or something
+      if (previewData.title == null) {
+        throw HttpException("Could not read title for url");
+      }
       String? imageURL = previewData.image == null ? null : previewData.image!.url;
       itemData = ItemData(url: previewData.link!,
-          title: title,
+          title: previewData.title!,
           description: previewData.description,
           imageUrl: imageURL);
     } else {
       WebInfo webInfo = await LinkPreview.scrapeFromURL(url);
+      if (webInfo.type == LinkPreviewType.error) {
+        throw HttpException("Could not read data for url");
+      }
       itemData = ItemData(
           url: url,
           title: webInfo.title,
@@ -40,7 +46,10 @@ class PreviewDataLoader {
 
   static bool isTwitter(String url) => _twitterUrl.hasMatch(url);
 
-  static String shortenDescriptionIfNecessary(String description, int maxLength) {
+  static String? shortenDescriptionIfNecessary(String? description, int maxLength) {
+    if (description == null || description == "")  {
+      return null;
+    }
     if (description.length > maxLength) {
       description = description.substring(0, maxLength);
       int posOfLastWhitespace = description.lastIndexOf(' ');

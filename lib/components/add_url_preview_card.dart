@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/utils/constants.dart' as Constants;
+import 'package:nexth/utils/preview_data_loader.dart';
 
 class AddUrlPreviewCard extends StatelessWidget {
   final ItemData _linkPreviewData;
-  final String _description;
+  final String? _description;
 
   AddUrlPreviewCard({required ItemData linkPreviewData})
       : _linkPreviewData = linkPreviewData,
-        _description = linkPreviewData.description.length < 100
-            ? linkPreviewData.description
-            : linkPreviewData.description.substring(0, 100) + "...";
+        _description = PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 100);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class AddUrlPreviewCard extends StatelessWidget {
                 title: Text(
                   _linkPreviewData.title,
                 ),
-                subtitle: Text(_description),
+                subtitle: _description == null ? null : Text(_description!),
               ),
             ],
           ),
