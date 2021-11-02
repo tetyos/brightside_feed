@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart'
 as FlutterLinkPreviewer;
 import 'package:flutter_chat_types/flutter_chat_types.dart';
+import 'package:intl/intl.dart';
 import 'package:link_preview_generator/link_preview_generator.dart';
 import 'package:nexth/model/item_data.dart';
 
@@ -49,5 +50,18 @@ class PreviewDataLoader {
       description = description + "...";
     }
     return description;
+  }
+
+  static String getFormattedDateFromIso8601(String dateAsIso) {
+    DateTime dateTime = DateTime.parse(dateAsIso);
+    return DateFormat.yMMMd().format(dateTime);
+  }
+
+  static String getHostFromUrl(String url) {
+    String host = Uri.parse(url).host;
+    if (host.startsWith('www.')) {
+      host = host.substring(4, host.length);
+    }
+    return host;
   }
 }

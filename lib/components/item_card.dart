@@ -5,20 +5,24 @@ import 'package:nexth/utils/preview_data_loader.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ItemCard extends StatelessWidget {
-  final ItemData _linkPreviewData;
+  final ItemData _itemData;
   final _shortDescription;
+  final String _dateString;
+  final String _host;
 
   ItemCard({required ItemData linkPreviewData})
-      : _linkPreviewData = linkPreviewData,
+      : _itemData = linkPreviewData,
+        _dateString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.dateAdded),
         _shortDescription =
-            PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 150);
+            PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 150),
+        _host = PreviewDataLoader.getHostFromUrl(linkPreviewData.url);
 
   @override
   Widget build(BuildContext context) {
     // Widget imageWidget = _linkPreviewData.image!;
-    Widget imageWidget = _linkPreviewData.imageProvider == null
+    Widget imageWidget = _itemData.imageProvider == null
         ? SpinKitCircle(color: Colors.blueAccent)
-        : ClipRRect(child: Image(image: _linkPreviewData.imageProvider!), borderRadius: BorderRadius.circular(8),);
+        : ClipRRect(child: Image(image: _itemData.imageProvider!), borderRadius: BorderRadius.circular(8),);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: GestureDetector (
@@ -32,21 +36,27 @@ class ItemCard extends StatelessWidget {
                 const SizedBox(height: 10),
                 ListTile(
                   title: Text(
-                    _linkPreviewData.title,
+                    _itemData.title,
                   ),
                   subtitle: Text(_shortDescription),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    TextButton(
-                      child: Text(Uri.parse(_linkPreviewData.url).host),
-                      onPressed: () {
-                        /* ... */
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        _dateString,
+                        style: TextStyle(color: Colors.grey[500]),
+                      ),
+                      TextButton(
+                        child: Text(_host),
+                        onPressed: () {
+                          /* ... */
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -57,7 +67,7 @@ class ItemCard extends StatelessWidget {
   }
 
   void launchUrl() async {
-    String url = _linkPreviewData.url;
+    String url = _itemData.url;
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -69,5 +79,5 @@ class ItemCard extends StatelessWidget {
     }
   }
 
-  ItemData get linkPreviewData => _linkPreviewData;
+  ItemData get linkPreviewData => _itemData;
 }

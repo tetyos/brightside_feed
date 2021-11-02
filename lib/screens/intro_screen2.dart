@@ -40,7 +40,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
         ),
         marginTitle: marginTitle,
         description:
-            "Here will find news on events, tech and other things that help to advance our society into a new era...",
+            "Here you will find news on events, tech and other things that help to advance our society into a new era...",
         centerWidget: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: ClipRRect(
@@ -97,8 +97,8 @@ class _IntroScreen2State extends State<IntroScreen2> {
         marginTitle: marginTitle,
         widgetDescription: Text(
           "Most of us are aware of the numerous challenges of today and the decades to come. "
-          "These challenges make it easy to overlook that we are also living in times that offer enormous possibilities."
-          //"These challenges make it easy to overlook that we are also living in times of rapid advances in many areas - which in turn offer enormous possibilities for our future."
+          "These challenges make it easy to overlook that we are also living in times that offer enormous possibilities for our future."
+          // "These challenges make it easy to overlook that we are also living in times of rapid advances in many areas - which in turn offer enormous possibilities for our future."
           "\n\nGoal of this project is to highlight the progress that our society makes everyday - a progress that is enabled by millions of people around the globe.",
           textAlign: TextAlign.justify,
           style: TextStyle(color: Colors.white, fontSize: 18.0),
@@ -139,14 +139,8 @@ class _IntroScreen2State extends State<IntroScreen2> {
   Widget build(BuildContext context) {
     return IntroSlider(
       slides: getSlides(),
-      onDonePress: () {
-        bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
-        if (!isDataLoading) {
-          Provider.of<AppState>(context, listen: false).currentRoutePath = NexthHomePath();
-        } else {
-          Provider.of<AppState>(context, listen: false).currentRoutePath = LoadingScreen2Path();
-        }
-      },
+      onDonePress: () => navigateToNextScreen(context),
+      onSkipPress: () => navigateToNextScreen(context),
       backgroundColorAllSlides: kColorPrimary,
     );
   }
@@ -155,5 +149,14 @@ class _IntroScreen2State extends State<IntroScreen2> {
   void dispose() {
     _youtubePlayerController.close();
     super.dispose();
+  }
+
+  void navigateToNextScreen(BuildContext context) {
+    bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
+    if (!isDataLoading) {
+      Provider.of<AppState>(context, listen: false).currentRoutePath = NexthHomePath();
+    } else {
+      Provider.of<AppState>(context, listen: false).currentRoutePath = LoadingScreen2Path();
+    }
   }
 }
