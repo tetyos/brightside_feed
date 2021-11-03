@@ -44,7 +44,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
         centerWidget: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.elliptical(300, 100)),
+            borderRadius: BorderRadius.all(Radius.elliptical(4000, 1200)),
             child: Image.asset( 'images/intro4.png',),
           ),
         ),

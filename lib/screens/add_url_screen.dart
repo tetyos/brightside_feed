@@ -36,7 +36,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFfafafa),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0),
           topRight: Radius.circular(20.0),
@@ -185,7 +185,7 @@ class PreviewPlaceHolderCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Card(
-        color: Constants.kColorGreyLight,
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(child: child),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/model/item_data.dart';
-import 'package:nexth/utils/constants.dart' as Constants;
 import 'package:nexth/utils/preview_data_loader.dart';
 
 class AddUrlPreviewCard extends StatelessWidget {
@@ -19,7 +18,7 @@ class AddUrlPreviewCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: Center(
         child: Card(
-          color: Constants.kColorGreyLight,
+          color: Colors.white,
           elevation: 3,
           child: Column(
             mainAxisSize: MainAxisSize.min,
