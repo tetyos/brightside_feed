@@ -7,6 +7,7 @@ import 'package:nexth/screens/intro_screen.dart';
 import 'package:nexth/screens/intro_screen2.dart';
 import 'package:nexth/screens/loading_screen1.dart';
 import 'package:nexth/screens/loading_screen2.dart';
+import 'package:nexth/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
@@ -43,6 +44,10 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
           if (_appState.currentRoutePath is IntroScreenPath)
             MaterialPage(
               child: IntroScreen2(),
+            ),
+          if (_appState.currentRoutePath is LoginScreenPath)
+            MaterialPage(
+              child: LoginScreen(),
             ),
           if (_appState.currentRoutePath is LoadingScreen1Path)
             MaterialPage(

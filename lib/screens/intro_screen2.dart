@@ -100,6 +100,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
           "These challenges make it easy to overlook that we are also living in times that offer enormous possibilities for our future."
           // "These challenges make it easy to overlook that we are also living in times of rapid advances in many areas - which in turn offer enormous possibilities for our future."
           "\n\nGoal of this project is to highlight the progress that our society makes everyday - a progress that is enabled by millions of people around the globe.",
+          // "\n\n'Some app name' highlights the progress that our society makes everyday. Hope behind that: If more people know what we are working for (and not only what we are fighting against), it may raise the chances of getting there.",
           textAlign: TextAlign.justify,
           style: TextStyle(color: Colors.white, fontSize: 18.0),
         ),

@@ -1,7 +1,10 @@
 import 'dart:convert' as Dart;
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:nexth/amplifyconfiguration.dart';
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/backend_connection/http_request_helper.dart';
 import 'package:nexth/model/basic_test_urls.dart';
@@ -31,7 +34,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   void initState() {
     super.initState();
     print("Initialising state");
-    _getInitialData();
+    _startupApp();
     print("Initialising state finished.");
   }
 
@@ -54,12 +57,14 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     );
   }
 
-  void _getInitialData() async {
-    List<Future<void>> minDelayAndLocalStorageFuture = [];
+  void _startupApp() async {
+    List<Future<void>> finishOnLoadingScreenFutures = [];
     Future<void> localStorageFuture = _loadDataFromLocalStorage();
     Future<void> minDelayFuture = Future.delayed(Duration(milliseconds: 1500));
-    minDelayAndLocalStorageFuture.add(localStorageFuture);
-    minDelayAndLocalStorageFuture.add(minDelayFuture);
+    Future<void> amplifyFuture = _configureAmplifyAndCheckLoginStatus();
+    finishOnLoadingScreenFutures.add(localStorageFuture);
+    finishOnLoadingScreenFutures.add(amplifyFuture);
+    finishOnLoadingScreenFutures.add(minDelayFuture);
 
     Future<void> dataLoadingFuture = localStorageFuture.then((_) => _loadInitialItems());
     // commend out above and uncomment to below to use hardcoded items
@@ -69,9 +74,36 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
       print("Loading initial data finished.");
     });
 
-    await Future.wait(minDelayAndLocalStorageFuture);
+    await Future.wait(finishOnLoadingScreenFutures);
     _navigateToNextScreen();
     print("Data from local storage loaded and min delay over.");
+  }
+
+  Future<void> _configureAmplifyAndCheckLoginStatus() async {
+    try {
+      // add Amplify plugins
+      AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
+      await Amplify.addPlugins([authPlugin]);
+
+      // configure Amplify
+      //
+      // note that Amplify cannot be configured more than once!
+      await Amplify.configure(amplifyconfig);
+
+    } catch (e) {
+      // todo improve error handling
+      print('An error occurred while configuring Amplify: $e');
+    }
+  }
+
+  Future<void> isLoggedIn() async {
+    // todo use method for correct navigation on startup
+    try {
+      AuthUser user = await Amplify.Auth.getCurrentUser();
+      //send user to dashboard
+    } on AuthException catch (e) {
+      //send user to login
+    }
   }
 
   /// For every item-list (home-list, categories, user-defined-lists, incubator) a small number of corresponding items is fetched from the backend. <br>
@@ -144,14 +176,16 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   void _navigateToNextScreen() {
     bool isShowIntro = Provider.of<AppState>(context, listen: false).isShowIntro;
     bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
-    NexthRoutePath newPath;
-    if (isShowIntro) {
-      newPath = IntroScreenPath();
-    } else if (isDataLoading) {
-      newPath = LoadingScreen2Path();
-    } else {
-      newPath = NexthHomePath();
-    }
+    // todo implement correct navigation
+    NexthRoutePath newPath = LoginScreenPath();
+    // if (isShowIntro) {
+    //   newPath = IntroScreenPath();
+    // } else if (isDataLoading) {
+    //   newPath = LoadingScreen2Path();
+    // } else {
+    //   newPath = NexthHomePath();
+    // }
+
     Provider.of<AppState>(context, listen: false).currentRoutePath = newPath;
   }
 }

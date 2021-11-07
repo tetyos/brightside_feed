@@ -12,21 +12,24 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
     }
     final uri = Uri.parse(routeInformation.location!);
 
-    if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'explore') {
-      return NexthExplorePath();
-    } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'incubator') {
-      return NexthIncubatorPath();
-    } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'loadingScreen1') {
-      return LoadingScreen1Path();
-    } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'loadingScreen2') {
-      return LoadingScreen2Path();
-    } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'introScreen') {
-      return IntroScreenPath();
-    } else if (uri.pathSegments.isNotEmpty && uri.pathSegments.first == 'home') {
-      return NexthHomePath();
-    } else {
-      return LoadingScreen1Path();
+    if (uri.pathSegments.isNotEmpty) {
+      if (uri.pathSegments.first == 'explore') {
+        return NexthExplorePath();
+      } else if (uri.pathSegments.first == 'incubator') {
+        return NexthIncubatorPath();
+      } else if (uri.pathSegments.first == 'loadingScreen1') {
+        return LoadingScreen1Path();
+      } else if (uri.pathSegments.first == 'loadingScreen2') {
+        return LoadingScreen2Path();
+      } else if (uri.pathSegments.first == 'introScreen') {
+        return IntroScreenPath();
+      } else if (uri.pathSegments.first == 'loginScreen') {
+        return LoginScreenPath();
+      } else if (uri.pathSegments.first == 'home') {
+        return NexthHomePath();
+      }
     }
+    return LoadingScreen1Path();
   }
 
   @override
@@ -48,6 +51,9 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
     }
     if (path is IntroScreenPath) {
       return RouteInformation(location: '/introScreen');
+    }
+    if (path is LoginScreenPath) {
+      return RouteInformation(location: '/loginScreen');
     }
     print("NOT GOOD, UNKNOWN PATH");
     // todo replace this with error page or something

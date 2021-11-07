@@ -32,3 +32,7 @@ class LoadingScreen2Path extends PreMainScreenPath {
 class IntroScreenPath extends PreMainScreenPath {
   const IntroScreenPath();
 }
+
+class LoginScreenPath extends PreMainScreenPath {
+  const LoginScreenPath();
+}
