@@ -36,3 +36,7 @@ class IntroScreenPath extends PreMainScreenPath {
 class LoginScreenPath extends PreMainScreenPath {
   const LoginScreenPath();
 }
+
+class ConfirmScreenPath extends LoginScreenPath {
+  const ConfirmScreenPath();
+}

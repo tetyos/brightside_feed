@@ -61,7 +61,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     List<Future<void>> finishOnLoadingScreenFutures = [];
     Future<void> localStorageFuture = _loadDataFromLocalStorage();
     Future<void> minDelayFuture = Future.delayed(Duration(milliseconds: 1500));
-    Future<void> amplifyFuture = _configureAmplifyAndCheckLoginStatus();
+    Future<void> amplifyFuture = _configureAmplifyAndUpdateLoginStatus();
     finishOnLoadingScreenFutures.add(localStorageFuture);
     finishOnLoadingScreenFutures.add(amplifyFuture);
     finishOnLoadingScreenFutures.add(minDelayFuture);
@@ -79,7 +79,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     print("Data from local storage loaded and min delay over.");
   }
 
-  Future<void> _configureAmplifyAndCheckLoginStatus() async {
+  Future<void> _configureAmplifyAndUpdateLoginStatus() async {
     try {
       // add Amplify plugins
       AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
@@ -89,20 +89,19 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
       //
       // note that Amplify cannot be configured more than once!
       await Amplify.configure(amplifyconfig);
-
+      await _retrieveLoginStatus();
     } catch (e) {
       // todo improve error handling
       print('An error occurred while configuring Amplify: $e');
     }
   }
 
-  Future<void> isLoggedIn() async {
-    // todo use method for correct navigation on startup
+  Future<void> _retrieveLoginStatus() async {
     try {
-      AuthUser user = await Amplify.Auth.getCurrentUser();
-      //send user to dashboard
-    } on AuthException catch (e) {
-      //send user to login
+      await Amplify.Auth.getCurrentUser();
+      Provider.of<AppState>(context, listen: false).isUserLoggedIn = true;
+    } on AuthException {
+      Provider.of<AppState>(context, listen: false).isUserLoggedIn = false;
     }
   }
 
@@ -176,15 +175,19 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   void _navigateToNextScreen() {
     bool isShowIntro = Provider.of<AppState>(context, listen: false).isShowIntro;
     bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
-    // todo implement correct navigation
-    NexthRoutePath newPath = LoginScreenPath();
-    // if (isShowIntro) {
-    //   newPath = IntroScreenPath();
-    // } else if (isDataLoading) {
-    //   newPath = LoadingScreen2Path();
-    // } else {
-    //   newPath = NexthHomePath();
-    // }
+    bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
+
+    NexthRoutePath newPath;
+    if (isShowIntro) {
+      newPath = IntroScreenPath();
+    } else if (!isUserLoggedIn) {
+      newPath = LoginScreenPath();
+    } else if (isDataLoading) {
+      return;
+      // if data is still loading, but intro and login are not necessary -> we want to stay on this screen
+    } else {
+      newPath = NexthHomePath();
+    }
 
     Provider.of<AppState>(context, listen: false).currentRoutePath = newPath;
   }

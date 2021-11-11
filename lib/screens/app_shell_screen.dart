@@ -1,3 +1,5 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/inner_route_delegate.dart';
@@ -5,6 +7,7 @@ import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/screens/add_url_screen.dart';
 import 'package:nexth/utils/constants.dart' as Constants;
 import 'package:nexth/utils/constants.dart';
+import 'package:nexth/utils/ui_utils.dart';
 import 'package:provider/provider.dart';
 
 class AppShellScreen extends StatefulWidget {
@@ -55,7 +58,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
                       appState.currentRoutePath = NexthExplorePath();
                     }),
                 BottomNavItem(icon: Icons.rule_outlined, currentlySelected: appState.currentRoutePath is NexthIncubatorPath, onPressed: () {appState.currentRoutePath = NexthIncubatorPath();}),
-                BottomNavItem(icon: Icons.person_outline, currentlySelected: false, onPressed: () {}),
+                BottomNavItem(icon: Icons.logout, currentlySelected: false, onPressed: () {logout(appState);}),
                 IconButton(icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)), onPressed: () {},),
               ],
             ),
@@ -79,6 +82,20 @@ class _AppShellScreenState extends State<AppShellScreen> {
         child: AddUrlScreen(),
       ),
     );
+  }
+
+  Future<void> logout(AppState appState) async {
+    if (!appState.isUserLoggedIn) {
+      UIUtils.showSnackBar("Already logged out.", context);
+      return;
+    }
+    try {
+      await Amplify.Auth.signOut();
+      appState.isUserLoggedIn = false;
+      appState.currentRoutePath = LoginScreenPath();
+    } on AuthException catch (e) {
+      UIUtils.showSnackBar(e.message, context);
+    }
   }
 }
 

@@ -25,6 +25,8 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
         return IntroScreenPath();
       } else if (uri.pathSegments.first == 'loginScreen') {
         return LoginScreenPath();
+      } else if (uri.pathSegments.first == 'confirmScreen') {
+        return ConfirmScreenPath();
       } else if (uri.pathSegments.first == 'home') {
         return NexthHomePath();
       }
@@ -54,6 +56,9 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
     }
     if (path is LoginScreenPath) {
       return RouteInformation(location: '/loginScreen');
+    }
+    if (path is ConfirmScreenPath) {
+      return RouteInformation(location: '/confirmScreen');
     }
     print("NOT GOOD, UNKNOWN PATH");
     // todo replace this with error page or something

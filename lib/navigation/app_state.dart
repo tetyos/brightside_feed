@@ -7,6 +7,8 @@ class AppState extends ChangeNotifier {
   NexthRoutePath _currentRoutePath = LoadingScreen1Path();
   int explorerScreenCurrentTab = 1;
   int numberOfUserDefinedTabs = 0;
+  String confirmLoginMail = "";
+  bool isUserLoggedIn = false;
 
   final GlobalKey recentScreenKey = GlobalKey();
   final GlobalKey incubatorScreenKey = GlobalKey();

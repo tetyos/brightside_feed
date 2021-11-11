@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/screens/app_shell_screen.dart';
-import 'package:nexth/screens/intro_screen.dart';
+import 'package:nexth/screens/confirm_screen.dart';
 import 'package:nexth/screens/intro_screen2.dart';
 import 'package:nexth/screens/loading_screen1.dart';
 import 'package:nexth/screens/loading_screen2.dart';
@@ -49,6 +49,10 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
             MaterialPage(
               child: LoginScreen(),
             ),
+          if (_appState.currentRoutePath is ConfirmScreenPath)
+            MaterialPage(
+              child: ConfirmScreen(),
+            ),
           if (_appState.currentRoutePath is LoadingScreen1Path)
             MaterialPage(
               child: LoadingScreen1(
@@ -64,6 +68,9 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
         onPopPage: (route, result) {
           if (!route.didPop(result)) {
             return false;
+          }
+          if (_appState.currentRoutePath is ConfirmScreenPath) {
+            _appState.currentRoutePath = LoginScreenPath();
           }
           notifyListeners();
           return true;
