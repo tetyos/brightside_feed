@@ -17,6 +17,12 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
         return NexthExplorePath();
       } else if (uri.pathSegments.first == 'incubator') {
         return NexthIncubatorPath();
+      } else if (uri.pathSegments.first == 'homeItemDetails') {
+        return HomeItemDetailsPath();
+       }else if (uri.pathSegments.first == 'exploreDetails') {
+        return ExploreItemDetailsPath();
+      } else if (uri.pathSegments.first == 'incubatorDetails') {
+        return IncubatorItemDetailsPath();
       } else if (uri.pathSegments.first == 'loadingScreen1') {
         return LoadingScreen1Path();
       } else if (uri.pathSegments.first == 'loadingScreen2') {
@@ -38,6 +44,15 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
   RouteInformation restoreRouteInformation(NexthRoutePath path) {
     if (path is NexthHomePath) {
       return RouteInformation(location: '/home');
+    }
+    if (path is HomeItemDetailsPath) {
+      return RouteInformation(location: '/homeItemDetails');
+    }
+    if (path is ExploreItemDetailsPath) {
+      return RouteInformation(location: '/exploreDetails');
+    }
+    if (path is IncubatorItemDetailsPath) {
+      return RouteInformation(location: '/incubatorDetails');
     }
     if (path is NexthExplorePath) {
       return RouteInformation(location: '/explore');

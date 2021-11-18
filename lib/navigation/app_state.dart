@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 
 class AppState extends ChangeNotifier {
@@ -9,6 +10,7 @@ class AppState extends ChangeNotifier {
   int numberOfUserDefinedTabs = 0;
   String confirmLoginMail = "";
   bool isUserLoggedIn = false;
+  ItemData? currentSelectedItem;
 
   final GlobalKey recentScreenKey = GlobalKey();
   final GlobalKey incubatorScreenKey = GlobalKey();

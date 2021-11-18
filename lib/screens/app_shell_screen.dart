@@ -27,6 +27,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
     return Consumer<AppState>(
       builder: (context, appState, child) {
         return Scaffold(
+          appBar: appState.currentRoutePath is ItemDetailsScreenPath ? AppBar(title: Text(appState.currentSelectedItem!.title),) : null,
           body: SafeArea(
             child: Router(
               routerDelegate: InnerRouterDelegate(),
@@ -81,7 +82,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
         heightFactor: MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.9 : 0.9,
         child: AddUrlScreen(),
       ),
-    );
+    ).whenComplete(() => setState((){}));
   }
 
   Future<void> logout(AppState appState) async {
