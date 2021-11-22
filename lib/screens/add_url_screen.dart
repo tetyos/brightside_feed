@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart' as LinkPreviewer;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:nexth/backend_connection/http_request_helper.dart';
+import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/components/add_url_preview_card.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/model_manager.dart';
@@ -94,7 +94,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
       UIUtils.showSnackBar("Please insert valid link", context);
     } else {
       _itemData!.itemCategory = _categorySelection;
-      bool successful = await HttpRequestHelper.postItem(Dart.jsonEncode(_itemData));
+      bool successful = await APIConnector.postItem(Dart.jsonEncode(_itemData));
       if (successful) {
         UIUtils.showSnackBar("Link added!", context);
       } else {

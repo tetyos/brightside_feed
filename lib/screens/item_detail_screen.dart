@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
@@ -65,43 +66,16 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(_itemData.title, style: TextStyle(fontSize: 16),),
-                SizedBox(height: 5),
                 if (_itemData.description != null) ...[
+                  SizedBox(height: 5),
                   Text(
                     _itemData.description!,
                     style: TextStyle(color: Color(0x8a000000), fontSize: 14),
                   )
                 ],
-                renderDivider(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Icon(Icons.remove_red_eye_outlined),
-                          SizedBox(width: 2),
-                          Text("4.505"),
-                        ],
-                      ),
-                    ),
-                    if (_itemData.itemCategory != null) ...[
-                      Icon(Icons.thumb_up_alt_outlined),
-                      SizedBox(width: 2),
-                      Text("120"),
-                      SizedBox(width: 5),
-                      Icon(Icons.whatshot_outlined),
-                      SizedBox(width: 2),
-                      Text("20"),
-                      SizedBox(width: 5),
-                      Icon(Icons.lightbulb_outline),
-                      SizedBox(width: 2),
-                      Text("20"),
-                    ],
-                  ],
-                ),
-                SizedBox(height: 15),
-                Text(_host, style: TextStyle(color: kColorPrimary, fontWeight: FontWeight.bold),),
                 SizedBox(height: 5),
+                Text(_host, style: TextStyle(color: kColorPrimary, fontWeight: FontWeight.bold),),
+                SizedBox(height: 10),
                 Row(
                   children: [
                     Expanded(
@@ -117,6 +91,8 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
                     ],
                   ],
                 ),
+                renderDivider(),
+                renderSocialIcons(),
               ],
             ),
           ),
@@ -150,8 +126,67 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
 
   Widget renderDivider() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Divider(color: Colors.black),
     );
   }
+
+  renderSocialIcons() {
+    return Row(
+      children: [
+        Expanded(
+          child: Row(
+            children: [
+              Icon(Icons.remove_red_eye_outlined),
+              SizedBox(width: 2),
+              Text("4.505"),
+            ],
+          ),
+        ),
+        RatingButton(id: _itemData.id!, icon: Icons.thumb_up_alt_outlined, jsonIdentifier: "upVote", numberOfRatings: _itemData.upVotes ?? 0),
+        SizedBox(width: 5),
+        RatingButton(id: _itemData.id!, icon: Icons.whatshot_outlined, jsonIdentifier: "impactNom", numberOfRatings: _itemData.impactNominations ?? 0),
+      ],
+    );
+  }
 }
+
+class RatingButton extends StatelessWidget {
+
+  final String id;
+  final IconData icon;
+  final String jsonIdentifier;
+  final int numberOfRatings;
+
+  RatingButton(
+      {required this.id,
+      required this.icon,
+      required this.jsonIdentifier,
+      required this.numberOfRatings});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: Colors.black,
+          ),
+          SizedBox(width: 2),
+          Text(
+            numberOfRatings.toString(),
+            style: TextStyle(color: Colors.black),
+          ),
+        ],
+      ),
+      onPressed: () => APIConnector.postRating(id, "upVote"),
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+    );
+  }
+}
+

@@ -1,5 +1,5 @@
 import 'package:nexth/backend_connection/database_query.dart';
-import 'package:nexth/backend_connection/http_request_helper.dart';
+import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/components/item_list_scroll_view.dart';
 import 'package:nexth/model/item_data.dart';
 
@@ -101,7 +101,7 @@ abstract class ItemListModel {
   }
 
   Future<void> requestMoreItemsFromDB() async {
-    List<ItemData> newItems = await HttpRequestHelper.getInitialDataSingleQuery(getMoreItemsDBQuery(items.last.dateAdded));
+    List<ItemData> newItems = await APIConnector.getInitialDataSingleQuery(getMoreItemsDBQuery(items.last.dateAdded));
     items.addAll(newItems);
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here
@@ -129,7 +129,7 @@ abstract class ItemListModel {
   }
 
   Future<void > executeRefresh() async {
-    List<ItemData> newItems = await HttpRequestHelper.getInitialDataSingleQuery(getDBQuery());
+    List<ItemData> newItems = await APIConnector.getInitialDataSingleQuery(getDBQuery());
     items = newItems;
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here

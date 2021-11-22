@@ -7,6 +7,7 @@ import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
 
 class ItemData {
+  String? id;
   String title;
   String? description;
   CachedNetworkImage? image;
@@ -15,6 +16,9 @@ class ItemData {
   String dateAdded;
   String? imageUrl;
   ItemCategory? itemCategory;
+
+  int? upVotes;
+  int? impactNominations;
 
   ItemData(
       {required this.url,
@@ -26,12 +30,15 @@ class ItemData {
         dateAdded = DateTime.now().toIso8601String();
 
   ItemData.fromJson(Map<String, dynamic> json)
-      : url = json['url'],
+      : id = json['_id'],
+        url = json['url'],
         dateAdded = json['dateAdded'],
         title = json['title'],
         description = json['description'],
         imageUrl = json['imageUrl'],
-        itemCategory = getItemCategoryFromString(json['itemCategory']);
+        itemCategory = getItemCategoryFromString(json['itemCategory']),
+        upVotes = json['upVotes'],
+        impactNominations = json['impactNoms'];
 
   Map<String, String?> toJson() => {
     'title': title,

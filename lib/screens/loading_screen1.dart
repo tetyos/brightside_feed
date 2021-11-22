@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/amplifyconfiguration.dart';
 import 'package:nexth/backend_connection/database_query.dart';
-import 'package:nexth/backend_connection/http_request_helper.dart';
+import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/model/basic_test_urls.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
@@ -128,7 +128,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     String queriesAsJson = Dart.jsonEncode(queries);
 
     // sent request
-    http.Response response = await HttpRequestHelper.getInitialData(queriesAsJson);
+    http.Response response = await APIConnector.getInitialData(queriesAsJson);
     if (response.statusCode != 200) {
       print("Items could not be loaded. Statuscode: ${response.statusCode}");
       print(response.body);
