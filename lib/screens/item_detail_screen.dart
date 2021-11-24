@@ -183,18 +183,29 @@ class _VoteButtonState extends State<VoteButton> {
       ),
       onPressed: () async {
         if (!loading) {
-          // instantly show vote, even though not yet processed.
+          // instantly display the change to vote, even though not yet processed by backend.
           // -> lag free UI.
-          widget.voteModel.numberOfRatings++;
-          widget.voteModel.voted = true;
+          bool isNewVote = !widget.voteModel.voted;
+          if (isNewVote) {
+            widget.voteModel.voted = true;
+            widget.voteModel.numberOfRatings++;
+          } else {
+            widget.voteModel.voted = false;
+            widget.voteModel.numberOfRatings--;
+          }
           setState(() {
             loading = true;
           });
-          APIConnector.postVote(widget.voteModel).then((voteSuccessful) {
+          APIConnector.postVote(widget.voteModel, isNewVote: isNewVote).then((voteSuccessful) {
             if (!voteSuccessful) {
-              // in case something went wrong, handle here.
-              widget.voteModel.numberOfRatings--;
-              widget.voteModel.voted = false;
+              // in case something went wrong, turn back preliminary ui changes.
+              if (isNewVote) {
+                widget.voteModel.voted = false;
+                widget.voteModel.numberOfRatings--;
+              } else {
+                widget.voteModel.voted = true;
+                widget.voteModel.numberOfRatings++;
+              }
               UIUtils.showSnackBar("Vote could not be processed. Check internet connection and retry.", context);
             }
             if (mounted) {

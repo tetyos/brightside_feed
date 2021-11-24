@@ -83,13 +83,13 @@ class APIConnector {
   }
 
   /// posts the given vote. returns true if successful.
-  static Future<bool> postVote(VoteModel model) async {
+  static Future<bool> postVote(VoteModel model, {required bool isNewVote}) async {
     // await Future.delayed(Duration(seconds: 10));
 
     Map<String, dynamic> payloadMap = {};
     payloadMap[API_Identifiers.postVoteItemId] = model.itemId;
     payloadMap[API_Identifiers.postVoteCategory] = model.voteCategory;
-    payloadMap[API_Identifiers.postVoteIncreaseAmount] = 1;
+    payloadMap[API_Identifiers.postVoteIncreaseAmount] = isNewVote ? 1 : -1;
     String payloadJson = Dart.jsonEncode(payloadMap);
 
     numberOfHttpRequests++;
