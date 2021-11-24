@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nexth/model/model_manager.dart';
+import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
+import 'package:nexth/model/vote_model.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
 
 class ItemData {
@@ -17,8 +19,8 @@ class ItemData {
   String? imageUrl;
   ItemCategory? itemCategory;
 
-  int? upVotes;
-  int? impactNominations;
+  UpVoteModel upVoteModel;
+  ImpactVoteModel impactVoteModel;
 
   ItemData(
       {required this.url,
@@ -27,7 +29,9 @@ class ItemData {
       this.imageUrl,
       this.itemCategory})
       : description = PreviewDataLoader.shortenDescriptionIfNecessary(description, 300),
-        dateAdded = DateTime.now().toIso8601String();
+        dateAdded = DateTime.now().toIso8601String(),
+        upVoteModel = UpVoteModel.empty(),
+        impactVoteModel = ImpactVoteModel.empty();
 
   ItemData.fromJson(Map<String, dynamic> json)
       : id = json['_id'],
@@ -37,8 +41,14 @@ class ItemData {
         description = json['description'],
         imageUrl = json['imageUrl'],
         itemCategory = getItemCategoryFromString(json['itemCategory']),
-        upVotes = json['upVotes'],
-        impactNominations = json['impactNoms'];
+        upVoteModel = UpVoteModel(
+            itemId: json['_id'],
+            numberOfRatings: json[APIKeys.totalUpVotes] ?? 0,
+            voted: json['hasVotedUp'] ?? false),
+        impactVoteModel = ImpactVoteModel(
+            itemId: json['_id'],
+            numberOfRatings: json[APIKeys.totalImpactVotes] ?? 0,
+            voted: json['hasVotedImpact'] ?? false);
 
   Map<String, String?> toJson() => {
     'title': title,

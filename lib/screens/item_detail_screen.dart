@@ -3,9 +3,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/model_manager.dart';
+import 'package:nexth/model/vote_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
+import 'package:nexth/utils/ui_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -143,26 +145,25 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
             ],
           ),
         ),
-        RatingButton(id: _itemData.id!, icon: Icons.thumb_up_alt_outlined, jsonIdentifier: "upVote", numberOfRatings: _itemData.upVotes ?? 0),
+        VoteButton(voteModel: _itemData.upVoteModel),
         SizedBox(width: 5),
-        RatingButton(id: _itemData.id!, icon: Icons.whatshot_outlined, jsonIdentifier: "impactNom", numberOfRatings: _itemData.impactNominations ?? 0),
+        VoteButton(voteModel: _itemData.impactVoteModel),
       ],
     );
   }
 }
 
-class RatingButton extends StatelessWidget {
+class VoteButton extends StatefulWidget {
+  final VoteModel voteModel;
 
-  final String id;
-  final IconData icon;
-  final String jsonIdentifier;
-  final int numberOfRatings;
+  VoteButton({required this.voteModel});
 
-  RatingButton(
-      {required this.id,
-      required this.icon,
-      required this.jsonIdentifier,
-      required this.numberOfRatings});
+  @override
+  State<VoteButton> createState() => _VoteButtonState();
+}
+
+class _VoteButtonState extends State<VoteButton> {
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -170,17 +171,40 @@ class RatingButton extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            icon,
-            color: Colors.black,
+            widget.voteModel.iconData,
+            color: widget.voteModel.voted ? null : Colors.black,
           ),
           SizedBox(width: 2),
           Text(
-            numberOfRatings.toString(),
-            style: TextStyle(color: Colors.black),
+            widget.voteModel.numberOfRatings.toString(),
+            style: widget.voteModel.voted ? null : TextStyle(color: Colors.black),
           ),
         ],
       ),
-      onPressed: () => APIConnector.postRating(id, "upVote"),
+      onPressed: () async {
+        if (!loading) {
+          // instantly show vote, even though not yet processed.
+          // -> lag free UI.
+          widget.voteModel.numberOfRatings++;
+          widget.voteModel.voted = true;
+          setState(() {
+            loading = true;
+          });
+          APIConnector.postVote(widget.voteModel).then((voteSuccessful) {
+            if (!voteSuccessful) {
+              // in case something went wrong, handle here.
+              widget.voteModel.numberOfRatings--;
+              widget.voteModel.voted = false;
+              UIUtils.showSnackBar("Vote could not be processed. Check internet connection and retry.", context);
+            }
+            if (mounted) {
+              setState(() {
+                loading = false;
+              });
+            }
+          });
+        }
+      },
       style: TextButton.styleFrom(
         padding: EdgeInsets.zero,
         minimumSize: Size.zero,

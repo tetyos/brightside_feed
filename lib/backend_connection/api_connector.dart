@@ -1,7 +1,9 @@
 import 'dart:convert' as Dart;
 import 'package:http/http.dart' as http;
+import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifiers;
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/vote_model.dart';
 
 class APIConnector {
   static int httpRequestThreshold = 100;
@@ -80,11 +82,14 @@ class APIConnector {
     return false;
   }
 
-  /// posts the given rating. returns true if successful.
-  static Future<bool> postRating(String id, String ratingType) async {
-    Map<String, String?> payloadMap = {};
-    payloadMap['itemId'] = id;
-    payloadMap[ratingType] = '1';
+  /// posts the given vote. returns true if successful.
+  static Future<bool> postVote(VoteModel model) async {
+    // await Future.delayed(Duration(seconds: 10));
+
+    Map<String, dynamic> payloadMap = {};
+    payloadMap[API_Identifiers.postVoteItemId] = model.itemId;
+    payloadMap[API_Identifiers.postVoteCategory] = model.voteCategory;
+    payloadMap[API_Identifiers.postVoteIncreaseAmount] = 1;
     String payloadJson = Dart.jsonEncode(payloadMap);
 
     numberOfHttpRequests++;
@@ -92,7 +97,7 @@ class APIConnector {
 
     try {
       http.Response response = await http.post(
-        Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_rating'),
+        Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_votes'),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
@@ -101,10 +106,10 @@ class APIConnector {
       if (response.statusCode == 200) {
         return true;
       }
-      print("Rating could not be posted. StatusCode: ${response.statusCode}");
+      print("Vote could not be processed. StatusCode: ${response.statusCode}");
       print(response.body);
     } catch (e) {
-      print("Rating could not be posted.");
+      print("Vote could not be processed.");
       print(e);
     }
     return false;
