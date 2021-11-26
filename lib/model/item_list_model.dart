@@ -101,7 +101,7 @@ abstract class ItemListModel {
   }
 
   Future<void> requestMoreItemsFromDB() async {
-    List<ItemData> newItems = await APIConnector.getInitialDataSingleQuery(getMoreItemsDBQuery(items.last.dateAdded));
+    List<ItemData> newItems = await APIConnector.getItems(getMoreItemsDBQuery(items.last.dateAdded));
     items.addAll(newItems);
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here
@@ -129,7 +129,7 @@ abstract class ItemListModel {
   }
 
   Future<void > executeRefresh() async {
-    List<ItemData> newItems = await APIConnector.getInitialDataSingleQuery(getDBQuery());
+    List<ItemData> newItems = await APIConnector.getItems(getDBQuery());
     items = newItems;
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here

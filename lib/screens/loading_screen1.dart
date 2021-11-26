@@ -142,11 +142,12 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     dynamic resultsForAllModels = Dart.jsonDecode(response.body);
     int currentModelNumber = 0;
     List<Future<void>> futures = [];
-    for (dynamic resultsForCurrentModel in resultsForAllModels) {
+    dynamic itemsMap = resultsForAllModels['items'];
+    for (dynamic itemIdsForCurrentModel in resultsForAllModels['queriesToItemIds']) {
       ItemListModel currentModel = modelsWithQueries.elementAt(currentModelNumber);
       List<ItemData> itemsForModel = [];
-      for (dynamic itemJson in resultsForCurrentModel) {
-        itemsForModel.add(ItemData.fromJson(itemJson));
+      for (dynamic itemId in itemIdsForCurrentModel) {
+        itemsForModel.add(ItemData.fromJson(itemsMap[itemId]));
       }
       futures.add(currentModel.prepareModel(itemsForModel));
       currentModelNumber++;
