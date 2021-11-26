@@ -182,6 +182,10 @@ class _VoteButtonState extends State<VoteButton> {
         ],
       ),
       onPressed: () async {
+        if (!Provider.of<AppState>(context, listen: false).isUserLoggedIn) {
+          UIUtils.showSnackBar("Log in to be able to vote on items.", context);
+          return;
+        }
         if (!loading) {
           // instantly display the change to vote, even though not yet processed by backend.
           // -> lag free UI.
@@ -196,7 +200,7 @@ class _VoteButtonState extends State<VoteButton> {
           setState(() {
             loading = true;
           });
-          APIConnector.postVote(widget.voteModel, isNewVote: isNewVote).then((voteSuccessful) {
+          APIConnector.postVote(widget.voteModel, isIncrease: isNewVote).then((voteSuccessful) {
             if (!voteSuccessful) {
               // in case something went wrong, turn back preliminary ui changes.
               if (isNewVote) {
@@ -206,6 +210,7 @@ class _VoteButtonState extends State<VoteButton> {
                 widget.voteModel.voted = true;
                 widget.voteModel.numberOfRatings++;
               }
+              // todo maybe differentiate between different errors here? at least if backend give status codes?
               UIUtils.showSnackBar("Vote could not be processed. Check internet connection and retry.", context);
             }
             if (mounted) {

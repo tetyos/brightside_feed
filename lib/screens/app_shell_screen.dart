@@ -70,6 +70,10 @@ class _AppShellScreenState extends State<AppShellScreen> {
   }
 
   void showAddUrlDialog() {
+    if (!Provider.of<AppState>(context, listen: false).isUserLoggedIn) {
+      UIUtils.showSnackBar("You need to log in, in order to add items.", context);
+      return;
+    }
     RootBackButtonDispatcher backButtonDispatcher =
     Router.of(context).backButtonDispatcher as RootBackButtonDispatcher;
     backButtonDispatcher.takePriority();
