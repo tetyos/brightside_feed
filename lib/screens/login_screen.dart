@@ -2,6 +2,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:provider/provider.dart';
@@ -22,8 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
         password: data.password,
       );
       Provider.of<AppState>(context, listen: false).isUserLoggedIn = true;
-      // AuthSession authSession = await Amplify.Auth.fetchAuthSession(options: CognitoSessionOptions(getAWSCredentials: true),);
+      await retrieveUserVotesIfNecessary();
       // AuthUser user = await Amplify.Auth.getCurrentUser();
+      // Provider.of<AppState>(context, listen: false).userData = user.userId;
+      // Provider.of<AppState>(context, listen: false).mail = user.username;
     } on AuthException catch (e) {
       return 'Log In Error: ' + e.toString();
     }
@@ -75,11 +78,11 @@ class _LoginScreenState extends State<LoginScreen> {
       onLogin: _signIn,
       onSignup: _registerUser,
       onSubmitAnimationCompleted: () {
-        bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
-        if (isDataLoading) {
-          Provider.of<AppState>(context, listen: false).currentRoutePath = LoadingScreen2Path();
+        AppState appState = Provider.of<AppState>(context, listen: false);
+        if (appState.isDataLoading) {
+          appState.currentRoutePath = LoadingScreen2Path();
         } else {
-          Provider.of<AppState>(context, listen: false).currentRoutePath = NexthHomePath();
+          appState.currentRoutePath = NexthHomePath();
         }
       },
       loginAfterSignUp: false,
@@ -110,11 +113,18 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Future<void> retrieveUserVotesIfNecessary() async {
+    if (!ModelManager.instance.isUserVotesRetrieved) {
+      await ModelManager.instance.retrieveUserVotes();
+    }
+  }
+
   Future<String?> socialLoginCallback(AuthProvider authProvider) async {
     try {
       // todo usage of return value necessary? no exception == login successful?
       await Amplify.Auth.signInWithWebUI(provider: authProvider);
       Provider.of<AppState>(context, listen: false).isUserLoggedIn = true;
+      await retrieveUserVotesIfNecessary();
       // AuthSession authSession = await Amplify.Auth.fetchAuthSession(options: CognitoSessionOptions(getAWSCredentials: true),);
       // AuthUser user = await Amplify.Auth.getCurrentUser();
       // print(authSession.isSignedIn);

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
+import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/model/home_list_model.dart';
+import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
 
 class ModelManager {
   static ModelManager _instance = ModelManager._();
   List<ItemListModel> allModels = [];
+  bool isUserVotesRetrieved = false;
 
   final ItemListModel homeModel = HomeListModel();
 
@@ -37,6 +41,32 @@ class ModelManager {
         return _foodItemList;
       case ItemCategory.other:
         return _otherItemList;
+    }
+  }
+
+  Future<void> retrieveUserVotes() async {
+    Set<String> allItemIds = {};
+    for (ItemListModel model in allModels) {
+      for (ItemData item in model.items) {
+        allItemIds.add(item.id!);
+      }
+    }
+    Map<String, dynamic> itemIdsToVoteData = await APIConnector.getUserVotes(allItemIds);
+    for (ItemListModel model in allModels) {
+      for (ItemData item in model.items) {
+        _updateVotesForItem(item, itemIdsToVoteData);
+      }
+    }
+    isUserVotesRetrieved = true;
+  }
+
+  void _updateVotesForItem(ItemData item, Map<String, dynamic> itemIdsToVoteData) {
+    Map<String, dynamic>? voteData = itemIdsToVoteData[item.id];
+    if (voteData != null) {
+      List<dynamic>? votesOnItem = voteData['votes'];
+      if (votesOnItem == null || votesOnItem.isEmpty) return;
+      item.upVoteModel.voted = votesOnItem.contains(APIKeys.postUpVote);
+      item.impactVoteModel.voted = votesOnItem.contains(APIKeys.postImpactVote);
     }
   }
 }

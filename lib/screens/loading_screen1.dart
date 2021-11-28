@@ -99,9 +99,10 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   Future<void> _retrieveLoginStatus() async {
     try {
       print("Checking login status. Ignore the following exception, if the user was not logged in.");
-      await Amplify.Auth.getCurrentUser();
+      AuthUser user = await Amplify.Auth.getCurrentUser();
       print("Login check complete. User logged in.");
       Provider.of<AppState>(context, listen: false).isUserLoggedIn = true;
+      // Provider.of<AppState>(context, listen: false).userData = ...;
     } on AuthException {
       print("Login check complete. User not logged in.");
       Provider.of<AppState>(context, listen: false).isUserLoggedIn = false;

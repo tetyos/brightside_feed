@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/screens/app_shell_screen.dart';
@@ -56,8 +57,11 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
           if (_appState.currentRoutePath is LoadingScreen1Path)
             MaterialPage(
               child: LoadingScreen1(
-                onDataLoaded: () {
+                onDataLoaded: () async {
                   _appState.isDataLoading = false;
+                  if (_appState.isUserLoggedIn && !ModelManager.instance.isUserVotesRetrieved) {
+                    await ModelManager.instance.retrieveUserVotes();
+                  }
                   if (_appState.currentRoutePath is LoadingScreen2Path) {
                     _appState.currentRoutePath = NexthHomePath();
                   }

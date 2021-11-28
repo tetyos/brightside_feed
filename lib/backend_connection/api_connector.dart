@@ -86,6 +86,42 @@ class APIConnector {
     return false;
   }
 
+  /// checks on which of the given items a user has voted on.
+  /// response is a map of json documents, containing the types of votes
+  static Future<Map<String, dynamic>> getUserVotes(Set<String> itemIds) async {
+    numberOfHttpRequests++;
+    if (numberOfHttpRequests > httpRequestThreshold) return {};
+
+    String itemIdsJson = Dart.jsonEncode(itemIds.toList());
+    try {
+      AuthSession res = await Amplify.Auth.fetchAuthSession(
+        options: CognitoSessionOptions(getAWSCredentials: true),
+      );
+      AWSCognitoUserPoolTokens userPoolTokens = (res as CognitoAuthSession).userPoolTokens!;
+
+      http.Response response = await http.post(
+        Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_votes'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': userPoolTokens.idToken,
+        },
+        body: itemIdsJson,
+      );
+      if (response.statusCode != 200) {
+        print("Votes could not be retrieved. Statuscode: ${response.statusCode}");
+        print(response.body);
+        return {};
+      }
+
+      Map<String, dynamic> userVotes = Dart.jsonDecode(response.body);
+      return userVotes;
+    } catch (e) {
+      print("Votes could not be retrieved.");
+      print(e);
+      return {};
+    }
+  }
+
   /// posts the given vote. returns true if successful.
   static Future<bool> postVote(VoteModel model, {required bool isIncrease}) async {
     // await Future.delayed(Duration(seconds: 10));
