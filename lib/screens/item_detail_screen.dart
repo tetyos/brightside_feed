@@ -24,6 +24,12 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
   late String _dateString;
   late String _host;
 
+  /// vote-requests can only be sent one after another to backend.
+  /// if two request would reach backend roughly at the same time, it can trigger a bug.
+  /// the second vote-request can override the first one (since both read 'no votes so far' and both insert a new one.
+  /// change to backend would be complicated -> so easy solution for -> wait for first request to finish.
+  bool isVoteProcessing = false;
+
 
   @override
   void initState() {
@@ -145,25 +151,60 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
             ],
           ),
         ),
-        VoteButton(voteModel: _itemData.upVoteModel),
+        VoteButton(voteModel: _itemData.upVoteModel, onPressed: onVoteCallback,),
         SizedBox(width: 5),
-        VoteButton(voteModel: _itemData.impactVoteModel),
+        VoteButton(voteModel: _itemData.impactVoteModel, onPressed: onVoteCallback,),
       ],
     );
   }
+
+  void onVoteCallback({required VoteModel voteModel}) async {
+    if (!Provider.of<AppState>(context, listen: false).isUserLoggedIn) {
+      UIUtils.showSnackBar("Log in to be able to vote on items.", context);
+      return;
+    }
+    if (!isVoteProcessing) {
+      // instantly display the change to vote, even though not yet processed by backend.
+      // -> lag free UI.
+      bool isNewVote = !voteModel.voted;
+      if (isNewVote) {
+        voteModel.voted = true;
+        voteModel.numberOfRatings++;
+      } else {
+        voteModel.voted = false;
+        voteModel.numberOfRatings--;
+      }
+      setState(() {
+        isVoteProcessing = true;
+      });
+      APIConnector.postVote(voteModel, isIncrease: isNewVote).then((voteSuccessful) {
+        if (!voteSuccessful) {
+          // in case something went wrong, turn back preliminary ui changes.
+          if (isNewVote) {
+            voteModel.voted = false;
+            voteModel.numberOfRatings--;
+          } else {
+            voteModel.voted = true;
+            voteModel.numberOfRatings++;
+          }
+          // todo maybe differentiate between different errors here? at least if backend give status codes?
+          UIUtils.showSnackBar("Vote could not be processed. Check internet connection and retry.", context);
+        }
+        if (mounted) {
+          setState(() {
+            isVoteProcessing = false;
+          });
+        }
+      });
+    }
+  }
 }
 
-class VoteButton extends StatefulWidget {
+class VoteButton extends StatelessWidget {
   final VoteModel voteModel;
+  final void Function({required VoteModel voteModel}) onPressed;
 
-  VoteButton({required this.voteModel});
-
-  @override
-  State<VoteButton> createState() => _VoteButtonState();
-}
-
-class _VoteButtonState extends State<VoteButton> {
-  bool loading = false;
+  VoteButton({required this.voteModel, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -171,56 +212,17 @@ class _VoteButtonState extends State<VoteButton> {
       child: Row(
         children: [
           Icon(
-            widget.voteModel.iconData,
-            color: widget.voteModel.voted ? null : Colors.black,
+            voteModel.iconData,
+            color: voteModel.voted ? null : Colors.black,
           ),
           SizedBox(width: 2),
           Text(
-            widget.voteModel.numberOfRatings.toString(),
-            style: widget.voteModel.voted ? null : TextStyle(color: Colors.black),
+            voteModel.numberOfRatings.toString(),
+            style: voteModel.voted ? null : TextStyle(color: Colors.black),
           ),
         ],
       ),
-      onPressed: () async {
-        if (!Provider.of<AppState>(context, listen: false).isUserLoggedIn) {
-          UIUtils.showSnackBar("Log in to be able to vote on items.", context);
-          return;
-        }
-        if (!loading) {
-          // instantly display the change to vote, even though not yet processed by backend.
-          // -> lag free UI.
-          bool isNewVote = !widget.voteModel.voted;
-          if (isNewVote) {
-            widget.voteModel.voted = true;
-            widget.voteModel.numberOfRatings++;
-          } else {
-            widget.voteModel.voted = false;
-            widget.voteModel.numberOfRatings--;
-          }
-          setState(() {
-            loading = true;
-          });
-          APIConnector.postVote(widget.voteModel, isIncrease: isNewVote).then((voteSuccessful) {
-            if (!voteSuccessful) {
-              // in case something went wrong, turn back preliminary ui changes.
-              if (isNewVote) {
-                widget.voteModel.voted = false;
-                widget.voteModel.numberOfRatings--;
-              } else {
-                widget.voteModel.voted = true;
-                widget.voteModel.numberOfRatings++;
-              }
-              // todo maybe differentiate between different errors here? at least if backend give status codes?
-              UIUtils.showSnackBar("Vote could not be processed. Check internet connection and retry.", context);
-            }
-            if (mounted) {
-              setState(() {
-                loading = false;
-              });
-            }
-          });
-        }
-      },
+      onPressed: () => onPressed(voteModel: voteModel),
       style: TextButton.styleFrom(
         padding: EdgeInsets.zero,
         minimumSize: Size.zero,
