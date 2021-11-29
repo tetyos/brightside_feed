@@ -1,7 +1,7 @@
 import 'package:nexth/backend_connection/database_query.dart';
-import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/components/item_list_scroll_view.dart';
 import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/model_manager.dart';
 
 /// The ItemListModel provides the basic functions for managing the model behind all item-lists.
 abstract class ItemListModel {
@@ -101,7 +101,7 @@ abstract class ItemListModel {
   }
 
   Future<void> requestMoreItemsFromDB() async {
-    List<ItemData> newItems = await APIConnector.getItems(getMoreItemsDBQuery(items.last.dateAdded));
+    List<ItemData> newItems = await ModelManager.instance.getItems(getMoreItemsDBQuery(items.last.dateAdded));
     items.addAll(newItems);
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here
@@ -129,7 +129,7 @@ abstract class ItemListModel {
   }
 
   Future<void > executeRefresh() async {
-    List<ItemData> newItems = await APIConnector.getItems(getDBQuery());
+    List<ItemData> newItems = await ModelManager.instance.getItems(getDBQuery());
     items = newItems;
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here

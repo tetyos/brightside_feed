@@ -144,11 +144,15 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     int currentModelNumber = 0;
     List<Future<void>> futures = [];
     dynamic itemsMap = resultsForAllModels['items'];
+    ModelManager.instance.addItemsFromJson(itemsMap);
     for (dynamic itemIdsForCurrentModel in resultsForAllModels['queriesToItemIds']) {
       ItemListModel currentModel = modelsWithQueries.elementAt(currentModelNumber);
       List<ItemData> itemsForModel = [];
       for (dynamic itemId in itemIdsForCurrentModel) {
-        itemsForModel.add(ItemData.fromJson(itemsMap[itemId]));
+        ItemData? itemData = ModelManager.instance.allItems[itemId];
+        if (itemData != null) {
+          itemsForModel.add(itemData);
+        }
       }
       futures.add(currentModel.prepareModel(itemsForModel));
       currentModelNumber++;

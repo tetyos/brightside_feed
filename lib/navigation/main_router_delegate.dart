@@ -58,10 +58,10 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
             MaterialPage(
               child: LoadingScreen1(
                 onDataLoaded: () async {
-                  _appState.isDataLoading = false;
                   if (_appState.isUserLoggedIn && !ModelManager.instance.isUserVotesRetrieved) {
                     await ModelManager.instance.retrieveUserVotes();
                   }
+                  _appState.isDataLoading = false;
                   if (_appState.currentRoutePath is LoadingScreen2Path) {
                     _appState.currentRoutePath = NexthHomePath();
                   }

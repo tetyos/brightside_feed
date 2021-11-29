@@ -9,7 +9,7 @@ import 'package:nexth/model/vote_model.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
 
 class ItemData {
-  String? id;
+  String id;
   String title;
   String? description;
   CachedNetworkImage? image;
@@ -28,7 +28,8 @@ class ItemData {
       String? description,
       this.imageUrl,
       this.itemCategory})
-      : description = PreviewDataLoader.shortenDescriptionIfNecessary(description, 300),
+      : id = "",
+        description = PreviewDataLoader.shortenDescriptionIfNecessary(description, 300),
         dateAdded = DateTime.now().toIso8601String(),
         upVoteModel = UpVoteModel.empty(),
         impactVoteModel = ImpactVoteModel.empty();

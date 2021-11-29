@@ -4,7 +4,6 @@ import 'package:amplify_flutter/amplify.dart';
 import 'package:http/http.dart' as http;
 import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifiers;
 import 'package:nexth/backend_connection/database_query.dart';
-import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/vote_model.dart';
 
 class APIConnector {
@@ -26,7 +25,7 @@ class APIConnector {
     return response;
   }
 
-  static Future<List<ItemData>> getItems(DatabaseQuery query) async {
+  static Future<List<dynamic>> getItems(DatabaseQuery query) async {
     numberOfHttpRequests++;
     if (numberOfHttpRequests > httpRequestThreshold) return [];
     String queriesAsJson = Dart.jsonEncode(query);
@@ -46,13 +45,8 @@ class APIConnector {
       return [];
     }
 
-    // parse results and init models
-    List<ItemData> returnedItems = [];
     List<dynamic> resultsForQuery = Dart.jsonDecode(response.body);
-    for (dynamic itemJson in resultsForQuery) {
-      returnedItems.add(ItemData.fromJson(itemJson));
-    }
-    return returnedItems;
+    return resultsForQuery;
   }
 
   /// posts the given item. returns true if successful.

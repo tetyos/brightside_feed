@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
 import 'package:nexth/backend_connection/api_connector.dart';
+import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/model/home_list_model.dart';
 import 'package:nexth/model/item_data.dart';
@@ -8,6 +9,7 @@ import 'package:nexth/model/item_list_model.dart';
 
 class ModelManager {
   static ModelManager _instance = ModelManager._();
+  Map<String, ItemData> allItems = {};
   List<ItemListModel> allModels = [];
   bool isUserVotesRetrieved = false;
 
@@ -44,11 +46,28 @@ class ModelManager {
     }
   }
 
+  void addItemsFromJson(Map<String, dynamic> itemsMap) {
+    for (MapEntry<String, dynamic> entry in itemsMap.entries) {
+      allItems[entry.key] = ItemData.fromJson(entry.value);
+    }
+  }
+
+  Future<List<ItemData>> getItems(DatabaseQuery moreItemsDBQuery) async {
+    List<dynamic> resultsForQuery = await APIConnector.getItems(moreItemsDBQuery);
+    List<ItemData> newItems = [];
+    for (dynamic itemJson in resultsForQuery) {
+      ItemData newItem = ItemData.fromJson(itemJson);
+      allItems[newItem.id] = newItem;
+      newItems.add(ItemData.fromJson(itemJson));
+    }
+    return newItems;
+  }
+
   Future<void> retrieveUserVotes() async {
     Set<String> allItemIds = {};
     for (ItemListModel model in allModels) {
       for (ItemData item in model.items) {
-        allItemIds.add(item.id!);
+        allItemIds.add(item.id);
       }
     }
     Map<String, dynamic> itemIdsToVoteData = await APIConnector.getUserVotes(allItemIds);
