@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nexth/components/item_card.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/navigation/app_state.dart';
+import 'package:provider/provider.dart';
 
 /// Creates a scroll view from the given [ItemListModel]. <br>
 /// The [ItemListScrollView] automatically notifies the [ItemListModel], if new items need to be loaded.<br>
@@ -114,7 +116,8 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
 
     // initially only few items and images are preloaded, so loading times are short. Some ItemListModel don't preload items/images at all.
     // Hence, we need to load more data here.
-    itemListModel.assureMinNumberOfItems().then((_) {
+    bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
+    itemListModel.assureMinNumberOfItems(isUserLoggedIn).then((_) {
       if (mounted) {
         setState(() {
           isFetchingItemData = false;
@@ -140,7 +143,8 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
   Future<void> _requestMoreItemsFromDBIfNecessary() async {
     if (!isFetchingItemData && itemListModel.hasNotEnoughItemsLeft()) {
       setState(() => isFetchingItemData = true);
-      await itemListModel.requestMoreItemsFromDB();
+      bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
+      await itemListModel.requestMoreItemsFromDB(isUserLoggedIn);
       _loadMoreItems();
 
       if (mounted) {
@@ -160,7 +164,9 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
     }
     isFetchingItemData = true;
     isLoadingImages = true;
-    await itemListModel.executeRefresh();
+
+    bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
+    await itemListModel.executeRefresh(isUserLoggedIn);
     if (mounted) {
       setState(() {
         isFetchingItemData = false;

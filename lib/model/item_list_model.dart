@@ -49,9 +49,9 @@ abstract class ItemListModel {
 
   /// Method checks if the min number of items has been requested and the min number of images is loaded.
   /// If not, it loads them.
-  Future<void> assureMinNumberOfItems() async {
+  Future<void> assureMinNumberOfItems(bool isUserLoggedIn) async {
     if (_moreItemsAvailable && items.length < minNumberOfItems) {
-      await requestMoreItemsFromDB();
+      await requestMoreItemsFromDB(isUserLoggedIn);
     }
     // during initialization of an ItemListScrollView it can happen that no images have been preloaded (if no items had been requested so far)
     // => do it now
@@ -100,8 +100,8 @@ abstract class ItemListModel {
     fullyLoadedItems = itemsToLoad;
   }
 
-  Future<void> requestMoreItemsFromDB() async {
-    List<ItemData> newItems = await ModelManager.instance.getItems(getMoreItemsDBQuery(items.last.dateAdded));
+  Future<void> requestMoreItemsFromDB(bool isUserLoggedIn) async {
+    List<ItemData> newItems = await ModelManager.instance.getItems(getMoreItemsDBQuery(items.last.dateAdded), isUserLoggedIn);
     items.addAll(newItems);
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here
@@ -128,8 +128,8 @@ abstract class ItemListModel {
     return _moreItemsAvailable && isNotEnoughItemsLeft;
   }
 
-  Future<void > executeRefresh() async {
-    List<ItemData> newItems = await ModelManager.instance.getItems(getDBQuery());
+  Future<void > executeRefresh(bool isUserLoggedIn) async {
+    List<ItemData> newItems = await ModelManager.instance.getItems(getDBQuery(), isUserLoggedIn);
     items = newItems;
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here

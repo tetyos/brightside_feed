@@ -52,13 +52,19 @@ class ModelManager {
     }
   }
 
-  Future<List<ItemData>> getItems(DatabaseQuery moreItemsDBQuery) async {
-    List<dynamic> resultsForQuery = await APIConnector.getItems(moreItemsDBQuery);
+  Future<List<ItemData>> getItems(DatabaseQuery moreItemsDBQuery, bool isUserLoggedIn) async {
+    List<dynamic> resultsForQuery = await APIConnector.getItems(moreItemsDBQuery, isUserLoggedIn);
     List<ItemData> newItems = [];
     for (dynamic itemJson in resultsForQuery) {
-      ItemData newItem = ItemData.fromJson(itemJson);
-      allItems[newItem.id] = newItem;
-      newItems.add(ItemData.fromJson(itemJson));
+      String itemId = itemJson[APIKeys.itemId];
+      ItemData? oldItem = allItems[itemId];
+      ItemData newItem;
+      if (oldItem != null) {
+        newItem = oldItem.update(itemJson);
+      } else {
+        newItem = ItemData.fromJson(itemJson);
+      }
+      newItems.add(newItem);
     }
     return newItems;
   }
@@ -82,7 +88,7 @@ class ModelManager {
   void _updateVotesForItem(ItemData item, Map<String, dynamic> itemIdsToVoteData) {
     Map<String, dynamic>? voteData = itemIdsToVoteData[item.id];
     if (voteData != null) {
-      List<dynamic>? votesOnItem = voteData['votes'];
+      List<dynamic>? votesOnItem = voteData[APIKeys.votesArray];
       if (votesOnItem == null || votesOnItem.isEmpty) return;
       item.upVoteModel.voted = votesOnItem.contains(APIKeys.postUpVote);
       item.impactVoteModel.voted = votesOnItem.contains(APIKeys.postImpactVote);

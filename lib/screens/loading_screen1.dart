@@ -1,7 +1,6 @@
 import 'dart:convert' as Dart;
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/amplifyconfiguration.dart';
@@ -59,14 +58,17 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
 
   void _startupApp() async {
     List<Future<void>> finishOnLoadingScreenFutures = [];
+    List<Future<void>> finishBeforeLoadingInitItemsFutures = [];
     Future<void> localStorageFuture = _loadDataFromLocalStorage();
-    Future<void> minDelayFuture = Future.delayed(Duration(milliseconds: 1500));
     Future<void> amplifyFuture = _configureAmplifyAndUpdateLoginStatus();
+    Future<void> minDelayFuture = Future.delayed(Duration(milliseconds: 1500));
     finishOnLoadingScreenFutures.add(localStorageFuture);
     finishOnLoadingScreenFutures.add(amplifyFuture);
     finishOnLoadingScreenFutures.add(minDelayFuture);
+    finishBeforeLoadingInitItemsFutures.add(localStorageFuture);
+    finishBeforeLoadingInitItemsFutures.add(amplifyFuture);
 
-    Future<void> dataLoadingFuture = localStorageFuture.then((_) => _loadInitialItems());
+    Future<void> dataLoadingFuture = Future.wait(finishBeforeLoadingInitItemsFutures).then((_) => _loadInitialItems());
     // commend out above and uncomment to below to use hardcoded items
     // Future<void> dataLoadingFuture = localStorageFuture.then((_) => _loadInitialHardcodedItems());
     dataLoadingFuture.then((_) {
@@ -132,15 +134,13 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     String queriesAsJson = Dart.jsonEncode(queries);
 
     // sent request
-    http.Response response = await APIConnector.getInitialData(queriesAsJson);
-    if (response.statusCode != 200) {
-      print("Items could not be loaded. Statuscode: ${response.statusCode}");
-      print(response.body);
+    bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
+    dynamic resultsForAllModels = await APIConnector.getInitialData(queriesAsJson, isUserLoggedIn);
+    if (resultsForAllModels == null) {
       return;
     }
 
     // parse results and init models
-    dynamic resultsForAllModels = Dart.jsonDecode(response.body);
     int currentModelNumber = 0;
     List<Future<void>> futures = [];
     dynamic itemsMap = resultsForAllModels['items'];

@@ -11,42 +11,74 @@ class APIConnector {
   static int numberOfHttpRequests = 0;
 
 
-  static Future<http.Response> getInitialData(String allQueriesJson) async {
+  static Future<dynamic> getInitialData(String allQueriesJson, bool isUserLoggedIn) async {
     numberOfHttpRequests++;
-    if (numberOfHttpRequests > httpRequestThreshold) return http.Response("To many http requests", 400);
+    if (numberOfHttpRequests > httpRequestThreshold) return null;
 
-    http.Response response = await http.post(
-      Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_init_data'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: allQueriesJson,
-    );
-    return response;
+    try {
+      http.Response response;
+      if (isUserLoggedIn) {
+        response = await httpPostAuthorized(
+            Uri.parse(
+                'https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_init_data_authorized'),
+            allQueriesJson);
+      } else {
+        response = await http.post(
+          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_init_data'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: allQueriesJson,
+        );
+      }
+      if (response.statusCode != 200) {
+        print("Items could not be loaded. Statuscode: ${response.statusCode}");
+        print(response.body);
+        return null;
+      }
+      return Dart.jsonDecode(response.body);
+    } catch (e) {
+      print("Items could not be loaded.");
+      print(e);
+      return null;
+    }
   }
 
-  static Future<List<dynamic>> getItems(DatabaseQuery query) async {
+  static Future<List<dynamic>> getItems(DatabaseQuery query, bool isUserLoggedIn) async {
     numberOfHttpRequests++;
     if (numberOfHttpRequests > httpRequestThreshold) return [];
     String queriesAsJson = Dart.jsonEncode(query);
 
-    http.Response response = await http.post(
-      Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_items'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: queriesAsJson,
-    );
+    try {
+      http.Response response;
+      if (isUserLoggedIn) {
+        response = await httpPostAuthorized(
+            Uri.parse(
+                'https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_items_authorized'),
+            queriesAsJson);
+      } else {
+        response = await http.post(
+          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_items'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: queriesAsJson,
+        );
+      }
 
+      if (response.statusCode != 200) {
+        print("Items could not be loaded. Statuscode: ${response.statusCode}");
+        print(response.body);
+        return [];
+      }
 
-    if (response.statusCode != 200) {
-      print("Items could not be loaded. Statuscode: ${response.statusCode}");
-      print(response.body);
+      List<dynamic> resultsForQuery = Dart.jsonDecode(response.body);
+      return resultsForQuery;
+    } catch (e) {
+      print("Items could not be loaded.");
+      print(e);
       return [];
     }
-
-    List<dynamic> resultsForQuery = Dart.jsonDecode(response.body);
-    return resultsForQuery;
   }
 
   /// posts the given item. returns true if successful.
@@ -55,19 +87,9 @@ class APIConnector {
     if (numberOfHttpRequests > httpRequestThreshold) return false;
 
     try {
-      AuthSession res = await Amplify.Auth.fetchAuthSession(
-        options: CognitoSessionOptions(getAWSCredentials: true),
-      );
-      AWSCognitoUserPoolTokens userPoolTokens = (res as CognitoAuthSession).userPoolTokens!;
-
-      http.Response response = await http.post(
-        Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_item'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': userPoolTokens.idToken,
-        },
-        body: itemAsJson,
-      );
+      http.Response response = await httpPostAuthorized(
+          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_item'),
+          itemAsJson);
       if (response.statusCode == 200) {
         return true;
       }
@@ -88,19 +110,9 @@ class APIConnector {
 
     String itemIdsJson = Dart.jsonEncode(itemIds.toList());
     try {
-      AuthSession res = await Amplify.Auth.fetchAuthSession(
-        options: CognitoSessionOptions(getAWSCredentials: true),
-      );
-      AWSCognitoUserPoolTokens userPoolTokens = (res as CognitoAuthSession).userPoolTokens!;
-
-      http.Response response = await http.post(
-        Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_votes'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': userPoolTokens.idToken,
-        },
-        body: itemIdsJson,
-      );
+      http.Response response = await httpPostAuthorized(
+          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_votes'),
+          itemIdsJson);
       if (response.statusCode != 200) {
         print("Votes could not be retrieved. Statuscode: ${response.statusCode}");
         print(response.body);
@@ -129,19 +141,9 @@ class APIConnector {
     String payloadJson = Dart.jsonEncode(payloadMap);
 
     try {
-      AuthSession res = await Amplify.Auth.fetchAuthSession(
-        options: CognitoSessionOptions(getAWSCredentials: true),
-      );
-      AWSCognitoUserPoolTokens userPoolTokens = (res as CognitoAuthSession).userPoolTokens!;
-
-      http.Response response = await http.post(
-        Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_votes'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': userPoolTokens.idToken,
-        },
-        body: payloadJson,
-      );
+      http.Response response = await httpPostAuthorized(
+          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_votes'),
+          payloadJson);
       if (response.statusCode == 200) {
         return true;
       }
@@ -152,5 +154,22 @@ class APIConnector {
       print(e);
     }
     return false;
+  }
+
+  static Future<http.Response> httpPostAuthorized(Uri uri, String bodyString) async {
+    AuthSession res = await Amplify.Auth.fetchAuthSession(
+      options: CognitoSessionOptions(getAWSCredentials: true),
+    );
+    AWSCognitoUserPoolTokens userPoolTokens = (res as CognitoAuthSession).userPoolTokens!;
+
+    http.Response response = await http.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': userPoolTokens.idToken,
+      },
+      body: bodyString,
+    );
+    return response;
   }
 }

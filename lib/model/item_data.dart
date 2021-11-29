@@ -35,7 +35,7 @@ class ItemData {
         impactVoteModel = ImpactVoteModel.empty();
 
   ItemData.fromJson(Map<String, dynamic> json)
-      : id = json['_id'],
+      : id = json[APIKeys.itemId],
         url = json['url'],
         dateAdded = json['dateAdded'],
         title = json['title'],
@@ -43,13 +43,39 @@ class ItemData {
         imageUrl = json['imageUrl'],
         itemCategory = getItemCategoryFromString(json['itemCategory']),
         upVoteModel = UpVoteModel(
-            itemId: json['_id'],
+            itemId: json[APIKeys.itemId],
             numberOfRatings: json[APIKeys.totalUpVotes] ?? 0,
-            voted: json['hasVotedUp'] ?? false),
+            voted: false),
         impactVoteModel = ImpactVoteModel(
-            itemId: json['_id'],
+            itemId: json[APIKeys.itemId],
             numberOfRatings: json[APIKeys.totalImpactVotes] ?? 0,
-            voted: json['hasVotedImpact'] ?? false);
+            voted: false) {
+    List<dynamic>? userVotesArray = json['userVotes'];
+    if (userVotesArray != null) {
+      upVoteModel.voted = userVotesArray.contains(APIKeys.postUpVote);
+      impactVoteModel.voted = userVotesArray.contains(APIKeys.postImpactVote);
+    }
+  }
+
+  ItemData update(Map<String, dynamic> newJson) {
+    url = newJson['url'];
+    dateAdded = newJson['dateAdded'];
+    title = newJson['title'];
+    description = newJson['description'];
+    imageUrl = newJson['imageUrl'];
+    itemCategory = getItemCategoryFromString(newJson['itemCategory']);
+    upVoteModel.numberOfRatings = newJson[APIKeys.totalUpVotes] ?? 0;
+    impactVoteModel.numberOfRatings = newJson[APIKeys.totalImpactVotes] ?? 0;
+    List<dynamic>? userVotesArray = newJson['userVotes'];
+    if (userVotesArray != null) {
+      upVoteModel.voted = userVotesArray.contains(APIKeys.postUpVote);
+      impactVoteModel.voted = userVotesArray.contains(APIKeys.postImpactVote);
+    } else {
+      upVoteModel.voted = false;
+      impactVoteModel.voted = false;
+    }
+    return this;
+  }
 
   Map<String, String?> toJson() => {
     'title': title,
