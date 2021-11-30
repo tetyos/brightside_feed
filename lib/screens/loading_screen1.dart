@@ -57,20 +57,23 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   }
 
   void _startupApp() async {
-    List<Future<void>> finishOnLoadingScreenFutures = [];
-    List<Future<void>> finishBeforeLoadingInitItemsFutures = [];
     Future<void> localStorageFuture = _loadDataFromLocalStorage();
     Future<void> amplifyFuture = _configureAmplifyAndUpdateLoginStatus();
     Future<void> minDelayFuture = Future.delayed(Duration(milliseconds: 1500));
+
+    List<Future<void>> finishOnLoadingScreenFutures = [];
+    List<Future<void>> finishBeforeLoadingInitItemsFutures = [];
+
     finishOnLoadingScreenFutures.add(localStorageFuture);
     finishOnLoadingScreenFutures.add(amplifyFuture);
     finishOnLoadingScreenFutures.add(minDelayFuture);
+
     finishBeforeLoadingInitItemsFutures.add(localStorageFuture);
     finishBeforeLoadingInitItemsFutures.add(amplifyFuture);
 
     Future<void> dataLoadingFuture = Future.wait(finishBeforeLoadingInitItemsFutures).then((_) => _loadInitialItems());
     // commend out above and uncomment to below to use hardcoded items
-    // Future<void> dataLoadingFuture = localStorageFuture.then((_) => _loadInitialHardcodedItems());
+    // Future<void> dataLoadingFuture = Future.wait(finishBeforeLoadingInitItemsFutures).then((_) => _loadInitialHardcodedItems());
     dataLoadingFuture.then((_) {
       widget.onDataLoaded();
       print("Loading initial data finished.");
@@ -135,6 +138,9 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
 
     // sent request
     bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
+    if (isUserLoggedIn) {
+      ModelManager.instance.isUserVotesRetrieved = true;
+    }
     dynamic resultsForAllModels = await APIConnector.getInitialData(queriesAsJson, isUserLoggedIn);
     if (resultsForAllModels == null) {
       return;
