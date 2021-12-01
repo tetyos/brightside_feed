@@ -123,15 +123,13 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   Future<void> _loadInitialItems() async {
     ModelManager modelManager = ModelManager.instance;
     List<ItemListModel> modelsWithQueries = [];
-    modelsWithQueries.addAll(modelManager.allModels);
 
     // built queryJson from all models that need to be queried
     List<DatabaseQuery> queries = [];
     for (ItemListModel currentModel in modelManager.allModels) {
       DatabaseQuery? databaseQuery = currentModel.getDBQueryForInitialization();
-      if (databaseQuery == null) {
-        modelsWithQueries.remove(currentModel);
-      } else {
+      if (databaseQuery != null) {
+        modelsWithQueries.add(currentModel);
         queries.add(databaseQuery);
       }
     }

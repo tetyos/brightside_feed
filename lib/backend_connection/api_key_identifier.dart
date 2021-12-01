@@ -5,6 +5,10 @@
 // Item Model
 const String itemId = "_id";
 
+// SearchQuery:
+
+const String searchQuery_SortBy_DateAdded = 'dateAdded';
+
 // Voting Model
 const String votesArray = 'votes';
 

@@ -3,6 +3,7 @@ import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/model/home_list_model.dart';
+import 'package:nexth/model/incubator_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
 
@@ -13,6 +14,8 @@ class ModelManager {
   bool isUserVotesRetrieved = false;
 
   final ItemListModel homeModel = HomeListModel();
+  final ItemListModel inc1IncubatorModel = IncubatorListModel(incubatorType: IncubatorType.inc1);
+  final ItemListModel unsafeIncubatorModel = IncubatorListModel(incubatorType: IncubatorType.unsafe);
 
   // category item lists
   ItemListModel _energyItemList = CategoryListModel(itemCategory: ItemCategory.energy);
@@ -25,7 +28,7 @@ class ModelManager {
   static ModelManager get instance => _instance;
 
   ModelManager._() {
-    allModels.addAll([homeModel, _energyItemList, _informationItemList, _healthItemList, _mobilityItemList, _foodItemList, _otherItemList]);
+    allModels.addAll([homeModel, inc1IncubatorModel, unsafeIncubatorModel, _energyItemList, _informationItemList, _healthItemList, _mobilityItemList, _foodItemList, _otherItemList]);
   }
 
   ItemListModel getModelForCategory(ItemCategory itemCategory) {

@@ -26,7 +26,7 @@ abstract class ItemListModel {
   /// The number of items a model requests, when request is executed standalone (aka. not during initialization)
   final int numberOfItemsToRequest = 25;
 
-  bool _moreItemsAvailable = false;
+  bool _moreItemsAvailable = true;
   int _numberOfImagesCurrentlyLoading = 0;
 
   DatabaseQuery? getDBQueryForInitialization();
@@ -101,7 +101,8 @@ abstract class ItemListModel {
   }
 
   Future<void> requestMoreItemsFromDB(bool isUserLoggedIn) async {
-    List<ItemData> newItems = await ModelManager.instance.getItems(getMoreItemsDBQuery(items.last.dateAdded), isUserLoggedIn);
+    DatabaseQuery dbQuery = items.length > 0 ? getMoreItemsDBQuery(items.last.dateAdded) : getDBQuery();
+    List<ItemData> newItems = await ModelManager.instance.getItems(dbQuery, isUserLoggedIn);
     items.addAll(newItems);
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here

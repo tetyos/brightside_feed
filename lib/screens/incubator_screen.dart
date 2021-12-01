@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/item_list_scroll_view.dart';
-import 'package:nexth/model/category_list_model.dart';
+import 'package:nexth/model/incubator_list_model.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/utils/constants.dart';
@@ -35,14 +35,14 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
                 child: Row(children: [
                   Icon(Icons.people_alt_outlined),
                   SizedBox(width: 5),
-                  Text('Crowdsourced')
+                  Text('New items')
                 ]),
               ),
               Tab(
                 child: Row(children: [
                   Icon(Icons.travel_explore_outlined),
                   SizedBox(width: 5),
-                  Text('Scraped')
+                  Text('New items (unknown host)')
                 ]),
               ),
             ],
@@ -57,12 +57,12 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
             physics: CustomPageViewScrollPhysics(),
             children: [
               IncubatorScrollView(
-                incubatorType: IncubatorType.manual,
-                key: PageStorageKey<String>(IncubatorType.manual.toString()),
+                incubatorType: IncubatorType.inc1,
+                key: PageStorageKey<String>(IncubatorType.inc1.toString()),
               ),
               IncubatorScrollView(
-                incubatorType: IncubatorType.scraped,
-                key: PageStorageKey<String>(IncubatorType.scraped.toString()),
+                incubatorType: IncubatorType.unsafe,
+                key: PageStorageKey<String>(IncubatorType.unsafe.toString()),
               ),
             ]),
       ),
@@ -92,10 +92,10 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
   void initState() {
     super.initState();
     ModelManager _modelManager = ModelManager.instance;
-    if (widget.incubatorType == IncubatorType.scraped) {
-      _itemListModel = _modelManager.getModelForCategory(ItemCategory.food);
+    if (widget.incubatorType == IncubatorType.inc1) {
+      _itemListModel = _modelManager.inc1IncubatorModel;
     } else {
-      _itemListModel = _modelManager.getModelForCategory(ItemCategory.energy);
+      _itemListModel = _modelManager.unsafeIncubatorModel;
     }
   }
 
@@ -104,5 +104,3 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
     return ItemListScrollView(itemListModel: _itemListModel);
   }
 }
-
-enum IncubatorType {manual, scraped}
