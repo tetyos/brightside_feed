@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nexth/model/model_manager.dart';
+import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
 import 'package:nexth/model/vote_model.dart';
 import 'package:nexth/utils/preview_data_loader.dart';

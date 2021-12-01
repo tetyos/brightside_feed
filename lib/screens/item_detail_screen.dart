@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/backend_connection/api_connector.dart';
+import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/model/vote_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
