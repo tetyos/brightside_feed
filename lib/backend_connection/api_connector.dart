@@ -4,6 +4,7 @@ import 'package:amplify_flutter/amplify.dart';
 import 'package:http/http.dart' as http;
 import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifiers;
 import 'package:nexth/backend_connection/database_query.dart';
+import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/vote_model.dart';
 
 class APIConnector {
@@ -82,16 +83,18 @@ class APIConnector {
   }
 
   /// posts the given item. returns true if successful.
-  static Future<bool> postItem(String itemAsJson) async {
+  static Future<ItemData?> postItem(String itemAsJson) async {
     numberOfHttpRequests++;
-    if (numberOfHttpRequests > httpRequestThreshold) return false;
+    if (numberOfHttpRequests > httpRequestThreshold) return null;
 
     try {
       http.Response response = await httpPostAuthorized(
           Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_item'),
           itemAsJson);
       if (response.statusCode == 200) {
-        return true;
+        Map<String, dynamic> itemJson = Dart.jsonDecode(response.body);
+        ItemData itemData = ItemData.fromJson(itemJson);
+        return itemData;
       }
       print("Item could not be posted. StatusCode: ${response.statusCode}");
       print(response.body);
@@ -99,7 +102,7 @@ class APIConnector {
       print("Item could not be posted.");
       print(e);
     }
-    return false;
+    return null;
   }
 
   /// checks on which of the given items a user has voted on.

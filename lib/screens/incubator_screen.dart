@@ -3,8 +3,10 @@ import 'package:nexth/components/item_list_scroll_view.dart';
 import 'package:nexth/model/incubator_list_model.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
+import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/custom_page_view_scroll_physics.dart';
+import 'package:provider/provider.dart';
 
 class IncubatorScreen extends StatefulWidget {
   IncubatorScreen({required Key key}): super(key: key);
@@ -20,10 +22,14 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
   void initState() {
     super.initState();
     _tabController = new TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      Provider.of<AppState>(context, listen: false).incubatorScreenCurrentTab = _tabController.index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    _tabController.index = Provider.of<AppState>(context, listen: true).incubatorScreenCurrentTab;
     return Column(children: [
       Container(
         color: kColorPrimary,
@@ -92,11 +98,7 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
   void initState() {
     super.initState();
     ModelManager _modelManager = ModelManager.instance;
-    if (widget.incubatorType == IncubatorType.inc1) {
-      _itemListModel = _modelManager.inc1IncubatorModel;
-    } else {
-      _itemListModel = _modelManager.unsafeIncubatorModel;
-    }
+    _itemListModel = _modelManager.getModelForIncubatorType(widget.incubatorType);
   }
 
   @override

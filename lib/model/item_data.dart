@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
+import 'package:nexth/model/incubator_list_model.dart';
 import 'package:nexth/model/vote_model.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
 
@@ -18,6 +19,7 @@ class ItemData {
   String dateAdded;
   String? imageUrl;
   ItemCategory? itemCategory;
+  IncubatorType? incubatorStatus;
 
   UpVoteModel upVoteModel;
   ImpactVoteModel impactVoteModel;
@@ -42,6 +44,7 @@ class ItemData {
         description = json['description'],
         imageUrl = json['imageUrl'],
         itemCategory = getItemCategoryFromString(json['itemCategory']),
+        incubatorStatus = getIncubatorTypeFromString(json['incubatorStatus']),
         upVoteModel = UpVoteModel(
             itemId: json[APIKeys.itemId],
             numberOfRatings: json[APIKeys.totalUpVotes] ?? 0,

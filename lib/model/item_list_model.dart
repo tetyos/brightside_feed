@@ -138,4 +138,11 @@ abstract class ItemListModel {
     }
     await preloadItemsAfterRefresh();
   }
+
+  void reset() {
+    fullyLoadedItems = [];
+    items = [];
+    _moreItemsAvailable = true;
+    _numberOfImagesCurrentlyLoading = 0;
+  }
 }

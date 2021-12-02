@@ -3,13 +3,16 @@ import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 
 class AppState extends ChangeNotifier {
-  bool _isDataLoading = true;
-  bool _isShowIntro = true;
   NexthRoutePath _currentRoutePath = LoadingScreen1Path();
-  int explorerScreenCurrentTab = 1;
-  int numberOfUserDefinedTabs = 0;
-  String confirmLoginMail = "";
+
+  bool _isDataLoading = true;
   bool isUserLoggedIn = false;
+  bool _isShowIntro = true;
+  String confirmLoginMail = "";
+
+  int explorerScreenCurrentTab = 1;
+  int incubatorScreenCurrentTab = 0;
+  int numberOfUserDefinedTabs = 0;
   ItemData? currentSelectedItem;
 
   final GlobalKey recentScreenKey = GlobalKey();
@@ -37,10 +40,15 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setExplorerScreenCurrentTabAndNotify (int currentTabExplorerScreen) {
+  void setExplorerScreenCurrentTabAndNotify(int currentTabExplorerScreen) {
     explorerScreenCurrentTab = currentTabExplorerScreen;
     notifyListeners();
   }
 
   int get explorerScreenStartTab => numberOfUserDefinedTabs;
+
+  void setIncubatorScreenCurrentTabAndNotify(int incubatorScreenCurrentTab) {
+    this.incubatorScreenCurrentTab = incubatorScreenCurrentTab;
+    notifyListeners();
+  }
 }

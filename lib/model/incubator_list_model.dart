@@ -31,6 +31,12 @@ class IncubatorListModel extends ItemListModel {
 
 enum IncubatorType {inc1, unsafe}
 
+IncubatorType? getIncubatorTypeFromString(String? incubatorType) {
+  if (incubatorType == null) return null;
+  if (incubatorType == IncubatorType.inc1.key) return IncubatorType.inc1;
+  if (incubatorType == IncubatorType.unsafe.key) return IncubatorType.unsafe;
+}
+
 extension IncubatorTypeExtension on IncubatorType {
   String get key {
     switch (this) {

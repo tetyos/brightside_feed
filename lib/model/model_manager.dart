@@ -48,6 +48,15 @@ class ModelManager {
     }
   }
 
+  ItemListModel getModelForIncubatorType(IncubatorType incubatorType) {
+    switch (incubatorType) {
+      case IncubatorType.inc1:
+        return inc1IncubatorModel;
+      case IncubatorType.unsafe:
+        return unsafeIncubatorModel;
+    }
+  }
+
   void addItemsFromJson(Map<String, dynamic> itemsMap) {
     for (MapEntry<String, dynamic> entry in itemsMap.entries) {
       allItems[entry.key] = ItemData.fromJson(entry.value);

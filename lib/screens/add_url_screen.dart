@@ -6,10 +6,16 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/components/add_url_preview_card.dart';
 import 'package:nexth/model/category_list_model.dart';
+import 'package:nexth/model/incubator_list_model.dart';
 import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/model/model_manager.dart';
+import 'package:nexth/navigation/app_state.dart';
+import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/utils/constants.dart' as Constants;
 import 'package:nexth/utils/preview_data_loader.dart';
 import 'package:nexth/utils/ui_utils.dart';
+import 'package:provider/provider.dart';
 
 class AddUrlScreen extends StatefulWidget {
   @override
@@ -94,9 +100,19 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
       UIUtils.showSnackBar("Please insert valid link", context);
     } else {
       _itemData!.itemCategory = _categorySelection;
-      bool successful = await APIConnector.postItem(Dart.jsonEncode(_itemData));
-      if (successful) {
-        UIUtils.showSnackBar("Link added!", context);
+      ItemData? itemData = await APIConnector.postItem(Dart.jsonEncode(_itemData));
+      if (itemData != null) {
+        IncubatorType? incubatorTypeOfItem = itemData.incubatorStatus;
+        if (incubatorTypeOfItem == null) {
+          UIUtils.showSnackBar("Glitch in the matrix detected. Run!", context);
+          print("Item with id: '" + itemData.id + "' had no incubatorStatus. This should not happen.");
+        } else {
+          ItemListModel itemListModel = ModelManager.instance.getModelForIncubatorType(incubatorTypeOfItem);
+          itemListModel.reset();
+          Provider.of<AppState>(context, listen: false).setIncubatorScreenCurrentTabAndNotify(incubatorTypeOfItem.index);
+          Provider.of<AppState>(context, listen: false).currentRoutePath = NexthIncubatorPath();
+          UIUtils.showSnackBar("Link added!", context);
+        }
       } else {
         UIUtils.showSnackBar("Server could not be reached!", context);
       }
