@@ -46,4 +46,13 @@ extension IncubatorTypeExtension on IncubatorType {
         return 'unsafe';
     }
   }
+
+  int get tabNumber {
+    switch (this) {
+      case IncubatorType.inc1:
+        return 1;
+      case IncubatorType.unsafe:
+        return 2;
+    }
+  }
 }

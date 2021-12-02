@@ -58,7 +58,13 @@ class _AppShellScreenState extends State<AppShellScreen> {
                           .setExplorerScreenCurrentTabAndNotify(appState.explorerScreenStartTab);
                       appState.currentRoutePath = NexthExplorePath();
                     }),
-                BottomNavItem(icon: Icons.child_friendly_outlined, currentlySelected: appState.currentRoutePath is NexthIncubatorPath, onPressed: () {appState.currentRoutePath = NexthIncubatorPath();}),
+                BottomNavItem(
+                    icon: Icons.child_friendly_outlined,
+                    currentlySelected: appState.currentRoutePath is NexthIncubatorPath,
+                    onPressed: () {
+                      appState.setIncubatorScreenCurrentTabAndNotify(0);
+                      appState.currentRoutePath = NexthIncubatorPath();
+                    }),
                 BottomNavItem(icon: Icons.logout, currentlySelected: false, onPressed: () {logout(appState);}),
                 IconButton(icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)), onPressed: () {},),
               ],

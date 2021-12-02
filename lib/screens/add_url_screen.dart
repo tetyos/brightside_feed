@@ -109,7 +109,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
         } else {
           ItemListModel itemListModel = ModelManager.instance.getModelForIncubatorType(incubatorTypeOfItem);
           itemListModel.reset();
-          Provider.of<AppState>(context, listen: false).setIncubatorScreenCurrentTabAndNotify(incubatorTypeOfItem.index);
+          Provider.of<AppState>(context, listen: false).setIncubatorScreenCurrentTabAndNotify(incubatorTypeOfItem.tabNumber);
           Provider.of<AppState>(context, listen: false).currentRoutePath = NexthIncubatorPath();
           UIUtils.showSnackBar("Link added!", context);
         }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nexth/components/incubator_start_page.dart';
 import 'package:nexth/components/item_list_scroll_view.dart';
 import 'package:nexth/model/incubator_list_model.dart';
 import 'package:nexth/model/item_list_model.dart';
@@ -21,7 +22,7 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = new TabController(length: 3, vsync: this);
     _tabController.addListener(() {
       Provider.of<AppState>(context, listen: false).incubatorScreenCurrentTab = _tabController.index;
     });
@@ -38,17 +39,20 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
           child: TabBar(
             tabs: [
               Tab(
+                child: Row(children: [Icon(Icons.child_friendly_outlined), SizedBox(width: 5), Text("Incubator")]),
+              ),
+              Tab(
                 child: Row(children: [
                   Icon(Icons.people_alt_outlined),
                   SizedBox(width: 5),
-                  Text('New items')
+                  Text('Trusted sources')
                 ]),
               ),
               Tab(
                 child: Row(children: [
-                  Icon(Icons.travel_explore_outlined),
+                  Icon(Icons.warning_amber_outlined),
                   SizedBox(width: 5),
-                  Text('New items (unknown host)')
+                  Text('Unknown sources')
                 ]),
               ),
             ],
@@ -62,6 +66,7 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
             controller: _tabController,
             physics: CustomPageViewScrollPhysics(),
             children: [
+              IncubatorStartPage(),
               IncubatorScrollView(
                 incubatorType: IncubatorType.inc1,
                 key: PageStorageKey<String>(IncubatorType.inc1.toString()),
