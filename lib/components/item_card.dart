@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -91,15 +90,5 @@ class ItemCard extends StatelessWidget {
 
   void showDetailScreen(BuildContext context) {
     Provider.of<AppState>(context, listen: false).currentSelectedItem = _itemData;
-    NexthRoutePath currentPath = Provider.of<AppState>(context, listen: false).currentRoutePath;
-    ItemDetailsScreenPath nextPath;
-    if (currentPath is NexthHomePath) {
-      nextPath = HomeItemDetailsPath();
-    } else if (currentPath is NexthExplorePath) {
-      nextPath = ExploreItemDetailsPath();
-    } else {
-      nextPath = IncubatorItemDetailsPath();
-    }
-    Provider.of<AppState>(context, listen: false).currentRoutePath = nextPath;
   }
 }

@@ -17,21 +17,6 @@ class NexthIncubatorPath extends NexthRoutePath {
   const NexthIncubatorPath();
 }
 
-abstract class ItemDetailsScreenPath extends NexthRoutePath {
-}
-
-class HomeItemDetailsPath extends NexthHomePath implements ItemDetailsScreenPath {
-  const HomeItemDetailsPath();
-}
-
-class IncubatorItemDetailsPath extends NexthIncubatorPath implements ItemDetailsScreenPath {
-  const IncubatorItemDetailsPath();
-}
-
-class ExploreItemDetailsPath extends NexthExplorePath implements ItemDetailsScreenPath {
-  const ExploreItemDetailsPath();
-}
-
 abstract class PreMainScreenPath extends NexthRoutePath {
   const PreMainScreenPath();
 }

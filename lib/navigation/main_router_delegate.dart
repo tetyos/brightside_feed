@@ -76,7 +76,6 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
           if (_appState.currentRoutePath is ConfirmScreenPath) {
             _appState.currentRoutePath = LoginScreenPath();
           }
-          notifyListeners();
           return true;
         },
       ),

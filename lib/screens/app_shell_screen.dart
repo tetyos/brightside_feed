@@ -27,7 +27,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
     return Consumer<AppState>(
       builder: (context, appState, child) {
         return Scaffold(
-          appBar: appState.currentRoutePath is ItemDetailsScreenPath ? AppBar(title: Text(appState.currentSelectedItem!.title),) : null,
+          appBar: appState.currentSelectedItem != null ? AppBar(title: Text(appState.currentSelectedItem!.title),) : null,
           body: SafeArea(
             child: Router(
               routerDelegate: InnerRouterDelegate(),
@@ -49,7 +49,12 @@ class _AppShellScreenState extends State<AppShellScreen> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                BottomNavItem(icon: Icons.home_outlined, currentlySelected: appState.currentRoutePath is NexthHomePath, onPressed: () {appState.currentRoutePath = NexthHomePath();}),
+                BottomNavItem(
+                    icon: Icons.home_outlined,
+                    currentlySelected: appState.currentRoutePath is NexthHomePath,
+                    onPressed: () {
+                      appState.currentRoutePath = NexthHomePath();
+                    }),
                 BottomNavItem(
                     icon: Icons.dashboard_outlined,
                     currentlySelected: appState.currentRoutePath is NexthExplorePath,
@@ -65,8 +70,16 @@ class _AppShellScreenState extends State<AppShellScreen> {
                       appState.setIncubatorScreenCurrentTabAndNotify(0);
                       appState.currentRoutePath = NexthIncubatorPath();
                     }),
-                BottomNavItem(icon: Icons.logout, currentlySelected: false, onPressed: () {logout(appState);}),
-                IconButton(icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)), onPressed: () {},),
+                BottomNavItem(
+                    icon: Icons.logout,
+                    currentlySelected: false,
+                    onPressed: () {
+                      logout(appState);
+                    }),
+                IconButton(
+                  icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)),
+                  onPressed: () {},
+                ),
               ],
             ),
           ),
