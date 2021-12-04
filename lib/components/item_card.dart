@@ -11,7 +11,7 @@ class ItemCard extends StatelessWidget {
   final String? _shortDescription;
   final String _dateString;
   final String _host;
-  late final Widget imageGestureDetector;
+  late final Widget imageWidget;
 
   ItemCard({required ItemData linkPreviewData})
       : _itemData = linkPreviewData,
@@ -19,13 +19,12 @@ class ItemCard extends StatelessWidget {
         _shortDescription =
             PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 150),
         _host = PreviewDataLoader.getHostFromUrl(linkPreviewData.url) {
-    Widget imageWidget = _itemData.imageProvider == null
+    imageWidget = _itemData.imageProvider == null
         ? SpinKitCircle(color: Colors.blueAccent)
         : ClipRRect(
             child: Image(image: _itemData.imageProvider!),
             borderRadius: BorderRadius.circular(8),
           );
-    imageGestureDetector = GestureDetector(onTap: launchUrl, child: imageWidget);
   }
 
   @override
@@ -37,7 +36,7 @@ class ItemCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              imageGestureDetector,
+              GestureDetector(onTap: () => launchWebView(context), child: imageWidget),
               const SizedBox(height: 10),
               GestureDetector(
                 onTap: () => showDetailScreen(context),
@@ -71,6 +70,10 @@ class ItemCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void launchWebView(BuildContext context) async {
+    Provider.of<AppState>(context, listen: false).currentWebViewItem = _itemData;
   }
 
   void launchUrl() async {

@@ -52,7 +52,7 @@ class ImpactVoteModel extends VoteModel {
   String get voteCategory => APIKeys.postImpactVote;
 
   @override
-  IconData get iconData => Icons.whatshot_outlined;
+  IconData get iconData => Icons.emoji_events_outlined;
 
 
   ImpactVoteModel({required itemId, required this.numberOfRatings, required this.voted}) : _itemId = itemId;

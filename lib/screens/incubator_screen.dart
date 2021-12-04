@@ -39,7 +39,7 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
           child: TabBar(
             tabs: [
               Tab(
-                child: Row(children: [Icon(Icons.child_friendly_outlined), SizedBox(width: 5), Text("Incubator")]),
+                child: Row(children: [Icon(Icons.add_chart), SizedBox(width: 5), Text("Incubator")]),
               ),
               Tab(
                 child: Row(children: [

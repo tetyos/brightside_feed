@@ -17,6 +17,7 @@ class NexthIncubatorPath extends NexthRoutePath {
   const NexthIncubatorPath();
 }
 
+/// Pre main screen paths
 abstract class PreMainScreenPath extends NexthRoutePath {
   const PreMainScreenPath();
 }

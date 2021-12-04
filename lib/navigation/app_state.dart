@@ -15,6 +15,7 @@ class AppState extends ChangeNotifier {
   int numberOfUserDefinedTabs = 0;
 
   ItemData? _currentSelectedItem;
+  ItemData? _currentWebViewItem;
 
   final GlobalKey recentScreenKey = GlobalKey();
   final GlobalKey incubatorScreenKey = GlobalKey();
@@ -60,6 +61,13 @@ class AppState extends ChangeNotifier {
 
   set currentSelectedItem(ItemData? selectedItem) {
     _currentSelectedItem = selectedItem;
+    notifyListeners();
+  }
+
+  ItemData? get currentWebViewItem => _currentWebViewItem;
+
+  set currentWebViewItem(ItemData? webViewItem) {
+    _currentWebViewItem = webViewItem;
     notifyListeners();
   }
 }

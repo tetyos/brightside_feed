@@ -33,9 +33,8 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   @override
   void initState() {
     super.initState();
-    print("Initialising state");
+    print("Initialising app");
     _startupApp();
-    print("Initialising state finished.");
   }
 
   @override
@@ -121,6 +120,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   /// The corresponding item-list-models are filled with the new items.<br>
   /// For a few of the new items the images are preloaded.
   Future<void> _loadInitialItems() async {
+    print("Loading of items started.");
     ModelManager modelManager = ModelManager.instance;
     List<ItemListModel> modelsWithQueries = [];
 
@@ -179,6 +179,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   Future<void> _loadDataFromLocalStorage() async {
     // final prefs = await SharedPreferences.getInstance();
     _initializeUserDefinedCategories();
+    print("Data from local storage loaded.");
   }
 
   void _initializeUserDefinedCategories() {

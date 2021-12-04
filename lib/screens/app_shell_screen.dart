@@ -64,7 +64,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
                       appState.currentRoutePath = NexthExplorePath();
                     }),
                 BottomNavItem(
-                    icon: Icons.child_friendly_outlined,
+                    icon: Icons.add_chart,
                     currentlySelected: appState.currentRoutePath is NexthIncubatorPath,
                     onPressed: () {
                       appState.setIncubatorScreenCurrentTabAndNotify(0);
@@ -93,6 +93,9 @@ class _AppShellScreenState extends State<AppShellScreen> {
       UIUtils.showSnackBar("You need to log in, in order to add items.", context);
       return;
     }
+
+    // we need to fetch root backButtonDispatcher and give priority back to it.
+    // otherwise inner-backButtonDispatcher has priority
     RootBackButtonDispatcher backButtonDispatcher =
     Router.of(context).backButtonDispatcher as RootBackButtonDispatcher;
     backButtonDispatcher.takePriority();

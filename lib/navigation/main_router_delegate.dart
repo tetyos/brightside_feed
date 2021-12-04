@@ -9,6 +9,7 @@ import 'package:nexth/screens/intro_screen2.dart';
 import 'package:nexth/screens/loading_screen1.dart';
 import 'package:nexth/screens/loading_screen2.dart';
 import 'package:nexth/screens/login_screen.dart';
+import 'package:nexth/screens/web_view_screen.dart';
 import 'package:provider/provider.dart';
 
 class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
@@ -38,6 +39,10 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
             MaterialPage(
               child: AppShellScreen(),
             ),
+          if (_appState.currentWebViewItem != null)
+            MaterialPage(
+              child: WebViewScreen(),
+            ),
           if (_appState.currentRoutePath is LoadingScreen2Path)
             MaterialPage(
               child: LoadingScreen2(),
@@ -59,6 +64,7 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
               child: LoadingScreen1(
                 onDataLoaded: () async {
                   if (_appState.isUserLoggedIn && !ModelManager.instance.isUserVotesRetrieved) {
+                    print("Retrieving user votes");
                     await ModelManager.instance.retrieveUserVotes();
                   }
                   _appState.isDataLoading = false;
@@ -75,6 +81,9 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
           }
           if (_appState.currentRoutePath is ConfirmScreenPath) {
             _appState.currentRoutePath = LoginScreenPath();
+          }
+          if (_appState.currentWebViewItem != null) {
+            _appState.currentWebViewItem = null;
           }
           return true;
         },
