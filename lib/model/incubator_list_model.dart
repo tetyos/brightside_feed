@@ -9,9 +9,12 @@ class IncubatorListModel extends ItemListModel {
   @override
   final int imagesToPreloadDuringAppStart = 0;
 
+  @override
+  final bool isPreloadImages;
+
   final IncubatorType incubatorType;
 
-  IncubatorListModel({required this.incubatorType});
+  IncubatorListModel({required this.incubatorType, this.isPreloadImages = true});
 
   @override
   DatabaseQuery? getDBQueryForInitialization() {

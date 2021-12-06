@@ -15,7 +15,7 @@ class ModelManager {
 
   final ItemListModel homeModel = HomeListModel();
   final ItemListModel inc1IncubatorModel = IncubatorListModel(incubatorType: IncubatorType.inc1);
-  final ItemListModel unsafeIncubatorModel = IncubatorListModel(incubatorType: IncubatorType.unsafe);
+  final ItemListModel unsafeIncubatorModel = IncubatorListModel(incubatorType: IncubatorType.unsafe, isPreloadImages: false);
 
   // category item lists
   ItemListModel _energyItemList = CategoryListModel(itemCategory: ItemCategory.energy);

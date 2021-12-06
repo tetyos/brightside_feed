@@ -75,7 +75,7 @@ class IncubatorUnsafeCard extends StatelessWidget {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text('Open url?'),
+        title: const Text('Open website'),
         content: Text(_itemData.url),
         actions: <Widget>[
           TextButton(

@@ -15,6 +15,9 @@ abstract class ItemListModel {
   /// The number of images a model preloads during app start.
   final int imagesToPreloadDuringAppStart = 0;
 
+  /// As some models do not need images, preloading of images can be turned off
+  final bool isPreloadImages = true;
+
   /// The number of items that need to be available after a user has opened a the scroll-view to which this model belongs.
   final int minNumberOfItems = 5;
   /// The number of fully loaded items that need to be available after a user has opened a the scroll-view to which this model belongs.
@@ -76,11 +79,7 @@ abstract class ItemListModel {
     }
     List<ItemData> itemsToLoad = items.sublist(numberOfFullyLoadedItems, to);
 
-    List<Future<void>> futures = [];
-    for (ItemData linkPreviewData in itemsToLoad) {
-      futures.add(linkPreviewData.preLoadImage());
-    }
-    await Future.wait(futures);
+    await _preloadImages(itemsToLoad);
     _numberOfImagesCurrentlyLoading = 0;
     fullyLoadedItems.addAll(itemsToLoad);
   }
@@ -91,11 +90,7 @@ abstract class ItemListModel {
     _numberOfImagesCurrentlyLoading = numberOfItemsToPreload;
     List<ItemData> itemsToLoad = items.sublist(0, numberOfItemsToPreload);
 
-    List<Future<void>> futures = [];
-    for (ItemData linkPreviewData in itemsToLoad) {
-      futures.add(linkPreviewData.preLoadImage());
-    }
-    await Future.wait(futures);
+    await _preloadImages(itemsToLoad);
     _numberOfImagesCurrentlyLoading = 0;
     fullyLoadedItems = itemsToLoad;
   }
@@ -144,5 +139,15 @@ abstract class ItemListModel {
     items = [];
     _moreItemsAvailable = true;
     _numberOfImagesCurrentlyLoading = 0;
+  }
+
+  Future<void> _preloadImages(List<ItemData> itemsToLoad) async {
+    if (isPreloadImages) {
+      List<Future<void>> futures = [];
+      for (ItemData linkPreviewData in itemsToLoad) {
+        futures.add(linkPreviewData.preLoadImage());
+      }
+      await Future.wait(futures);
+    }
   }
 }
