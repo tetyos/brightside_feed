@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/incubator_start_page.dart';
+import 'package:nexth/components/incubator_unsafe_card.dart';
+import 'package:nexth/components/intro_card.dart';
 import 'package:nexth/components/item_list_scroll_view.dart';
 import 'package:nexth/model/incubator_list_model.dart';
+import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
@@ -98,16 +101,40 @@ class IncubatorScrollView extends StatefulWidget {
 
 class _IncubatorScrollViewState extends State<IncubatorScrollView> {
   late ItemListModel _itemListModel;
+  Widget Function(ItemData)? _itemCardProvider;
+  Widget? _welcomeCard;
 
   @override
   void initState() {
     super.initState();
     ModelManager _modelManager = ModelManager.instance;
     _itemListModel = _modelManager.getModelForIncubatorType(widget.incubatorType);
+    if (widget.incubatorType == IncubatorType.unsafe) {
+      _itemCardProvider = (itemData) => IncubatorUnsafeCard(linkPreviewData: itemData);
+      _welcomeCard = SliverToBoxAdapter(
+        child: const IntroCard(
+            title: "New items: unknown websites",
+            message:
+                "Content from unknown websites is sorted into this list first. Preview images are not shown on purpose here."),
+      );
+    } else {
+      _welcomeCard = SliverToBoxAdapter(
+        child: const IntroCard(
+            title: "New items: trusted websites",
+            message:
+                "Trusted means that the website itself can be trusted and does host spam, inappropriate or illegal content. "
+                // "Trusted means NOT that the content is guaranteed to provided correct facts or anything."
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ItemListScrollView(itemListModel: _itemListModel);
+    return ItemListScrollView(
+      itemListModel: _itemListModel,
+      customItemCardProvider: _itemCardProvider,
+      welcomeCard: _welcomeCard,
+    );
   }
 }

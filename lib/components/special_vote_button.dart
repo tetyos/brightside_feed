@@ -37,7 +37,7 @@ class SpecialVoteButton extends StatelessWidget {
       child: Row(
         children: [
           if (!hasVotes) SizedBox(width: 3),
-          Icon(Icons.emoji_events_outlined, color: menuButtonColor),
+          FaIcon(FontAwesomeIcons.award, color: menuButtonColor),
           SizedBox(width: 2),
           if (hasVotes)
             Text(
@@ -69,6 +69,7 @@ class SpecialVoteButton extends StatelessWidget {
     return PopupMenuItem<String>(
       value: voteModel.identifier,
       child: ListTile(
+        dense: true,
         horizontalTitleGap: 0,
         leading: FaIcon(voteModel.iconData, color: voteColor),
         trailing: Text(

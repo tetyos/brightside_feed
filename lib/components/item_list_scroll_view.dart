@@ -14,19 +14,23 @@ class ItemListScrollView extends StatefulWidget {
   final ItemListModel itemListModel;
   final Widget? _appBar;
   final Widget? _welcomeCard;
+  final Widget Function(ItemData)? _customItemCardProvider;
 
   ItemListScrollView({
     required this.itemListModel,
     Widget? appBar,
     Widget? welcomeCard,
+    Widget Function(ItemData)? customItemCardProvider
   })  : _appBar = appBar,
-        _welcomeCard = welcomeCard;
+        _welcomeCard = welcomeCard,
+        _customItemCardProvider = customItemCardProvider;
 
   @override
   _ItemListScrollViewState createState() => _ItemListScrollViewState();
 }
 
 class _ItemListScrollViewState extends State<ItemListScrollView> {
+  Widget Function(ItemData) _itemCardProvider = (itemData) => ItemCard2(linkPreviewData: itemData);
   ScrollController _scrollController = ScrollController();
   bool isLoadingImages = false;
   bool isFetchingItemData = false;
@@ -34,6 +38,9 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
   @override
   void initState() {
     super.initState();
+    if (widget._customItemCardProvider != null) {
+      _itemCardProvider = widget._customItemCardProvider!;
+    }
     _initModel();
     _scrollController.addListener(scrollingListener);
   }
@@ -73,7 +80,7 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
             if (index == _itemList.length) {
               return _buildProgressIndicator();
             } else {
-              return ItemCard2(linkPreviewData: _itemList[index]);
+              return _itemCardProvider(_itemList[index]);
             }
           },
           childCount: _itemList.length + 1,

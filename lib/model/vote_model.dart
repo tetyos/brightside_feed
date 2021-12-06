@@ -60,7 +60,7 @@ class ImpactVoteModel extends VoteModel {
   String get displayText => "High Impact";
 
   @override
-  IconData get iconData => Icons.whatshot;
+  IconData get iconData => Icons.public;
 
 
   ImpactVoteModel({required itemId, required this.numberOfRatings, required this.voted}) : _itemId = itemId;
