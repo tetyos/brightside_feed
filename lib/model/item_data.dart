@@ -23,6 +23,8 @@ class ItemData {
 
   UpVoteModel upVoteModel;
   ImpactVoteModel impactVoteModel;
+  InspiringVoteModel inspiringVoteModel;
+  WellWrittenVoteModel wellWrittenVoteModel;
 
   ItemData(
       {required this.url,
@@ -34,7 +36,9 @@ class ItemData {
         description = PreviewDataLoader.shortenDescriptionIfNecessary(description, 300),
         dateAdded = DateTime.now().toIso8601String(),
         upVoteModel = UpVoteModel.empty(),
-        impactVoteModel = ImpactVoteModel.empty();
+        impactVoteModel = ImpactVoteModel.empty(),
+        inspiringVoteModel = InspiringVoteModel.empty(),
+        wellWrittenVoteModel = WellWrittenVoteModel.empty();
 
   ItemData.fromJson(Map<String, dynamic> json)
       : id = json[APIKeys.itemId],
@@ -52,11 +56,21 @@ class ItemData {
         impactVoteModel = ImpactVoteModel(
             itemId: json[APIKeys.itemId],
             numberOfRatings: json[APIKeys.totalImpactVotes] ?? 0,
+            voted: false),
+        inspiringVoteModel = InspiringVoteModel(
+            itemId: json[APIKeys.itemId],
+            numberOfRatings: json[APIKeys.totalInspiringVotes] ?? 0,
+            voted: false),
+        wellWrittenVoteModel = WellWrittenVoteModel(
+            itemId: json[APIKeys.itemId],
+            numberOfRatings: json[APIKeys.totalWellWrittenVotes] ?? 0,
             voted: false) {
     List<dynamic>? userVotesArray = json['userVotes'];
     if (userVotesArray != null) {
       upVoteModel.voted = userVotesArray.contains(APIKeys.postUpVote);
       impactVoteModel.voted = userVotesArray.contains(APIKeys.postImpactVote);
+      inspiringVoteModel.voted = userVotesArray.contains(APIKeys.postInspiringVote);
+      wellWrittenVoteModel.voted = userVotesArray.contains(APIKeys.postWellWrittenVote);
     }
   }
 
@@ -69,13 +83,20 @@ class ItemData {
     itemCategory = getItemCategoryFromString(newJson['itemCategory']);
     upVoteModel.numberOfRatings = newJson[APIKeys.totalUpVotes] ?? 0;
     impactVoteModel.numberOfRatings = newJson[APIKeys.totalImpactVotes] ?? 0;
+    inspiringVoteModel.numberOfRatings = newJson[APIKeys.totalInspiringVotes] ?? 0;
+    wellWrittenVoteModel.numberOfRatings = newJson[APIKeys.totalWellWrittenVotes] ?? 0;
+
     List<dynamic>? userVotesArray = newJson['userVotes'];
     if (userVotesArray != null) {
       upVoteModel.voted = userVotesArray.contains(APIKeys.postUpVote);
       impactVoteModel.voted = userVotesArray.contains(APIKeys.postImpactVote);
+      inspiringVoteModel.voted = userVotesArray.contains(APIKeys.postInspiringVote);
+      wellWrittenVoteModel.voted = userVotesArray.contains(APIKeys.postWellWrittenVote);
     } else {
       upVoteModel.voted = false;
       impactVoteModel.voted = false;
+      inspiringVoteModel.voted = false;
+      wellWrittenVoteModel.voted = false;
     }
     return this;
   }

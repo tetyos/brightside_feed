@@ -16,9 +16,12 @@ const String postVoteItemId = "itemId";
 const String postVoteCategory = "voteCategory";
 const String postVoteIncreaseAmount = "inc";
 
-
-const String postImpactVote = "impactNom";
 const String postUpVote = "upVote";
+const String postImpactVote = "impactNom";
+const String postInspiringVote = "inspiringNom";
+const String postWellWrittenVote = "wellWrittenNom";
 
-const String totalImpactVotes = "impactNoms";
 const String totalUpVotes = "upVotes";
+const String totalImpactVotes = "impactNoms";
+const String totalInspiringVotes = "inspiringNoms";
+const String totalWellWrittenVotes = "wellWrittenNoms";

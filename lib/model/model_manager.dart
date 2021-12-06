@@ -103,6 +103,8 @@ class ModelManager {
       if (votesOnItem == null || votesOnItem.isEmpty) return;
       item.upVoteModel.voted = votesOnItem.contains(APIKeys.postUpVote);
       item.impactVoteModel.voted = votesOnItem.contains(APIKeys.postImpactVote);
+      item.inspiringVoteModel.voted = votesOnItem.contains(APIKeys.postInspiringVote);
+      item.wellWrittenVoteModel.voted = votesOnItem.contains(APIKeys.postWellWrittenVote);
     }
   }
 }
