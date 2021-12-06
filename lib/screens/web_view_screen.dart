@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nexth/backend_connection/api_connector.dart';
+import 'package:nexth/components/special_vote_button.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/vote_model.dart';
 import 'package:nexth/navigation/app_state.dart';
@@ -104,52 +104,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
     if (!isWebViewOnItem) {
       return renderExternalContentButton(Icons.emoji_events);
     }
-    return PopupMenuButton<String>(
-      icon: Icon(Icons.emoji_events, color: isWebViewOnItem? Colors.white : kColorWhiteTransparent),
-      onSelected: (String value) {
-        switch (value) {
-          case "impactNom":
-            UIUtils.showSnackBar("Not yet implemented", context);
-            break;
-          case "inspiringNom":
-            UIUtils.showSnackBar("Not yet implemented", context);
-            break;
-          case "wellWritten":
-            UIUtils.showSnackBar("Not yet implemented", context);
-            break;
-        }
-      },
-      itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
-        PopupMenuItem<String>(
-          value: "impactNom",
-            child: ListTile(
-              horizontalTitleGap: 0,
-              leading: Icon(Icons.whatshot, color: Colors.black),
-              title: const Text('High Impact'),
-            )),
-        PopupMenuItem<String>(
-          value: "inspiringNom",
-          child: ListTile(
-            horizontalTitleGap: 0,
-            leading: FaIcon(FontAwesomeIcons.grinStars, color: Colors.black),
-            title: const Text('Inspiring'),
-          ),
-        ),
-        PopupMenuItem<String>(
-          value: "wellWritten",
-          child: ListTile(
-            horizontalTitleGap: 0,
-            leading: FaIcon(FontAwesomeIcons.featherAlt , color: Colors.black),
-            title: const Text('Well written'),
-          ),
-        ),
-      ],
-    );
+    return SpecialVoteButton(itemData: itemData, onPressed: onVoteCallback, noVoteColor: Colors.white, hasVotesColor: Colors.white, userVotedColor: Colors.orangeAccent,);
   }
 
   Widget renderMoreMenu() {
     return PopupMenuButton<String>(
-      icon: Icon(Icons.more_vert, color: Colors.white),
+      icon: Row (children: [Icon(Icons.more_vert, color: Colors.white)],),
       onSelected: (String value) {
         switch (value) {
           case "flag":
