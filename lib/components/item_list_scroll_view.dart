@@ -13,16 +13,16 @@ import 'package:provider/provider.dart';
 class ItemListScrollView extends StatefulWidget {
   final ItemListModel itemListModel;
   final Widget? _appBar;
-  final Widget? _welcomeCard;
+  final Widget? _introCard;
   final Widget Function(ItemData)? _customItemCardProvider;
 
   ItemListScrollView({
     required this.itemListModel,
     Widget? appBar,
-    Widget? welcomeCard,
+    Widget? introCard,
     Widget Function(ItemData)? customItemCardProvider
   })  : _appBar = appBar,
-        _welcomeCard = welcomeCard,
+        _introCard = introCard,
         _customItemCardProvider = customItemCardProvider;
 
   @override
@@ -72,8 +72,8 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
     return <Widget>[
       if (widget._appBar != null)
         widget._appBar!,
-      if (widget._welcomeCard != null)
-        widget._welcomeCard!,
+      if (widget._introCard != null)
+        widget._introCard!,
       SliverList(
         delegate: SliverChildBuilderDelegate(
               (context, index) {

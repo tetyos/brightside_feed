@@ -50,7 +50,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  int get explorerScreenStartTab => numberOfUserDefinedTabs;
+  int get explorerScreenStartTab => numberOfUserDefinedTabs + 1;
 
   void setIncubatorScreenCurrentTabAndNotify(int incubatorScreenCurrentTab) {
     this.incubatorScreenCurrentTab = incubatorScreenCurrentTab;

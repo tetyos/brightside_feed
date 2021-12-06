@@ -14,6 +14,9 @@ class ModelManager {
   bool isUserVotesRetrieved = false;
 
   final ItemListModel homeModel = HomeListModel();
+  final ItemListModel exploreLikesModel = IncubatorListModel(incubatorType: IncubatorType.inc1);
+  final ItemListModel exploreAwardedModel = IncubatorListModel(incubatorType: IncubatorType.unsafe);
+
   final ItemListModel inc1IncubatorModel = IncubatorListModel(incubatorType: IncubatorType.inc1);
   final ItemListModel unsafeIncubatorModel = IncubatorListModel(incubatorType: IncubatorType.unsafe, isPreloadImages: false);
 

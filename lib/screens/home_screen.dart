@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
     return ItemListScrollView(
         itemListModel: ModelManager.instance.homeModel,
         appBar: sliverAppBar(),
-        welcomeCard: welcomeSliver());
+        introCard: welcomeSliver());
   }
 
   Widget sliverAppBar() {

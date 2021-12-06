@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/components/category_scroll_view.dart';
-import 'package:nexth/components/explore_add_custom_filter.dart';
-import 'package:nexth/components/explore_start_page.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nexth/components/explore/category_scroll_view.dart';
+import 'package:nexth/components/explore/explore_add_custom_filter.dart';
+import 'package:nexth/components/explore/explore_awarded.dart';
+import 'package:nexth/components/explore/explore_likes.dart';
+import 'package:nexth/components/explore/explore_start_page.dart';
 import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
@@ -23,7 +26,7 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
     super.initState();
     AppState appState = Provider.of<AppState>(context, listen: false);
     _tabController = new TabController(
-        length: 1 + appState.numberOfUserDefinedTabs + ItemCategory.values.length,
+        length: 3 + appState.numberOfUserDefinedTabs + ItemCategory.values.length,
         vsync: this,
         initialIndex: appState.explorerScreenStartTab);
     _tabController.addListener(() {
@@ -43,7 +46,13 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
               child: Row(children: [Icon(Icons.add_outlined), SizedBox(width: 5), Text("Custom filter")]),
             ),
             Tab(
+              child: Row(children: [Icon(Icons.favorite_border_outlined), SizedBox(width: 5), Text("Your likes")]),
+            ),
+            Tab(
               child: Row(children: [Icon(Icons.dashboard_outlined), SizedBox(width: 5), Text("Explore Home")]),
+            ),
+            Tab(
+              child: Row(children: [FaIcon(FontAwesomeIcons.award), SizedBox(width: 5), Text("Popular")]),
             ),
             for (ItemCategory itemCategory in ItemCategory.values)
               CategoryTab(
@@ -57,7 +66,9 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
       Expanded(
         child: TabBarView(controller: _tabController, physics: CustomPageViewScrollPhysics(), children: [
           ExploreAddCustomFilter(),
+          ExploreLikes(),
           ExploreStartPage(),
+          ExploreAwarded(),
           for (ItemCategory itemCategory in ItemCategory.values)
             CategoryScrollView(
               category: itemCategory,

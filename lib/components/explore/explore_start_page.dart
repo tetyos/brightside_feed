@@ -75,7 +75,7 @@ class CategoryOverviewCard extends StatelessWidget {
                       title: Text(itemCategory.displayTitle),
                       onTap: () {
                         Provider.of<AppState>(context, listen: false)
-                            .setExplorerScreenCurrentTabAndNotify(itemCategory.index + 2);
+                            .setExplorerScreenCurrentTabAndNotify(itemCategory.index + 4);
                       },
                     )
                 ],

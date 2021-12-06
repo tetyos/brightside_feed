@@ -102,7 +102,7 @@ class IncubatorScrollView extends StatefulWidget {
 class _IncubatorScrollViewState extends State<IncubatorScrollView> {
   late ItemListModel _itemListModel;
   Widget Function(ItemData)? _itemCardProvider;
-  Widget? _welcomeCard;
+  Widget? exploreIntroCard;
 
   @override
   void initState() {
@@ -111,14 +111,14 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
     _itemListModel = _modelManager.getModelForIncubatorType(widget.incubatorType);
     if (widget.incubatorType == IncubatorType.unsafe) {
       _itemCardProvider = (itemData) => IncubatorUnsafeCard(linkPreviewData: itemData);
-      _welcomeCard = SliverToBoxAdapter(
+      exploreIntroCard = SliverToBoxAdapter(
         child: const IntroCard(
             title: "New items: unknown websites",
             message:
                 "Content from unknown websites is sorted into this list first. Preview images are not shown on purpose here."),
       );
     } else {
-      _welcomeCard = SliverToBoxAdapter(
+      exploreIntroCard = SliverToBoxAdapter(
         child: const IntroCard(
             title: "New items: trusted websites",
             message:
@@ -134,7 +134,7 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
     return ItemListScrollView(
       itemListModel: _itemListModel,
       customItemCardProvider: _itemCardProvider,
-      welcomeCard: _welcomeCard,
+      introCard: exploreIntroCard,
     );
   }
 }
