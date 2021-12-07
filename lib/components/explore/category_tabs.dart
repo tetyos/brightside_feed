@@ -4,16 +4,16 @@ import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 
-class CategoryScrollView extends StatefulWidget {
+class CategoryTabs extends StatefulWidget {
   final ItemCategory category;
 
-  CategoryScrollView({required this.category, required Key key}) : super(key: key);
+  CategoryTabs({required this.category, required Key key}) : super(key: key);
 
   @override
-  _CategoryScrollViewState createState() => _CategoryScrollViewState();
+  _CategoryTabsState createState() => _CategoryTabsState();
 }
 
-class _CategoryScrollViewState extends State<CategoryScrollView> {
+class _CategoryTabsState extends State<CategoryTabs> {
   late ItemListModel _itemListModel;
 
   @override

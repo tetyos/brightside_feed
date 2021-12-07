@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nexth/components/explore/category_scroll_view.dart';
-import 'package:nexth/components/explore/explore_add_custom_filter.dart';
-import 'package:nexth/components/explore/explore_awarded.dart';
-import 'package:nexth/components/explore/explore_likes.dart';
-import 'package:nexth/components/explore/explore_start_page.dart';
+import 'package:nexth/components/explore/category_tabs.dart';
+import 'package:nexth/components/explore/explore_add_filter_tab.dart';
+import 'package:nexth/components/explore/explore_popular_tab.dart';
+import 'package:nexth/components/explore/explore_likes_tab.dart';
+import 'package:nexth/components/explore/explore_home_tab.dart';
 import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
@@ -65,12 +65,12 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
       ),
       Expanded(
         child: TabBarView(controller: _tabController, physics: CustomPageViewScrollPhysics(), children: [
-          ExploreAddCustomFilter(),
-          ExploreLikes(),
-          ExploreStartPage(),
-          ExploreAwarded(),
+          ExploreAddFilterTab(),
+          ExploreLikesTab(),
+          ExploreHomeTab(),
+          ExplorePopularTab(),
           for (ItemCategory itemCategory in ItemCategory.values)
-            CategoryScrollView(
+            CategoryTabs(
               category: itemCategory,
               key: PageStorageKey<String>(itemCategory.displayTitle),
             ),

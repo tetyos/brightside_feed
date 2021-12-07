@@ -4,13 +4,13 @@ import 'package:nexth/components/item_list_scroll_view.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 
-class ExploreLikes extends StatefulWidget {
+class ExplorePopularTab extends StatefulWidget {
 
   @override
-  _ExploreLikesState createState() => _ExploreLikesState();
+  _ExplorePopularTabState createState() => _ExplorePopularTabState();
 }
 
-class _ExploreLikesState extends State<ExploreLikes> {
+class _ExplorePopularTabState extends State<ExplorePopularTab> {
   late ItemListModel _itemListModel;
   late Widget _introCard;
 
@@ -21,9 +21,9 @@ class _ExploreLikesState extends State<ExploreLikes> {
 
     _introCard = SliverToBoxAdapter(
       child: const IntroCard(
-          title: "Your likes",
+          title: "Popular items",
           message:
-              "In this list you find every item you liked or you gave an award to."),
+              "In this list you find all items that received awards by the community. "),
     );
   }
 

@@ -4,9 +4,9 @@ import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:provider/provider.dart';
 
-class ExploreStartPage extends StatelessWidget {
+class ExploreHomeTab extends StatelessWidget {
 
-  const ExploreStartPage({Key? key}) : super(key: key);
+  const ExploreHomeTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/utils/constants.dart';
 
-class ExploreAddCustomFilter extends StatelessWidget {
+class ExploreAddFilterTab extends StatelessWidget {
 
-  const ExploreAddCustomFilter({Key? key}) : super(key: key);
+  const ExploreAddFilterTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
