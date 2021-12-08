@@ -57,7 +57,7 @@ class WelcomeCard extends StatelessWidget {
                 Text(
                   "Scroll down, to catch up on what happened since your last login.",
                   // "Scroll down, to catch up on the good things fellow human beings have done since your last login.",
-                  style: TextStyle(color: kColorSecondaryDark),
+                  style: TextStyle(color: Colors.black87),
                 )
               ],
             ),

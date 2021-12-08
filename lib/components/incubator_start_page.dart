@@ -40,40 +40,40 @@ class WelcomeCard extends StatelessWidget {
                 SizedBox(height: 20),
                 Text(
                   "Newly added items appear here first.\n ",
-                  style: TextStyle(color: kColorSecondaryDark, fontSize: 16),
+                  style: TextStyle(color: Colors.black87, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
                 Text(
                   "Incubator status",
                   style: TextStyle(
-                      color: kColorSecondaryDark, fontSize: 16, fontWeight: FontWeight.bold),
+                      color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 Text(
                   "After a threshold is met (for now 3 up-votes), the incubator status will be removed and the items will be visible in the rest of the app.\n",
-                  style: TextStyle(color: kColorSecondaryDark, fontSize: 16),
+                  style: TextStyle(color: Colors.black87, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
                 Text(
                   "Trusted sources",
                   style: TextStyle(
-                      color: kColorSecondaryDark, fontSize: 16, fontWeight: FontWeight.bold),
+                      color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 Text(
                   "Currently there are two lists: one for trusted hosts and one for hosts that have not been verified yet.\n",
-                  style: TextStyle(color: kColorSecondaryDark, fontSize: 16),
+                  style: TextStyle(color: Colors.black87, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
                 Text(
                   "Upcoming: News scanner",
                   style: TextStyle(
-                      color: kColorSecondaryDark, fontSize: 16, fontWeight: FontWeight.bold),
+                      color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 Text(
                   "At a later point the incubator will also feature automatically collected news that to this app.",
-                  style: TextStyle(color: kColorSecondaryDark, fontSize: 16),
+                  style: TextStyle(color: Colors.black87, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
               ],

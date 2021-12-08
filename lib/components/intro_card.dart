@@ -27,7 +27,7 @@ class IntroCard extends StatelessWidget {
                 SizedBox(height: 10),
                 Text(
                   message,
-                  style: TextStyle(color: kColorSecondaryDark,),
+                  style: TextStyle(color: Colors.black87,),
                   textAlign: TextAlign.center,
                 ),
               ],
