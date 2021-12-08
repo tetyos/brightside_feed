@@ -17,7 +17,7 @@ class _ExplorePopularTabState extends State<ExplorePopularTab> {
   @override
   void initState() {
     super.initState();
-    _itemListModel = ModelManager.instance.exploreLikesModel;
+    _itemListModel = ModelManager.instance.explorePopularModel;
   }
 
   @override

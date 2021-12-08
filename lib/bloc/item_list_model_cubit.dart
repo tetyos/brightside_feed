@@ -12,9 +12,11 @@ class ItemListModelCubit extends Cubit<ItemListModelState> {
   ItemListModelCubit() : super(ItemListModelInitial());
 
   void changeFilter(Periodicity periodicity, VoteType votingType) {
-    ExplorePopularModel itemListModel = ExplorePopularModel(periodicity: periodicity, votingType: votingType);
-    ModelManager.instance.explorePopularModel = itemListModel;
-    emit(ItemListModelReset(itemListModel: itemListModel));
+    ExplorePopularModel explorePopularModel = ModelManager.instance.explorePopularModel;
+    explorePopularModel.periodicity = periodicity;
+    explorePopularModel.votingType = votingType;
+    explorePopularModel.reset();
+    emit(ItemListModelReset(itemListModel: explorePopularModel));
   }
 
   void resetIncubatorModel(IncubatorType incubatorType) {

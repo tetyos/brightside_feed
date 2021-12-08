@@ -139,7 +139,7 @@ class APIConnector {
 
     Map<String, dynamic> payloadMap = {};
     payloadMap[API_Identifiers.postVoteItemId] = model.itemId;
-    payloadMap[API_Identifiers.postVoteCategory] = model.identifier;
+    payloadMap[API_Identifiers.postVoteCategory] = model.postVoteIdentifier;
     payloadMap[API_Identifiers.postVoteIncreaseAmount] = isIncrease;
     String payloadJson = Dart.jsonEncode(payloadMap);
 

@@ -115,7 +115,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => FractionallySizedBox(
-        heightFactor: MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.6 : 0.7,
+        heightFactor: MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.4 : 0.7,
         child: FilterPopularScreen(),
       ),
     ).whenComplete(() => setState((){}));

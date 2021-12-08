@@ -1,4 +1,3 @@
-import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/vote_model.dart';
@@ -10,8 +9,8 @@ class ExplorePopularModel extends ItemListModel {
   @override
   final int imagesToPreloadDuringAppStart = 0;
 
-  final Periodicity periodicity;
-  final VoteType votingType;
+  Periodicity periodicity;
+  VoteType votingType;
 
   ExplorePopularModel({required this.periodicity, required this.votingType});
 
@@ -22,12 +21,12 @@ class ExplorePopularModel extends ItemListModel {
 
   @override
   DatabaseQuery getDBQuery() {
-    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_DateAdded, limit: numberOfItemsToRequest, dateGT: getStartingDate(periodicity));
+    return new DatabaseQuery(sortBy: votingType.totalVotesIdentifier, limit: numberOfItemsToRequest, dateGT: getStartingDate(periodicity), incubatorStatus: "inc1");
   }
 
   @override
   DatabaseQuery getMoreItemsDBQuery(String ltDate) {
-    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_DateAdded, limit: numberOfItemsToRequest, dateGT: getStartingDate(periodicity));
+    return new DatabaseQuery(sortBy: votingType.totalVotesIdentifier, limit: numberOfItemsToRequest, dateLT: ltDate, dateGT: getStartingDate(periodicity), incubatorStatus: "inc1");
   }
 }
 

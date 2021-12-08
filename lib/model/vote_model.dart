@@ -3,17 +3,75 @@ import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
 import 'package:flutter/material.dart';
 
 abstract class VoteModel {
+  final VoteType voteType = VoteType.upVote;
+  String get itemId;
   int numberOfRatings = 0;
   bool voted = false;
-  String get itemId;
-  IconData get iconData;
-  String get identifier;
-  String get displayText;
+  IconData get iconData => voteType.icon;
+  String get postVoteIdentifier => voteType.postVoteIdentifier;
+  String get displayText => voteType.displayTitle;
 }
 
 enum VoteType {upVote, impact, inspiring, wellWritten}
 
+extension VoteTypeExtension on VoteType {
+  String get displayTitle {
+    switch (this) {
+      case VoteType.upVote:
+        return 'Up Vote';
+      case VoteType.impact:
+        return 'High impact';
+      case VoteType.inspiring:
+        return 'Inspiring';
+      case VoteType.wellWritten:
+        return 'Well written';
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case VoteType.upVote:
+        return Icons.thumb_up_alt_outlined;
+      case VoteType.impact:
+        return Icons.public;
+      case VoteType.inspiring:
+        return FontAwesomeIcons.grinStars;
+      case VoteType.wellWritten:
+        return FontAwesomeIcons.featherAlt;
+    }
+  }
+
+  String get postVoteIdentifier {
+    switch (this) {
+      case VoteType.upVote:
+        return APIKeys.postUpVote;
+      case VoteType.impact:
+        return APIKeys.postImpactVote;
+      case VoteType.inspiring:
+        return APIKeys.postInspiringVote;
+      case VoteType.wellWritten:
+        return APIKeys.postWellWrittenVote;
+    }
+  }
+
+  String get totalVotesIdentifier {
+    switch (this) {
+      case VoteType.upVote:
+        return APIKeys.totalUpVotes;
+      case VoteType.impact:
+        return APIKeys.totalImpactVotes;
+      case VoteType.inspiring:
+        return APIKeys.totalInspiringVotes;
+      case VoteType.wellWritten:
+        return APIKeys.totalWellWrittenVotes;
+    }
+  }
+}
+
 class UpVoteModel extends VoteModel {
+
+  @override
+  final VoteType voteType = VoteType.upVote;
 
   final String _itemId;
 
@@ -24,16 +82,6 @@ class UpVoteModel extends VoteModel {
 
   @override
   String get itemId => _itemId;
-
-  @override
-  String get identifier => APIKeys.postUpVote;
-
-  @override
-  String get displayText => "Up Vote";
-
-  @override
-  IconData get iconData => Icons.thumb_up_alt_outlined;
-
 
   UpVoteModel({required itemId, required this.numberOfRatings, required this.voted}) : _itemId = itemId;
 
@@ -45,6 +93,9 @@ class UpVoteModel extends VoteModel {
 
 class ImpactVoteModel extends VoteModel {
 
+  @override
+  final VoteType voteType = VoteType.impact;
+
   final String _itemId;
 
   @override
@@ -54,16 +105,6 @@ class ImpactVoteModel extends VoteModel {
 
   @override
   String get itemId => _itemId;
-
-  @override
-  String get identifier => APIKeys.postImpactVote;
-
-  @override
-  String get displayText => "High Impact";
-
-  @override
-  IconData get iconData => Icons.public;
-
 
   ImpactVoteModel({required itemId, required this.numberOfRatings, required this.voted}) : _itemId = itemId;
 
@@ -75,6 +116,9 @@ class ImpactVoteModel extends VoteModel {
 
 class InspiringVoteModel extends VoteModel {
 
+  @override
+  final VoteType voteType = VoteType.inspiring;
+
   final String _itemId;
 
   @override
@@ -84,15 +128,6 @@ class InspiringVoteModel extends VoteModel {
 
   @override
   String get itemId => _itemId;
-
-  @override
-  String get identifier => APIKeys.postInspiringVote;
-
-  @override
-  String get displayText => "Inspiring";
-
-  @override
-  IconData get iconData => FontAwesomeIcons.grinStars;
 
 
   InspiringVoteModel({required itemId, required this.numberOfRatings, required this.voted}) : _itemId = itemId;
@@ -105,6 +140,9 @@ class InspiringVoteModel extends VoteModel {
 
 class WellWrittenVoteModel extends VoteModel {
 
+  @override
+  final VoteType voteType = VoteType.wellWritten;
+
   final String _itemId;
 
   @override
@@ -114,16 +152,6 @@ class WellWrittenVoteModel extends VoteModel {
 
   @override
   String get itemId => _itemId;
-
-  @override
-  String get identifier => APIKeys.postWellWrittenVote;
-
-  @override
-  String get displayText => "Well written";
-
-  @override
-  IconData get iconData => FontAwesomeIcons.featherAlt;
-
 
   WellWrittenVoteModel({required itemId, required this.numberOfRatings, required this.voted}) : _itemId = itemId;
 
