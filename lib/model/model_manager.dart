@@ -2,10 +2,12 @@ import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/category_list_model.dart';
+import 'package:nexth/model/explore_popular_model.dart';
 import 'package:nexth/model/home_list_model.dart';
 import 'package:nexth/model/incubator_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/model/vote_model.dart';
 
 class ModelManager {
   static ModelManager _instance = ModelManager._();
@@ -15,7 +17,7 @@ class ModelManager {
 
   final ItemListModel homeModel = HomeListModel();
   final ItemListModel exploreLikesModel = IncubatorListModel(incubatorType: IncubatorType.inc1);
-  final ItemListModel exploreAwardedModel = IncubatorListModel(incubatorType: IncubatorType.unsafe);
+  ExplorePopularModel explorePopularModel = ExplorePopularModel(votingType: VoteType.impact, periodicity: Periodicity.week);
 
   final ItemListModel inc1IncubatorModel = IncubatorListModel(incubatorType: IncubatorType.inc1);
   final ItemListModel unsafeIncubatorModel = IncubatorListModel(incubatorType: IncubatorType.unsafe, isPreloadImages: false);
@@ -31,7 +33,19 @@ class ModelManager {
   static ModelManager get instance => _instance;
 
   ModelManager._() {
-    allModels.addAll([homeModel, inc1IncubatorModel, unsafeIncubatorModel, _energyItemList, _informationItemList, _healthItemList, _mobilityItemList, _foodItemList, _otherItemList]);
+    allModels.addAll([
+      homeModel,
+      inc1IncubatorModel,
+      unsafeIncubatorModel,
+      exploreLikesModel,
+      explorePopularModel,
+      _energyItemList,
+      _informationItemList,
+      _healthItemList,
+      _mobilityItemList,
+      _foodItemList,
+      _otherItemList
+    ]);
   }
 
   ItemListModel getModelForCategory(ItemCategory itemCategory) {

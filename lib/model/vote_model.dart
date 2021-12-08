@@ -11,6 +11,8 @@ abstract class VoteModel {
   String get displayText;
 }
 
+enum VoteType {upVote, impact, inspiring, wellWritten}
+
 class UpVoteModel extends VoteModel {
 
   final String _itemId;

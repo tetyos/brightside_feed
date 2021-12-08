@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nexth/bloc/item_list_model_cubit.dart';
 import 'package:nexth/components/item_card_2.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
@@ -47,16 +49,25 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      // todo interaction does not work
-      interactive: true,
-      thickness: 4,
-      controller: _scrollController,
-      child: RefreshIndicator(
-        onRefresh: () async {await _executeRefresh();},
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: getSlivers(),
+    return BlocListener<ItemListModelCubit, ItemListModelState>(
+      listener: (context, state) {
+        if (state is ItemListModelReset && state.itemListModel == widget.itemListModel) {
+          _initModel();
+        }
+      },
+      child: Scrollbar(
+        // todo interaction does not work
+        interactive: true,
+        thickness: 4,
+        controller: _scrollController,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await _executeRefresh();
+          },
+          child: CustomScrollView(
+            controller: _scrollController,
+            slivers: getSlivers(),
+          ),
         ),
       ),
     );

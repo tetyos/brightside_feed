@@ -4,12 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart' as LinkPreviewer;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/backend_connection/api_connector.dart';
+import 'package:nexth/bloc/item_list_model_cubit.dart';
 import 'package:nexth/components/add_url_preview_card.dart';
 import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/model/incubator_list_model.dart';
 import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/item_list_model.dart';
-import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/utils/constants.dart' as Constants;
@@ -107,10 +106,9 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
           UIUtils.showSnackBar("Glitch in the matrix detected. Run!", context);
           print("Item with id: '" + itemData.id + "' had no incubatorStatus. This should not happen.");
         } else {
-          ItemListModel itemListModel = ModelManager.instance.getModelForIncubatorType(incubatorTypeOfItem);
-          itemListModel.reset();
           Provider.of<AppState>(context, listen: false).setIncubatorScreenCurrentTabAndNotify(incubatorTypeOfItem.tabNumber);
           Provider.of<AppState>(context, listen: false).currentRoutePath = NexthIncubatorPath();
+          context.read<ItemListModelCubit>().resetIncubatorModel(incubatorTypeOfItem);
           UIUtils.showSnackBar("Link added!", context);
         }
       } else {

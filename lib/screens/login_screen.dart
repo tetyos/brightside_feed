@@ -33,20 +33,21 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<String?> _registerUser(LoginData data) async {
+  Future<String?> _registerUser(SignupData data) async {
     try {
+      if (data.name == null)  return "Error: No email provided.";
       Map<String, String> userAttributes = {
-        CognitoUserAttributes.email: data.name,
+        CognitoUserAttributes.email: data.name!,
       };
       // todo usage of return value necessary? no exception == register successful?
       await Amplify.Auth.signUp(
-          username: data.name,
+          username: data.name!,
           password: data.password,
           options: CognitoSignUpOptions(userAttributes: userAttributes));
 
       Future.delayed(Duration(milliseconds: 2500), () {
         Provider.of<AppState>(context, listen: false).currentRoutePath = ConfirmScreenPath();
-        Provider.of<AppState>(context, listen: false).confirmLoginMail = data.name;
+        Provider.of<AppState>(context, listen: false).confirmLoginMail = data.name!;
       });
       return null;
     } on AuthException catch (e) {

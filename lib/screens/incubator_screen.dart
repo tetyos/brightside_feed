@@ -27,13 +27,13 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
     super.initState();
     _tabController = new TabController(length: 3, vsync: this);
     _tabController.addListener(() {
-      Provider.of<AppState>(context, listen: false).incubatorScreenCurrentTab = _tabController.index;
+      Provider.of<AppState>(context, listen: false).setIncubatorScreenCurrentTabAndNotify(_tabController.index);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _tabController.index = Provider.of<AppState>(context, listen: true).incubatorScreenCurrentTab;
+    _tabController.index = Provider.of<AppState>(context, listen: false).incubatorScreenCurrentTab;
     return Column(children: [
       Container(
         color: kColorPrimary,

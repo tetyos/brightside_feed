@@ -46,15 +46,19 @@ class AppState extends ChangeNotifier {
   }
 
   void setExplorerScreenCurrentTabAndNotify(int currentTabExplorerScreen) {
-    explorerScreenCurrentTab = currentTabExplorerScreen;
-    notifyListeners();
+    if (explorerScreenCurrentTab != currentTabExplorerScreen) {
+      explorerScreenCurrentTab = currentTabExplorerScreen;
+      notifyListeners();
+    }
   }
 
   int get explorerScreenStartTab => numberOfUserDefinedTabs + 1;
 
   void setIncubatorScreenCurrentTabAndNotify(int incubatorScreenCurrentTab) {
-    this.incubatorScreenCurrentTab = incubatorScreenCurrentTab;
-    notifyListeners();
+    if (this.incubatorScreenCurrentTab != incubatorScreenCurrentTab) {
+      this.incubatorScreenCurrentTab = incubatorScreenCurrentTab;
+      notifyListeners();
+    }
   }
 
   ItemData? get currentSelectedItem => _currentSelectedItem;

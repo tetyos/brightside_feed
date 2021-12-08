@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nexth/bloc/item_list_model_cubit.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
@@ -32,63 +34,72 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AppState>(
       create: (BuildContext context) => _appState,
-      child: Navigator(
-        key: navigatorKey,
-        pages: [
-          if (!(_appState.currentRoutePath is PreMainScreenPath))
-            MaterialPage(
-              child: AppShellScreen(),
-            ),
-          if (_appState.currentWebViewItem != null)
-            MaterialPage(
-              child: WebViewScreen(),
-            ),
-          if (_appState.currentRoutePath is LoadingScreen2Path)
-            MaterialPage(
-              child: LoadingScreen2(),
-            ),
-          if (_appState.currentRoutePath is IntroScreenPath)
-            MaterialPage(
-              child: IntroScreen2(),
-            ),
-          if (_appState.currentRoutePath is LoginScreenPath)
-            MaterialPage(
-              child: LoginScreen(),
-            ),
-          if (_appState.currentRoutePath is ConfirmScreenPath)
-            MaterialPage(
-              child: ConfirmScreen(),
-            ),
-          if (_appState.currentRoutePath is LoadingScreen1Path)
-            MaterialPage(
-              child: LoadingScreen1(
-                onDataLoaded: () async {
-                  if (_appState.isUserLoggedIn && !ModelManager.instance.isUserVotesRetrieved) {
-                    print("Retrieving user votes");
-                    await ModelManager.instance.retrieveUserVotes();
-                  }
-                  _appState.isDataLoading = false;
-                  if (_appState.currentRoutePath is LoadingScreen2Path) {
-                    _appState.currentRoutePath = NexthHomePath();
-                  }
-                },
-              ),
-            ),
-        ],
-        onPopPage: (route, result) {
-          if (!route.didPop(result)) {
-            return false;
-          }
-          if (_appState.currentRoutePath is ConfirmScreenPath) {
-            _appState.currentRoutePath = LoginScreenPath();
-          }
-          if (_appState.currentWebViewItem != null) {
-            _appState.currentWebViewItem = null;
-          }
-          return true;
-        },
+      child: BlocProvider(
+          create: (context) => ItemListModelCubit(),
+        child: Navigator(
+          key: navigatorKey,
+          pages: getPages(),
+          onPopPage: popPage,
+        ),
       ),
     );
+  }
+
+  List<Page<dynamic>> getPages() {
+    return [
+      if (!(_appState.currentRoutePath is PreMainScreenPath))
+        MaterialPage(
+          child: AppShellScreen(),
+        ),
+      if (_appState.currentWebViewItem != null)
+        MaterialPage(
+          child: WebViewScreen(),
+        ),
+      if (_appState.currentRoutePath is LoadingScreen2Path)
+        MaterialPage(
+          child: LoadingScreen2(),
+        ),
+      if (_appState.currentRoutePath is IntroScreenPath)
+        MaterialPage(
+          child: IntroScreen2(),
+        ),
+      if (_appState.currentRoutePath is LoginScreenPath)
+        MaterialPage(
+          child: LoginScreen(),
+        ),
+      if (_appState.currentRoutePath is ConfirmScreenPath)
+        MaterialPage(
+          child: ConfirmScreen(),
+        ),
+      if (_appState.currentRoutePath is LoadingScreen1Path)
+        MaterialPage(
+          child: LoadingScreen1(
+            onDataLoaded: () async {
+              if (_appState.isUserLoggedIn && !ModelManager.instance.isUserVotesRetrieved) {
+                print("Retrieving user votes");
+                await ModelManager.instance.retrieveUserVotes();
+              }
+              _appState.isDataLoading = false;
+              if (_appState.currentRoutePath is LoadingScreen2Path) {
+                _appState.currentRoutePath = NexthHomePath();
+              }
+            },
+          ),
+        ),
+    ];
+  }
+
+  bool popPage(route, result) {
+    if (!route.didPop(result)) {
+      return false;
+    }
+    if (_appState.currentRoutePath is ConfirmScreenPath) {
+      _appState.currentRoutePath = LoginScreenPath();
+    }
+    if (_appState.currentWebViewItem != null) {
+      _appState.currentWebViewItem = null;
+    }
+    return true;
   }
 
   @override

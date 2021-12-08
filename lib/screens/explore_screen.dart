@@ -30,13 +30,13 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
         vsync: this,
         initialIndex: appState.explorerScreenStartTab);
     _tabController.addListener(() {
-      appState.explorerScreenCurrentTab = _tabController.index;
+      appState.setExplorerScreenCurrentTabAndNotify(_tabController.index);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _tabController.index = Provider.of<AppState>(context, listen: true).explorerScreenCurrentTab;
+    _tabController.index = Provider.of<AppState>(context, listen: false).explorerScreenCurrentTab;
     return Column(children: [
       Container(
         color: kColorPrimary,
