@@ -2,6 +2,7 @@ import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/category_list_model.dart';
+import 'package:nexth/model/explore_likes_model.dart';
 import 'package:nexth/model/explore_popular_model.dart';
 import 'package:nexth/model/home_list_model.dart';
 import 'package:nexth/model/incubator_list_model.dart';
@@ -16,7 +17,7 @@ class ModelManager {
   bool isUserVotesRetrieved = false;
 
   final ItemListModel homeModel = HomeListModel();
-  final ItemListModel exploreLikesModel = IncubatorListModel(incubatorType: IncubatorType.inc1);
+  final ItemListModel exploreLikesModel = ExploreLikesModel();
   ExplorePopularModel explorePopularModel = ExplorePopularModel(votingType: VoteType.impact, periodicity: Periodicity.week);
 
   final ItemListModel inc1IncubatorModel = IncubatorListModel(incubatorType: IncubatorType.inc1);

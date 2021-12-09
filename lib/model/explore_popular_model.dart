@@ -21,12 +21,21 @@ class ExplorePopularModel extends ItemListModel {
 
   @override
   DatabaseQuery getDBQuery() {
-    return new DatabaseQuery(sortBy: votingType.totalVotesIdentifier, limit: numberOfItemsToRequest, dateGT: getStartingDate(periodicity), incubatorStatus: "inc1");
+    return new DatabaseQuery(
+        sortBy: votingType.totalVotesIdentifier,
+        limit: numberOfItemsToRequest,
+        dateGT: getStartingDate(periodicity),
+        voteType: votingType.totalVotesIdentifier);
   }
 
   @override
   DatabaseQuery getMoreItemsDBQuery(String ltDate) {
-    return new DatabaseQuery(sortBy: votingType.totalVotesIdentifier, limit: numberOfItemsToRequest, dateLT: ltDate, dateGT: getStartingDate(periodicity), incubatorStatus: "inc1");
+    return new DatabaseQuery(
+        sortBy: votingType.totalVotesIdentifier,
+        limit: numberOfItemsToRequest,
+        dateLT: ltDate,
+        dateGT: getStartingDate(periodicity),
+        voteType: votingType.totalVotesIdentifier);
   }
 }
 

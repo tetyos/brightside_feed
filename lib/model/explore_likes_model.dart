@@ -16,11 +16,11 @@ class ExploreLikesModel extends ItemListModel {
 
   @override
   DatabaseQuery getDBQuery() {
-    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_DateAdded, limit: numberOfItemsToRequest);
+    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_lastVoteOn, limit: numberOfItemsToRequest, isFetchUserLikes: true);
   }
 
   @override
   DatabaseQuery getMoreItemsDBQuery(String ltDate) {
-    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_DateAdded, limit: numberOfItemsToRequest, dateLT: ltDate);
+    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_lastVoteOn, limit: numberOfItemsToRequest, skip: items.length, isFetchUserLikes: true);
   }
 }
