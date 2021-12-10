@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/model/item_data.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 
 class AppState extends ChangeNotifier {
   NexthRoutePath _currentRoutePath = LoadingScreen1Path();
 
-  bool isUserLoggedIn = false;
   bool _isDataLoading = true;
   bool _isShowIntro = true;
   String confirmLoginMail = "";
@@ -44,6 +44,15 @@ class AppState extends ChangeNotifier {
     _isDataLoading = isDataLoading;
     notifyListeners();
   }
+
+  // todo put 'isUserLoggedIn' also into ModelManager?
+  bool get isUserLoggedIn {
+    return ModelManager.instance.userModel != null;
+  }
+
+  ///
+  /// main-screen stuff
+  ///
 
   void setExplorerScreenCurrentTabAndNotify(int currentTabExplorerScreen) {
     if (explorerScreenCurrentTab != currentTabExplorerScreen) {

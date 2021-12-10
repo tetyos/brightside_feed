@@ -10,6 +10,7 @@ import 'package:nexth/model/basic_test_urls.dart';
 import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/model/user_data.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
@@ -62,18 +63,18 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     Future<void> minDelayFuture = Future.delayed(Duration(milliseconds: 1500));
 
     List<Future<void>> finishOnLoadingScreenFutures = [];
-    List<Future<void>> finishBeforeLoadingInitItemsFutures = [];
+    List<Future<void>> finishBeforeLoadingInitDataFutures = [];
 
     finishOnLoadingScreenFutures.add(localStorageFuture);
     finishOnLoadingScreenFutures.add(amplifyFuture);
     finishOnLoadingScreenFutures.add(minDelayFuture);
 
-    finishBeforeLoadingInitItemsFutures.add(localStorageFuture);
-    finishBeforeLoadingInitItemsFutures.add(amplifyFuture);
+    finishBeforeLoadingInitDataFutures.add(localStorageFuture);
+    finishBeforeLoadingInitDataFutures.add(amplifyFuture);
 
-    Future<void> dataLoadingFuture = Future.wait(finishBeforeLoadingInitItemsFutures).then((_) => _loadInitialItems());
+    Future<void> dataLoadingFuture = Future.wait(finishBeforeLoadingInitDataFutures).then((_) => _loadInitialData());
     // commend out above and uncomment to below to use hardcoded items
-    // Future<void> dataLoadingFuture = Future.wait(finishBeforeLoadingInitItemsFutures).then((_) => _loadInitialHardcodedItems());
+    // Future<void> dataLoadingFuture = Future.wait(finishBeforeLoadingInitDataFutures).then((_) => _loadInitialHardcodedItems());
     dataLoadingFuture.then((_) {
       widget.onDataLoaded();
       print("Loading initial data finished.");
@@ -106,11 +107,9 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
       print("Checking login status. Ignore the following exception, if the user was not logged in.");
       AuthUser user = await Amplify.Auth.getCurrentUser();
       print("Login check complete. User logged in.");
-      Provider.of<AppState>(context, listen: false).isUserLoggedIn = true;
-      // Provider.of<AppState>(context, listen: false).userData = ...;
+      ModelManager.instance.userModel = UserModel(id: user.userId, email: user.username);
     } on AuthException {
       print("Login check complete. User not logged in.");
-      Provider.of<AppState>(context, listen: false).isUserLoggedIn = false;
     }
   }
 
@@ -118,8 +117,10 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   /// The fetching is done in one http-request, in order to save traffic aka money.<br><br>
   ///
   /// The corresponding item-list-models are filled with the new items.<br>
-  /// For a few of the new items the images are preloaded.
-  Future<void> _loadInitialItems() async {
+  /// For a few of the new items the images are preloaded.<br><br>
+  ///
+  /// The UserData-model is initiated.
+  Future<void> _loadInitialData() async {
     print("Loading of items started.");
     ModelManager modelManager = ModelManager.instance;
     List<ItemListModel> modelsWithQueries = [];
@@ -138,11 +139,16 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     // sent request
     bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
     if (isUserLoggedIn) {
-      ModelManager.instance.isUserVotesRetrieved = true;
+      ModelManager.instance.isUserDataRetrieved = true;
     }
     dynamic resultsForAllModels = await APIConnector.getInitialData(queriesAsJson, isUserLoggedIn);
     if (resultsForAllModels == null) {
       return;
+    }
+    // init user model
+    dynamic userDoc = resultsForAllModels['userDoc'];
+    if (userDoc != null) {
+      ModelManager.instance.userModel!.update(userDoc);
     }
 
     // parse results and init models

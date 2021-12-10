@@ -1,6 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/inner_route_delegate.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
@@ -151,7 +152,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
     }
     try {
       await Amplify.Auth.signOut();
-      appState.isUserLoggedIn = false;
+      ModelManager.instance.userModel = null;
       appState.currentRoutePath = LoginScreenPath();
     } on AuthException catch (e) {
       UIUtils.showSnackBar(e.message, context);

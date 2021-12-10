@@ -37,6 +37,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
       if (res.isSignUpComplete) {
         UIUtils.showSnackBar("Confirmation successful", context);
         Provider.of<AppState>(context, listen: false).currentRoutePath = LoginScreenPath();
+        // todo tell backend to create new user in user-collection
       } else {
         _showError(context, "Glitch in the matrix detected");
       }

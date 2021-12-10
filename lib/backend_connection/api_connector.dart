@@ -105,16 +105,17 @@ class APIConnector {
     return null;
   }
 
-  /// checks on which of the given items a user has voted on.
-  /// response is a map of json documents, containing the types of votes
-  static Future<Map<String, dynamic>> getUserVotes(Set<String> itemIds) async {
+  /// retrieves user data (such as user name, admin status)
+  /// and checks on which of the given items a user has already voted on.
+  /// response is a map of json documents, containing the types of votes per item and a user-data-document
+  static Future<Map<String, dynamic>> getUserData(Set<String> itemIds) async {
     numberOfHttpRequests++;
     if (numberOfHttpRequests > httpRequestThreshold) return {};
 
     String itemIdsJson = Dart.jsonEncode(itemIds.toList());
     try {
       http.Response response = await httpPostAuthorized(
-          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_votes'),
+          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_user_data'),
           itemIdsJson);
       if (response.statusCode != 200) {
         print("Votes could not be retrieved. Statuscode: ${response.statusCode}");
@@ -122,8 +123,8 @@ class APIConnector {
         return {};
       }
 
-      Map<String, dynamic> userVotes = Dart.jsonDecode(response.body);
-      return userVotes;
+      Map<String, dynamic> userData = Dart.jsonDecode(response.body);
+      return userData;
     } catch (e) {
       print("Votes could not be retrieved.");
       print(e);

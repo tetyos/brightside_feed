@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nexth/model/model_manager.dart';
+import 'package:nexth/model/user_data.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:provider/provider.dart';
@@ -23,11 +24,9 @@ class _LoginScreenState extends State<LoginScreen> {
         username: data.name,
         password: data.password,
       );
-      Provider.of<AppState>(context, listen: false).isUserLoggedIn = true;
-      await retrieveUserVotesIfNecessary();
-      // AuthUser user = await Amplify.Auth.getCurrentUser();
-      // Provider.of<AppState>(context, listen: false).userData = user.userId;
-      // Provider.of<AppState>(context, listen: false).mail = user.username;
+      AuthUser user = await Amplify.Auth.getCurrentUser();
+      ModelManager.instance.userModel = UserModel(id: user.userId, email: user.username);
+      await retrieveUserDataIfNecessary();
     } on AuthException catch (e) {
       return 'Log In Error: ' + e.toString();
     }
@@ -115,9 +114,9 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> retrieveUserVotesIfNecessary() async {
-    if (!ModelManager.instance.isUserVotesRetrieved) {
-      await ModelManager.instance.retrieveUserVotes();
+  Future<void> retrieveUserDataIfNecessary() async {
+    if (!ModelManager.instance.isUserDataRetrieved) {
+      await ModelManager.instance.retrieveUserData();
     }
   }
 
@@ -125,11 +124,9 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       // todo usage of return value necessary? no exception == login successful?
       await Amplify.Auth.signInWithWebUI(provider: authProvider);
-      Provider.of<AppState>(context, listen: false).isUserLoggedIn = true;
-      await retrieveUserVotesIfNecessary();
-      // AuthSession authSession = await Amplify.Auth.fetchAuthSession(options: CognitoSessionOptions(getAWSCredentials: true),);
-      // AuthUser user = await Amplify.Auth.getCurrentUser();
-      // print(authSession.isSignedIn);
+      await retrieveUserDataIfNecessary();
+      AuthUser user = await Amplify.Auth.getCurrentUser();
+      ModelManager.instance.userModel = UserModel(id: user.userId, email: user.username);
       return null;
     } on AmplifyException catch (e) {
       print(e.message);

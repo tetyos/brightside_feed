@@ -8,13 +8,17 @@ import 'package:nexth/model/home_list_model.dart';
 import 'package:nexth/model/incubator_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/model/user_data.dart';
 import 'package:nexth/model/vote_model.dart';
 
 class ModelManager {
   static ModelManager _instance = ModelManager._();
+
+  UserModel? userModel;
+  bool isUserDataRetrieved = false;
+
   Map<String, ItemData> allItems = {};
   List<ItemListModel> allModels = [];
-  bool isUserVotesRetrieved = false;
 
   final ItemListModel homeModel = HomeListModel();
   final ItemListModel exploreLikesModel = ExploreLikesModel();
@@ -98,20 +102,23 @@ class ModelManager {
     return newItems;
   }
 
-  Future<void> retrieveUserVotes() async {
+  Future<void> retrieveUserData() async {
     Set<String> allItemIds = {};
     for (ItemListModel model in allModels) {
       for (ItemData item in model.items) {
         allItemIds.add(item.id);
       }
     }
-    Map<String, dynamic> itemIdsToVoteData = await APIConnector.getUserVotes(allItemIds);
+    Map<String, dynamic> userData = await APIConnector.getUserData(allItemIds);
+    Map<String, dynamic> votes = userData["votes"];
+    Map<String, dynamic> userDoc = userData["userDoc"];
+    this.userModel!.update(userDoc);
     for (ItemListModel model in allModels) {
       for (ItemData item in model.items) {
-        _updateVotesForItem(item, itemIdsToVoteData);
+        _updateVotesForItem(item, votes);
       }
     }
-    isUserVotesRetrieved = true;
+    isUserDataRetrieved = true;
   }
 
   void _updateVotesForItem(ItemData item, Map<String, dynamic> itemIdsToVoteData) {
