@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/components/vote_buttons.dart';
+import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
@@ -17,12 +17,20 @@ class ItemCard2 extends StatelessWidget {
 
   ItemCard2({required ItemData linkPreviewData})
       : _itemData = linkPreviewData,
-        _dateString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.dateAdded),
-        _shortDescription =
-            PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 150),
+        _dateString = PreviewDataLoader.getFormattedDateFromIso8601(
+            linkPreviewData.dateAdded),
+        _shortDescription = PreviewDataLoader.shortenDescriptionIfNecessary(
+            linkPreviewData.description, 150),
         _host = PreviewDataLoader.getHostFromUrl(linkPreviewData.url) {
+    ItemCategory? itemCategory = _itemData.itemCategory;
+    Image defaultImage;
+    if (itemCategory == null) {
+      defaultImage = Image.asset('images/no_picture.jpg');
+    } else {
+      defaultImage = Image.asset(itemCategory.imagePath);
+    }
     imageWidget = _itemData.imageProvider == null
-        ? SpinKitCircle(color: Colors.blueAccent)
+        ? defaultImage
         : ClipRRect(
             child: Image(image: _itemData.imageProvider!),
             borderRadius: BorderRadius.circular(8),
@@ -39,7 +47,8 @@ class ItemCard2 extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              GestureDetector(onTap: () => launchWebView(context), child: imageWidget),
+              GestureDetector(
+                  onTap: () => launchWebView(context), child: imageWidget),
               const SizedBox(height: 10),
               GestureDetector(
                 onTap: () => showDetailScreen(context),
@@ -47,12 +56,18 @@ class ItemCard2 extends StatelessWidget {
                   title: Text(
                     _itemData.title,
                   ),
-                  subtitle: _shortDescription == null ? null : Text(_shortDescription!),
+                  subtitle: _shortDescription == null
+                      ? null
+                      : Text(_shortDescription!),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(_host, style: TextStyle(color: kColorPrimary, fontWeight: FontWeight.bold),),
+                child: Text(
+                  _host,
+                  style: TextStyle(
+                      color: kColorPrimary, fontWeight: FontWeight.bold),
+                ),
               ),
               SizedBox(height: 10),
               Padding(
@@ -78,7 +93,8 @@ class ItemCard2 extends StatelessWidget {
   }
 
   void launchWebView(BuildContext context) async {
-    Provider.of<AppState>(context, listen: false).currentWebViewItem = _itemData;
+    Provider.of<AppState>(context, listen: false).currentWebViewItem =
+        _itemData;
   }
 
   void launchUrl() async {
@@ -97,6 +113,7 @@ class ItemCard2 extends StatelessWidget {
   ItemData get linkPreviewData => _itemData;
 
   void showDetailScreen(BuildContext context) {
-    Provider.of<AppState>(context, listen: false).currentSelectedItem = _itemData;
+    Provider.of<AppState>(context, listen: false).currentSelectedItem =
+        _itemData;
   }
 }

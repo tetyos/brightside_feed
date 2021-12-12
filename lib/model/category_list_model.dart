@@ -4,7 +4,6 @@ import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/item_list_model.dart';
 
 class CategoryListModel extends ItemListModel {
-
   @override
   int itemsToFetchDuringAppStart = 5;
   @override
@@ -17,28 +16,42 @@ class CategoryListModel extends ItemListModel {
   @override
   DatabaseQuery? getDBQueryForInitialization() {
     if (itemsToFetchDuringAppStart <= 0) return null;
-    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_DateAdded, limit: itemsToFetchDuringAppStart, categories: [itemCategory.toString()]);
+    return new DatabaseQuery(
+        sortBy: APIKeys.searchQuery_SortBy_DateAdded,
+        limit: itemsToFetchDuringAppStart,
+        categories: [itemCategory.toString()]);
   }
 
   @override
   DatabaseQuery getDBQuery() {
-    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_DateAdded, limit: numberOfItemsToRequest, categories: [itemCategory.toString()]);
+    return new DatabaseQuery(
+        sortBy: APIKeys.searchQuery_SortBy_DateAdded,
+        limit: numberOfItemsToRequest,
+        categories: [itemCategory.toString()]);
   }
 
   @override
   DatabaseQuery getMoreItemsDBQuery(String dateLT) {
-    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_DateAdded, limit: numberOfItemsToRequest, categories: [itemCategory.toString()], dateLT: dateLT);
+    return new DatabaseQuery(
+        sortBy: APIKeys.searchQuery_SortBy_DateAdded,
+        limit: numberOfItemsToRequest,
+        categories: [itemCategory.toString()],
+        dateLT: dateLT);
   }
 }
 
-enum ItemCategory {energy, information, health, mobility, food, other}
+enum ItemCategory { energy, information, health, mobility, food, other }
 
 ItemCategory? getItemCategoryFromString(String? itemCategory) {
   if (itemCategory == null) return null;
-  if (itemCategory == ItemCategory.energy.toString()) return ItemCategory.energy;
-  if (itemCategory == ItemCategory.information.toString()) return ItemCategory.information;
-  if (itemCategory == ItemCategory.health.toString()) return ItemCategory.health;
-  if (itemCategory == ItemCategory.mobility.toString()) return ItemCategory.mobility;
+  if (itemCategory == ItemCategory.energy.toString())
+    return ItemCategory.energy;
+  if (itemCategory == ItemCategory.information.toString())
+    return ItemCategory.information;
+  if (itemCategory == ItemCategory.health.toString())
+    return ItemCategory.health;
+  if (itemCategory == ItemCategory.mobility.toString())
+    return ItemCategory.mobility;
   if (itemCategory == ItemCategory.food.toString()) return ItemCategory.food;
   if (itemCategory == ItemCategory.other.toString()) return ItemCategory.other;
 }
@@ -58,6 +71,23 @@ extension ItemCategoryExtension on ItemCategory {
         return 'Food';
       case ItemCategory.other:
         return 'Other';
+    }
+  }
+
+  String get imagePath {
+    switch (this) {
+      case ItemCategory.energy:
+        return 'images/energy.jpg';
+      case ItemCategory.information:
+        return 'images/information.png';
+      case ItemCategory.health:
+        return 'images/no_picture.jpg';
+      case ItemCategory.mobility:
+        return 'images/mobility.png';
+      case ItemCategory.food:
+        return 'images/food.jpg';
+      case ItemCategory.other:
+        return 'images/other.jpg';
     }
   }
 
