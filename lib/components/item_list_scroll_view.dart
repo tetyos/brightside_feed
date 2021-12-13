@@ -4,6 +4,7 @@ import 'package:nexth/bloc/item_list_model_cubit.dart';
 import 'package:nexth/components/item_card_2.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ class ItemListScrollView extends StatefulWidget {
   final Widget? _appBar;
   final Widget? _introCard;
   final Widget Function(ItemData)? _customItemCardProvider;
+  final bool isAdmin = false;
 
   ItemListScrollView({
     required this.itemListModel,
@@ -32,7 +34,7 @@ class ItemListScrollView extends StatefulWidget {
 }
 
 class _ItemListScrollViewState extends State<ItemListScrollView> {
-  Widget Function(ItemData) _itemCardProvider = (itemData) => ItemCard2(linkPreviewData: itemData);
+  late Widget Function(ItemData) _itemCardProvider;
   ScrollController _scrollController = ScrollController();
   bool isLoadingImages = false;
   bool isFetchingItemData = false;
@@ -42,6 +44,9 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
     super.initState();
     if (widget._customItemCardProvider != null) {
       _itemCardProvider = widget._customItemCardProvider!;
+    } else {
+      _itemCardProvider = (itemData) =>
+          ItemCard2(linkPreviewData: itemData, isAdminCard: ModelManager.instance.isAdmin());
     }
     _initModel();
     _scrollController.addListener(scrollingListener);

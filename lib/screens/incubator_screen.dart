@@ -110,7 +110,8 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
     ModelManager _modelManager = ModelManager.instance;
     _itemListModel = _modelManager.getModelForIncubatorType(widget.incubatorType);
     if (widget.incubatorType == IncubatorType.unsafe) {
-      _itemCardProvider = (itemData) => IncubatorUnsafeCard(linkPreviewData: itemData);
+      _itemCardProvider = (itemData) => IncubatorUnsafeCard(
+          linkPreviewData: itemData, isAdminCard: ModelManager.instance.isAdmin());
       exploreIntroCard = SliverToBoxAdapter(
         child: const IntroCard(
             title: "New items: unknown websites",

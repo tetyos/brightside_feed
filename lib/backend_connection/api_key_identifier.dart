@@ -26,3 +26,11 @@ const String totalUpVotes = "upVotes";
 const String totalImpactVotes = "impactNoms";
 const String totalInspiringVotes = "inspiringNoms";
 const String totalWellWrittenVotes = "wellWrittenNoms";
+
+// Admin Actions
+const String adminAction_ItemId_Key = "itemId";
+const String adminAction_ActionType_Key = "actionType";
+
+const String adminAction_deleteItem = "deleteItem";
+const String adminAction_removeIncStatus = "removeIncStatus";
+const String adminAction_removeUnsafeStatus = "removeUnsafe";

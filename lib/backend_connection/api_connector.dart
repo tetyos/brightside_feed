@@ -160,6 +160,32 @@ class APIConnector {
     return false;
   }
 
+  /// executes the given admin action. returns true if successful.
+  static Future<bool> postAdminAction(String actionType, String itemId) async {
+    numberOfHttpRequests++;
+    if (numberOfHttpRequests > httpRequestThreshold) return false;
+
+    Map<String, dynamic> payloadMap = {};
+    payloadMap[API_Identifier.adminAction_ItemId_Key] = itemId;
+    payloadMap[API_Identifier.adminAction_ActionType_Key] = actionType;
+    String payloadJson = Dart.jsonEncode(payloadMap);
+
+    try {
+      http.Response response = await httpPostAuthorized(
+          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_admin_action'),
+          payloadJson);
+      if (response.statusCode == 200) {
+        return true;
+      }
+      print("Admin action could not be processed. StatusCode: ${response.statusCode}");
+      print(response.body);
+    } catch (e) {
+      print("Admin action could not be processed.");
+      print(e);
+    }
+    return false;
+  }
+
   static Future<http.Response> httpPostAuthorized(Uri uri, String bodyString) async {
     AuthSession res = await Amplify.Auth.fetchAuthSession(
       options: CognitoSessionOptions(getAWSCredentials: true),

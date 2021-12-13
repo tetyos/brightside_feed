@@ -53,6 +53,10 @@ class ModelManager {
     ]);
   }
 
+  bool isAdmin() {
+    return userModel != null && userModel!.rank == "admin";
+  }
+
   ItemListModel getModelForCategory(ItemCategory itemCategory) {
     switch (itemCategory) {
       case ItemCategory.energy:
@@ -132,6 +136,14 @@ class ModelManager {
       item.impactVoteModel.voted = votesOnItem.contains(API_Identifier.impactVote);
       item.inspiringVoteModel.voted = votesOnItem.contains(API_Identifier.inspiringVote);
       item.wellWrittenVoteModel.voted = votesOnItem.contains(API_Identifier.wellWrittenVote);
+    }
+  }
+
+  void deleteItem(ItemData itemData) {
+    allItems.remove(itemData);
+    for (ItemListModel model in allModels) {
+      model.items.remove(itemData);
+      model.fullyLoadedItems.remove(itemData);
     }
   }
 }

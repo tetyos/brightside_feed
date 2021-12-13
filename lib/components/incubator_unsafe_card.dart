@@ -12,8 +12,9 @@ class IncubatorUnsafeCard extends StatelessWidget {
   final String? _shortDescription;
   final String _dateString;
   final String _host;
+  final bool isAdminCard;
 
-  IncubatorUnsafeCard({required ItemData linkPreviewData})
+  IncubatorUnsafeCard({required ItemData linkPreviewData, this.isAdminCard = false})
       : _itemData = linkPreviewData,
         _dateString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.dateAdded),
         _shortDescription =
@@ -48,12 +49,7 @@ class IncubatorUnsafeCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
                     children: [
-                      Expanded(
-                        child: Text(
-                          _dateString,
-                          style: TextStyle(color: Colors.grey[500]),
-                        ),
-                      ),
+                      Expanded(child: renderDate(context)),
                       VoteButtons(itemData: _itemData)
                     ],
                   ),
@@ -65,6 +61,18 @@ class IncubatorUnsafeCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget renderDate(BuildContext context) {
+    Widget dateText = Text(
+      _dateString,
+      style: TextStyle(color: Colors.grey[500]),
+    );
+
+    if (isAdminCard) {
+      return GestureDetector(onTap: () => showDetailScreen(context), child: dateText);
+    }
+    return dateText;
   }
 
   void launchWebView(BuildContext context) async {
@@ -105,6 +113,10 @@ class IncubatorUnsafeCard extends StatelessWidget {
         throw Exception('Could not launch $url. Error: $err');
       }
     }
+  }
+
+  void showDetailScreen(BuildContext context) {
+    Provider.of<AppState>(context, listen: false).currentSelectedItem = _itemData;
   }
 
   ItemData get linkPreviewData => _itemData;
