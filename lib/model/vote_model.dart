@@ -1,5 +1,5 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
+import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:flutter/material.dart';
 
 abstract class VoteModel {
@@ -8,7 +8,7 @@ abstract class VoteModel {
   int numberOfRatings = 0;
   bool voted = false;
   IconData get iconData => voteType.icon;
-  String get postVoteIdentifier => voteType.postVoteIdentifier;
+  String get voteIdentifier => voteType.voteIdentifier;
   String get displayText => voteType.displayTitle;
 }
 
@@ -41,29 +41,29 @@ extension VoteTypeExtension on VoteType {
     }
   }
 
-  String get postVoteIdentifier {
+  String get voteIdentifier {
     switch (this) {
       case VoteType.upVote:
-        return APIKeys.postUpVote;
+        return API_Identifier.upVote;
       case VoteType.impact:
-        return APIKeys.postImpactVote;
+        return API_Identifier.impactVote;
       case VoteType.inspiring:
-        return APIKeys.postInspiringVote;
+        return API_Identifier.inspiringVote;
       case VoteType.wellWritten:
-        return APIKeys.postWellWrittenVote;
+        return API_Identifier.wellWrittenVote;
     }
   }
 
   String get totalVotesIdentifier {
     switch (this) {
       case VoteType.upVote:
-        return APIKeys.totalUpVotes;
+        return API_Identifier.totalUpVotes;
       case VoteType.impact:
-        return APIKeys.totalImpactVotes;
+        return API_Identifier.totalImpactVotes;
       case VoteType.inspiring:
-        return APIKeys.totalInspiringVotes;
+        return API_Identifier.totalInspiringVotes;
       case VoteType.wellWritten:
-        return APIKeys.totalWellWrittenVotes;
+        return API_Identifier.totalWellWrittenVotes;
     }
   }
 }

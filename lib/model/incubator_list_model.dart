@@ -1,9 +1,8 @@
-import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
+import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/item_list_model.dart';
 
 class IncubatorListModel extends ItemListModel {
-
   @override
   final int itemsToFetchDuringAppStart = 0;
   @override
@@ -23,25 +22,32 @@ class IncubatorListModel extends ItemListModel {
 
   @override
   DatabaseQuery getDBQuery() {
-    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_DateAdded, limit: numberOfItemsToRequest, incubatorStatus: incubatorType.key);
+    return new DatabaseQuery(
+        sortBy: API_Identifier.searchQuery_SortBy_DateAdded,
+        limit: numberOfItemsToRequest,
+        incubatorStatus: incubatorType.identifier);
   }
 
   @override
   DatabaseQuery getMoreItemsDBQuery(String ltDate) {
-    return new DatabaseQuery(sortBy: APIKeys.searchQuery_SortBy_DateAdded, limit: numberOfItemsToRequest, dateLT: ltDate, incubatorStatus: incubatorType.key);
+    return new DatabaseQuery(
+        sortBy: API_Identifier.searchQuery_SortBy_DateAdded,
+        limit: numberOfItemsToRequest,
+        dateLT: ltDate,
+        incubatorStatus: incubatorType.identifier);
   }
 }
 
-enum IncubatorType {inc1, unsafe}
+enum IncubatorType { inc1, unsafe }
 
 IncubatorType? getIncubatorTypeFromString(String? incubatorType) {
   if (incubatorType == null) return null;
-  if (incubatorType == IncubatorType.inc1.key) return IncubatorType.inc1;
-  if (incubatorType == IncubatorType.unsafe.key) return IncubatorType.unsafe;
+  if (incubatorType == IncubatorType.inc1.identifier) return IncubatorType.inc1;
+  if (incubatorType == IncubatorType.unsafe.identifier) return IncubatorType.unsafe;
 }
 
 extension IncubatorTypeExtension on IncubatorType {
-  String get key {
+  String get identifier {
     switch (this) {
       case IncubatorType.inc1:
         return 'inc1';

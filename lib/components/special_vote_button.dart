@@ -47,11 +47,11 @@ class SpecialVoteButton extends StatelessWidget {
         ],
       ),
       onSelected: (String value) async {
-        if (value == impactModel.postVoteIdentifier) {
+        if (value == impactModel.voteIdentifier) {
           onPressed(voteModel: impactModel);
-        } else if (value == inspiringModel.postVoteIdentifier) {
+        } else if (value == inspiringModel.voteIdentifier) {
           onPressed(voteModel: inspiringModel);
-        } else if (value == wellWrittenModel.postVoteIdentifier) {
+        } else if (value == wellWrittenModel.voteIdentifier) {
           onPressed(voteModel: wellWrittenModel);
         }
       },
@@ -67,7 +67,7 @@ class SpecialVoteButton extends StatelessWidget {
     Color voteColor = voteModel.voted ? kColorPrimary : Colors.black;
 
     return PopupMenuItem<String>(
-      value: voteModel.postVoteIdentifier,
+      value: voteModel.voteIdentifier,
       child: ListTile(
         dense: true,
         horizontalTitleGap: 0,

@@ -2,7 +2,7 @@ import 'dart:convert' as Dart;
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:http/http.dart' as http;
-import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifiers;
+import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/vote_model.dart';
@@ -139,9 +139,9 @@ class APIConnector {
     if (numberOfHttpRequests > httpRequestThreshold) return false;
 
     Map<String, dynamic> payloadMap = {};
-    payloadMap[API_Identifiers.postVoteItemId] = model.itemId;
-    payloadMap[API_Identifiers.postVoteCategory] = model.postVoteIdentifier;
-    payloadMap[API_Identifiers.postVoteIncreaseAmount] = isIncrease;
+    payloadMap[API_Identifier.postVote_ItemId_Key] = model.itemId;
+    payloadMap[API_Identifier.postVote_VoteCategory_Key] = model.voteIdentifier;
+    payloadMap[API_Identifier.postVote_IncreaseAmount_Key] = isIncrease;
     String payloadJson = Dart.jsonEncode(payloadMap);
 
     try {

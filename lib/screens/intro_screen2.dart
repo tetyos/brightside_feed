@@ -34,13 +34,13 @@ class _IntroScreen2State extends State<IntroScreen2> {
     return [
       Slide(
         widgetTitle: Text(
-          "Welcome on Nera-News!",
+          "Welcome on nexth-News!",
           style: titleTextStyle,
           textAlign: TextAlign.center,
         ),
         marginTitle: marginTitle,
         description:
-            "Here you will find news on events, tech and other things that help to advance our society into a new era...",
+            "Here you will find news on events, tech and other things that help to advance our society into a new age...",
         centerWidget: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: ClipRRect(
@@ -90,7 +90,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
       // ),
       Slide(
         widgetTitle: Text(
-          "A new era..?",
+          "A new age..?",
           style: titleTextStyle,
           textAlign: TextAlign.center,
         ),
@@ -99,7 +99,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
           "Most of us are aware of the numerous challenges of today and the decades to come. "
           "These challenges make it easy to overlook that we are also living in times that offer enormous possibilities for our future."
           // "These challenges make it easy to overlook that we are also living in times of rapid advances in many areas - which in turn offer enormous possibilities for our future."
-          "\n\nGoal of this project is to highlight the progress that our society makes everyday - a progress that is enabled by millions of people around the globe.",
+          "\n\nGoal of this project is to highlight the progress that our society makes everyday - a progress enabled by millions of people around the globe.",
           // "\n\n'Some app name' highlights the progress that our society makes everyday. Hope behind that: If more people know what we are working for (and not only what we are fighting against), it may raise the chances of getting there.",
           textAlign: TextAlign.justify,
           style: TextStyle(color: Colors.white, fontSize: 18.0),
@@ -110,7 +110,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             //borderRadius: BorderRadius.all(Radius.elliptical(300, 50)),
-            child: Image.asset( 'images/intro1.jpg', height: 220,),
+            child: Image.asset( 'images/intro1.jpg', height: 180,),
           ),
         ),
         backgroundColor: kColorPrimary,

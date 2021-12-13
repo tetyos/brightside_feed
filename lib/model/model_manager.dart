@@ -1,4 +1,4 @@
-import 'package:nexth/backend_connection/api_key_identifier.dart' as APIKeys;
+import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/model/category_list_model.dart';
@@ -89,7 +89,7 @@ class ModelManager {
     List<dynamic> resultsForQuery = await APIConnector.getItems(moreItemsDBQuery, isUserLoggedIn);
     List<ItemData> newItems = [];
     for (dynamic itemJson in resultsForQuery) {
-      String itemId = itemJson[APIKeys.itemId];
+      String itemId = itemJson[API_Identifier.itemId];
       ItemData? oldItem = allItems[itemId];
       ItemData newItem;
       if (oldItem != null) {
@@ -124,12 +124,14 @@ class ModelManager {
   void _updateVotesForItem(ItemData item, Map<String, dynamic> itemIdsToVoteData) {
     Map<String, dynamic>? voteData = itemIdsToVoteData[item.id];
     if (voteData != null) {
-      List<dynamic>? votesOnItem = voteData[APIKeys.votesArray];
-      if (votesOnItem == null || votesOnItem.isEmpty) return;
-      item.upVoteModel.voted = votesOnItem.contains(APIKeys.postUpVote);
-      item.impactVoteModel.voted = votesOnItem.contains(APIKeys.postImpactVote);
-      item.inspiringVoteModel.voted = votesOnItem.contains(APIKeys.postInspiringVote);
-      item.wellWrittenVoteModel.voted = votesOnItem.contains(APIKeys.postWellWrittenVote);
+      List<dynamic>? votesOnItem = voteData[API_Identifier.votesArray];
+      if (votesOnItem == null || votesOnItem.isEmpty) {
+        return;
+      }
+      item.upVoteModel.voted = votesOnItem.contains(API_Identifier.upVote);
+      item.impactVoteModel.voted = votesOnItem.contains(API_Identifier.impactVote);
+      item.inspiringVoteModel.voted = votesOnItem.contains(API_Identifier.inspiringVote);
+      item.wellWrittenVoteModel.voted = votesOnItem.contains(API_Identifier.wellWrittenVote);
     }
   }
 }

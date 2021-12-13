@@ -1,6 +1,6 @@
 
 
-/// In this file the json-identifier needed for correct communication with the backend are hold.
+/// In this file the json-identifier needed for communication with the backend can be found.
 
 // Item Model
 const String itemId = "_id";
@@ -13,14 +13,14 @@ const String searchQuery_SortBy_lastVoteOn = 'lastVoteOn';
 // Voting Model
 const String votesArray = 'votes';
 
-const String postVoteItemId = "itemId";
-const String postVoteCategory = "voteCategory";
-const String postVoteIncreaseAmount = "inc";
+const String postVote_ItemId_Key = "itemId";
+const String postVote_VoteCategory_Key = "voteCategory";
+const String postVote_IncreaseAmount_Key = "inc";
 
-const String postUpVote = "upVote";
-const String postImpactVote = "impactNom";
-const String postInspiringVote = "inspiringNom";
-const String postWellWrittenVote = "wellWrittenNom";
+const String upVote = "upVote";
+const String impactVote = "impactNom";
+const String inspiringVote = "inspiringNom";
+const String wellWrittenVote = "wellWrittenNom";
 
 const String totalUpVotes = "upVotes";
 const String totalImpactVotes = "impactNoms";
