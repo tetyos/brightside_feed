@@ -17,6 +17,8 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
         return NexthExplorePath();
       } else if (uri.pathSegments.first == 'incubator') {
         return NexthIncubatorPath();
+      } else if (uri.pathSegments.first == 'profile') {
+        return NexthProfilePath();
       } else if (uri.pathSegments.first == 'loadingScreen1') {
         return LoadingScreen1Path();
       } else if (uri.pathSegments.first == 'loadingScreen2') {
@@ -44,6 +46,9 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
     }
     if (path is NexthIncubatorPath) {
       return RouteInformation(location: '/incubator');
+    }
+    if (path is NexthProfilePath) {
+      return RouteInformation(location: '/profile');
     }
     if (path is LoadingScreen1Path) {
       return RouteInformation(location: '/loadingScreen1');

@@ -1,3 +1,6 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify.dart';
+import 'package:flutter/material.dart';
 import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/backend_connection/database_query.dart';
@@ -10,6 +13,10 @@ import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/item_list_model.dart';
 import 'package:nexth/model/user_data.dart';
 import 'package:nexth/model/vote_model.dart';
+import 'package:nexth/navigation/app_state.dart';
+import 'package:nexth/navigation/nexth_route_paths.dart';
+import 'package:nexth/utils/ui_utils.dart';
+import 'package:provider/provider.dart';
 
 class ModelManager {
   static ModelManager _instance = ModelManager._();
@@ -123,6 +130,22 @@ class ModelManager {
       }
     }
     isUserDataRetrieved = true;
+  }
+
+  Future<void> logout(BuildContext context) async {
+    AppState appState = Provider.of<AppState>(context, listen: false);
+    if (!appState.isUserLoggedIn) {
+      UIUtils.showSnackBar("Already logged out.", context);
+      return;
+    }
+    try {
+      await Amplify.Auth.signOut();
+      ModelManager.instance.userModel = null;
+      ModelManager.instance.isUserDataRetrieved = false;
+      appState.currentRoutePath = LoginScreenPath();
+    } on AuthException catch (e) {
+      UIUtils.showSnackBar(e.message, context);
+    }
   }
 
   void _updateVotesForItem(ItemData item, Map<String, dynamic> itemIdsToVoteData) {

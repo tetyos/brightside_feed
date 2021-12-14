@@ -107,7 +107,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
       print("Checking login status. Ignore the following exception, if the user was not logged in.");
       AuthUser user = await Amplify.Auth.getCurrentUser();
       print("Login check complete. User logged in.");
-      ModelManager.instance.userModel = UserModel(id: user.userId, email: user.username);
+      ModelManager.instance.userModel = UserModel(id: user.userId);
     } on AuthException {
       print("Login check complete. User not logged in.");
     }

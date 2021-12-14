@@ -1,7 +1,4 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
-import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/inner_route_delegate.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
@@ -29,7 +26,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
     return Consumer<AppState>(
       builder: (context, appState, child) {
         return Scaffold(
-          appBar: appState.currentSelectedItem != null ? AppBar(title: Text(appState.currentSelectedItem!.title),) : null,
+          appBar: renderAppBarIfNecessary(appState),
           body: SafeArea(
             child: Router(
               routerDelegate: InnerRouterDelegate(),
@@ -75,10 +72,14 @@ class _AppShellScreenState extends State<AppShellScreen> {
                 appState.currentRoutePath = NexthIncubatorPath();
               }),
           BottomNavItem(
-              icon: Icons.logout,
+              icon: appState.isUserLoggedIn ? Icons.person : Icons.login,
               currentlySelected: false,
               onPressed: () {
-                logout(appState);
+                if (appState.isUserLoggedIn) {
+                  appState.currentRoutePath = NexthProfilePath();
+                } else {
+                  appState.currentRoutePath = LoginScreenPath();
+                }
               }),
           IconButton(
             icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)),
@@ -145,18 +146,14 @@ class _AppShellScreenState extends State<AppShellScreen> {
     ).whenComplete(() => setState((){}));
   }
 
-  Future<void> logout(AppState appState) async {
-    if (!appState.isUserLoggedIn) {
-      UIUtils.showSnackBar("Already logged out.", context);
-      return;
+  PreferredSizeWidget? renderAppBarIfNecessary(AppState appState) {
+    if (appState.currentSelectedItem != null) {
+      return AppBar(title: Text(appState.currentSelectedItem!.title));
     }
-    try {
-      await Amplify.Auth.signOut();
-      ModelManager.instance.userModel = null;
-      appState.currentRoutePath = LoginScreenPath();
-    } on AuthException catch (e) {
-      UIUtils.showSnackBar(e.message, context);
+    if (appState.currentRoutePath is NexthProfilePath) {
+      return AppBar(title: Text("Profile"));
     }
+    return null;
   }
 }
 

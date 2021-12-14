@@ -17,9 +17,10 @@ class AppState extends ChangeNotifier {
   ItemData? _currentSelectedItem;
   ItemData? _currentWebViewItem;
 
-  final GlobalKey recentScreenKey = GlobalKey();
+  final GlobalKey homeScreenKey = GlobalKey();
   final GlobalKey incubatorScreenKey = GlobalKey();
   final GlobalKey explorerScreenKey = GlobalKey();
+  final GlobalKey profileScreenKey = GlobalKey();
 
   NexthRoutePath get currentRoutePath => _currentRoutePath;
 

@@ -1,12 +1,17 @@
 class UserModel {
   final String id;
-  final String email;
+  String email = "";
   String rank = "none";
   String? signupDate;
 
-  UserModel({required this.id, required this.email});
+  UserModel({required this.id});
 
   void update(Map<String, dynamic> userDoc) {
+    String? email = userDoc["email"];
+    if (email != null) {
+      this.email = email;
+    }
+
     String? rank = userDoc["rank"];
     if (rank != null) {
       this.rank = rank;

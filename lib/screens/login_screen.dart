@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
         password: data.password,
       );
       AuthUser user = await Amplify.Auth.getCurrentUser();
-      ModelManager.instance.userModel = UserModel(id: user.userId, email: user.username);
+      ModelManager.instance.userModel = UserModel(id: user.userId);
       await retrieveUserDataIfNecessary();
     } on AuthException catch (e) {
       return 'Log In Error: ' + e.toString();
@@ -124,9 +124,9 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       // todo usage of return value necessary? no exception == login successful?
       await Amplify.Auth.signInWithWebUI(provider: authProvider);
-      await retrieveUserDataIfNecessary();
       AuthUser user = await Amplify.Auth.getCurrentUser();
-      ModelManager.instance.userModel = UserModel(id: user.userId, email: user.username);
+      ModelManager.instance.userModel = UserModel(id: user.userId);
+      await retrieveUserDataIfNecessary();
       return null;
     } on AmplifyException catch (e) {
       print(e.message);
