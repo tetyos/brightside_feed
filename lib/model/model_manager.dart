@@ -114,20 +114,13 @@ class ModelManager {
   }
 
   Future<void> retrieveUserData() async {
-    Set<String> allItemIds = {};
-    for (ItemListModel model in allModels) {
-      for (ItemData item in model.items) {
-        allItemIds.add(item.id);
-      }
-    }
+    Set<String> allItemIds = allItems.keys.toSet();
     Map<String, dynamic> userData = await APIConnector.getUserData(allItemIds);
     Map<String, dynamic> votes = userData["votes"];
     Map<String, dynamic> userDoc = userData["userDoc"];
     this.userModel!.update(userDoc);
-    for (ItemListModel model in allModels) {
-      for (ItemData item in model.items) {
-        _updateVotesForItem(item, votes);
-      }
+    for (ItemData item in allItems.values) {
+      _updateVotesForItem(item, votes);
     }
     isUserDataRetrieved = true;
   }
