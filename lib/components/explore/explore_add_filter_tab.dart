@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/utils/constants.dart';
+import 'package:nexth/utils/ui_utils.dart';
 
 class ExploreAddFilterTab extends StatelessWidget {
 
@@ -74,7 +75,7 @@ class ConfigureFilterCard extends StatelessWidget {
                   ListTile(
                     leading: Icon(Icons.add_outlined),
                     title: Text('Click to add a filter-property.'),
-                    onTap: () {},
+                    onTap: () {UIUtils.showSnackBar("Not yet implemented.", context);},
                   )
                 ],
               ),

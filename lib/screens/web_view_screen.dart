@@ -28,6 +28,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   bool isVoteProcessing = false;
 
   bool isWebViewOnItem = true;
+  bool isLoadingTimeUp = false;
 
   @override
   void initState() {
@@ -44,9 +45,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
             initialUrl: itemData.url,
             javascriptMode: JavascriptMode.unrestricted,
             onPageStarted: (url) {
-              setState(() {
-                isWebViewOnItem = url == itemData.url;
-              });
+              // workaround to detect if the user changed the website of the WebView. if he did, voting is to be disabled.
+              // since some websites slightly change their url automatically when they load, we wait for a certain amount of time to pass first.
+              // after that its likely that the user did a manual change to WebView.
+              if (isLoadingTimeUp) {
+                setState(() {
+                  isWebViewOnItem = url == itemData.url;
+                });
+              }
             },
             onPageFinished: (url) {
               // Future.delayed(Duration(milliseconds: 10)).then((value) =>
@@ -63,6 +69,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
               //     .catchError((onError) => debugPrint('$onError'));
             },
             onWebViewCreated: (controller) {
+              print("---------------Webview created --------------");
+              print(isLoadingTimeUp);
+              Future.delayed(Duration(milliseconds: 1500)).then((value) {
+                isLoadingTimeUp = true;
+                print("---------------loading time up --------------");
+              });
               webViewController = controller;
             },
             gestureNavigationEnabled: true,
@@ -137,7 +149,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     return IconButton(
       icon: Icon(iconData, color: kColorWhiteTransparent),
       onPressed: () {
-        UIUtils.showSnackBar("Can not vote on external content.", context);
+        UIUtils.showSnackBar("Voting not possible after changing websites. Go back to main screen to vote on item.", context);
         return;
       },
     );
