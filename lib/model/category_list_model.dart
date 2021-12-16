@@ -70,6 +70,23 @@ extension ItemCategoryExtension on ItemCategory {
     }
   }
 
+  String get imagePath {
+    switch (this) {
+      case ItemCategory.energy:
+        return 'images/energy.jpg';
+      case ItemCategory.information:
+        return 'images/information.png';
+      case ItemCategory.health:
+        return 'images/no_picture.jpg';
+      case ItemCategory.mobility:
+        return 'images/mobility.png';
+      case ItemCategory.food:
+        return 'images/food.jpg';
+      case ItemCategory.other:
+        return 'images/other.jpg';
+    }
+  }
+
   IconData get icon {
     switch (this) {
       case ItemCategory.energy:

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/components/vote_buttons.dart';
+import 'package:nexth/model/category_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
@@ -18,12 +18,20 @@ class ItemCard2 extends StatelessWidget {
 
   ItemCard2({required ItemData linkPreviewData, this.isAdminCard = false})
       : _itemData = linkPreviewData,
-        _dateString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.dateAdded),
-        _shortDescription =
-            PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 150),
+        _dateString = PreviewDataLoader.getFormattedDateFromIso8601(
+            linkPreviewData.dateAdded),
+        _shortDescription = PreviewDataLoader.shortenDescriptionIfNecessary(
+            linkPreviewData.description, 150),
         _host = PreviewDataLoader.getHostFromUrl(linkPreviewData.url) {
+    ItemCategory? itemCategory = _itemData.itemCategory;
+    Image defaultImage;
+    if (itemCategory == null) {
+      defaultImage = Image.asset('images/no_picture.jpg');
+    } else {
+      defaultImage = Image.asset(itemCategory.imagePath);
+    }
     imageWidget = _itemData.imageProvider == null
-        ? SpinKitCircle(color: Colors.blueAccent)
+        ? defaultImage
         : ClipRRect(
             child: Image(image: _itemData.imageProvider!),
             borderRadius: BorderRadius.circular(8),
