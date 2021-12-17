@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
 
@@ -13,7 +12,9 @@ class AddUrlPreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget imageWidget = _linkPreviewData.imageProvider == null ? SpinKitCircle(color: Colors.blueAccent) : Image(image: _linkPreviewData.imageProvider!);
+    Widget imageWidget = _linkPreviewData.imageProvider == null
+        ? Image.asset('images/default_card_images/no_picture.png')
+        : Image(image: _linkPreviewData.imageProvider!);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: Center(

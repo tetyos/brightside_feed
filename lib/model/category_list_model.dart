@@ -73,17 +73,17 @@ extension ItemCategoryExtension on ItemCategory {
   String get imagePath {
     switch (this) {
       case ItemCategory.energy:
-        return 'images/energy.jpg';
+        return 'images/default_card_images/energy.jpg';
       case ItemCategory.information:
-        return 'images/information.png';
+        return 'images/default_card_images/information.jpg';
       case ItemCategory.health:
-        return 'images/no_picture.jpg';
+        return 'images/default_card_images/med_tech.jpg';
       case ItemCategory.mobility:
-        return 'images/mobility.png';
+        return 'images/default_card_images/mobility.jpg';
       case ItemCategory.food:
-        return 'images/food.jpg';
+        return 'images/default_card_images/food.jpg';
       case ItemCategory.other:
-        return 'images/other.jpg';
+        return 'images/default_card_images/other.jpg';
     }
   }
 

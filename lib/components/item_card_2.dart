@@ -18,24 +18,11 @@ class ItemCard2 extends StatelessWidget {
 
   ItemCard2({required ItemData linkPreviewData, this.isAdminCard = false})
       : _itemData = linkPreviewData,
-        _dateString = PreviewDataLoader.getFormattedDateFromIso8601(
-            linkPreviewData.dateAdded),
-        _shortDescription = PreviewDataLoader.shortenDescriptionIfNecessary(
-            linkPreviewData.description, 150),
+        _dateString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.dateAdded),
+        _shortDescription =
+            PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 150),
         _host = PreviewDataLoader.getHostFromUrl(linkPreviewData.url) {
-    ItemCategory? itemCategory = _itemData.itemCategory;
-    Image defaultImage;
-    if (itemCategory == null) {
-      defaultImage = Image.asset('images/no_picture.jpg');
-    } else {
-      defaultImage = Image.asset(itemCategory.imagePath);
-    }
-    imageWidget = _itemData.imageProvider == null
-        ? defaultImage
-        : ClipRRect(
-            child: Image(image: _itemData.imageProvider!),
-            borderRadius: BorderRadius.circular(8),
-          );
+    createImageWidget();
   }
 
   @override
@@ -78,6 +65,22 @@ class ItemCard2 extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void createImageWidget() {
+    ItemCategory? itemCategory = _itemData.itemCategory;
+    Image image;
+    if (_itemData.imageProvider != null) {
+      image = Image(image: _itemData.imageProvider!);
+    } else if (itemCategory != null) {
+      image = Image.asset(itemCategory.imagePath);
+    } else {
+      image = Image.asset('images/default_card_images/no_picture.png');
+    }
+    imageWidget = ClipRRect(
+      child: image,
+      borderRadius: BorderRadius.circular(8),
     );
   }
 
