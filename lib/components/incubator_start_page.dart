@@ -39,7 +39,7 @@ class WelcomeCard extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Newly added items appear here first.\n ",
+                  "In this area you find newly added content. Help by promoting content that fits here.\n ",
                   style: TextStyle(color: Colors.black87, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
@@ -72,7 +72,7 @@ class WelcomeCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  "At a later point the incubator will also feature automatically collected news that to this app.",
+                  "At a later point the incubator will also suggest automatically collected news.",
                   style: TextStyle(color: Colors.black87, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
