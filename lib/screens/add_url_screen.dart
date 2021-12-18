@@ -11,6 +11,7 @@ import 'package:nexth/model/incubator_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
+import 'package:nexth/components/category_chooser/category_chooser.dart';
 import 'package:nexth/utils/constants.dart' as Constants;
 import 'package:nexth/utils/preview_data_loader.dart';
 import 'package:nexth/utils/ui_utils.dart';
@@ -74,11 +75,19 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
             ),
             SizedBox(height: 40),
             Text(
-              'Add meta data',
+              'Choose categories of content',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20.0),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
+            CategoryChooser(callback: (currentCategories) => print(currentCategories)),
+            SizedBox(height: 10),
+            Text(
+              'Add optional meta data',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20.0),
+            ),
+            SizedBox(height: 10),
             CategoryDropdownButton(callback: (ItemCategory? value) => _categorySelection = value),
             SizedBox(height: 10),
             LanguageDropdownButton(callback: (String? value) => _languageSelection = value),
