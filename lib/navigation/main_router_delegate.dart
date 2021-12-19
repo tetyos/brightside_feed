@@ -67,7 +67,7 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
         MaterialPage(
           child: LoginScreen(),
         ),
-      if (_appState.currentRoutePath is ConfirmScreenPath)
+      if (_appState.confirmLoginMail.isNotEmpty)
         MaterialPage(
           child: ConfirmScreen(),
         ),
@@ -93,8 +93,8 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
     if (!route.didPop(result)) {
       return false;
     }
-    if (_appState.currentRoutePath is ConfirmScreenPath) {
-      _appState.currentRoutePath = LoginScreenPath();
+    if (_appState.confirmLoginMail.isNotEmpty) {
+      _appState.confirmLoginMail = "";
     }
     if (_appState.currentWebViewItem != null) {
       _appState.currentWebViewItem = null;

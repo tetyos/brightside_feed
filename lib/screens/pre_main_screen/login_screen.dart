@@ -17,61 +17,13 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   Duration get loginTime => Duration(milliseconds: 2250);
 
-  Future<String?> _signIn(LoginData data) async {
-    try {
-      // todo usage of return value necessary? no exception == login successful?
-      await Amplify.Auth.signIn(
-        username: data.name,
-        password: data.password,
-      );
-      AuthUser user = await Amplify.Auth.getCurrentUser();
-      ModelManager.instance.userModel = UserModel(id: user.userId);
-      await retrieveUserDataIfNecessary();
-    } on AuthException catch (e) {
-      return 'Log In Error: ' + e.toString();
-    }
-  }
-
-  Future<String?> _registerUser(SignupData data) async {
-    try {
-      if (data.name == null)  return "Error: No email provided.";
-      Map<String, String> userAttributes = {
-        CognitoUserAttributes.email: data.name!,
-      };
-      // todo usage of return value necessary? no exception == register successful?
-      await Amplify.Auth.signUp(
-          username: data.name!,
-          password: data.password,
-          options: CognitoSignUpOptions(userAttributes: userAttributes));
-
-      Future.delayed(Duration(milliseconds: 2500), () {
-        Provider.of<AppState>(context, listen: false).currentRoutePath = ConfirmScreenPath();
-        Provider.of<AppState>(context, listen: false).confirmLoginMail = data.name!;
-      });
-      return null;
-    } on AuthException catch (e) {
-      print(e);
-      return "Register Error: " + e.toString();
-    }
-  }
-
-  Future<String?> _recoverPassword(String name) {
-    print('Name: $name');
-    return Future.delayed(loginTime).then((_) {
-      // if (!users.containsKey(name)) {
-      //   return 'User not exists';
-      // }
-      return null;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     // isLoggedIn();
     LoginMessages loginMessages = LoginMessages(
         signUpSuccess: "An activation code has been sent.",
         recoverPasswordDescription:
-            "We will sent you a confirmation code, which allows you to reset you password.");
+        "We will sent you a confirmation code, which allows you to reset you password.");
     return FlutterLogin(
       title: 'Nera News',
       // logo: 'assets/images/ecorp-lightblue.png',
@@ -112,6 +64,59 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ],
     );
+  }
+
+  Future<String?> _signIn(LoginData data) async {
+    try {
+      // todo usage of return value necessary? no exception == login successful?
+      await Amplify.Auth.signIn(
+        username: data.name,
+        password: data.password,
+      );
+      AuthUser user = await Amplify.Auth.getCurrentUser();
+      ModelManager.instance.userModel = UserModel(id: user.userId);
+      await retrieveUserDataIfNecessary();
+    } on UserNotConfirmedException {
+      // we need a short delay, so that the message from FlutterLogin is visible to user before changing screen.
+      Future.delayed(Duration(milliseconds: 2000), () {
+        Provider.of<AppState>(context, listen: false).confirmLoginMail = data.name;
+      });
+      return "EMail not confirmed yet.";
+    } on AuthException catch (e) {
+      return 'Log In Error: ' + e.toString();
+    }
+  }
+
+  Future<String?> _registerUser(SignupData data) async {
+    try {
+      if (data.name == null) return "Error: No email provided.";
+      Map<String, String> userAttributes = {
+        CognitoUserAttributes.email: data.name!,
+      };
+      // todo usage of return value necessary? no exception == register successful?
+      await Amplify.Auth.signUp(
+          username: data.name!,
+          password: data.password,
+          options: CognitoSignUpOptions(userAttributes: userAttributes));
+
+      // we need a short delay, so that the confirmation from FlutterLogin is visible to user before changing screen.
+      Future.delayed(Duration(milliseconds: 2500), () {
+        Provider.of<AppState>(context, listen: false).confirmLoginMail = data.name!;
+      });
+      return null;
+    } on AuthException catch (e) {
+      print(e);
+      return "Register Error: " + e.toString();
+    }
+  }
+
+  Future<String?> _recoverPassword(String name) async {
+    Provider.of<AppState>(context, listen: false).confirmLoginMail = "f";
+    // print('Name: $name');
+    // ResetPasswordResult res = await Amplify.Auth.resetPassword(
+    //   username: name,
+    // );
+    return null;
   }
 
   Future<void> retrieveUserDataIfNecessary() async {

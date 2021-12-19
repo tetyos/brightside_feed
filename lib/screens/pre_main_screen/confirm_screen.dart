@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/utils/ui_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +35,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
       );
       if (res.isSignUpComplete) {
         UIUtils.showSnackBar("Confirmation successful", context);
-        Provider.of<AppState>(context, listen: false).currentRoutePath = LoginScreenPath();
+        Provider.of<AppState>(context, listen: false).confirmLoginMail = "";
       } else {
         _showError(context, "Glitch in the matrix detected");
       }
@@ -91,6 +90,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
         child: SafeArea(
           minimum: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Card(
                 elevation: 12,

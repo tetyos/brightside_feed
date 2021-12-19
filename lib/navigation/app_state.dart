@@ -8,7 +8,7 @@ class AppState extends ChangeNotifier {
 
   bool _isDataLoading = true;
   bool _isShowIntro = true;
-  String confirmLoginMail = "";
+  String _confirmLoginMail = "";
 
   int explorerScreenCurrentTab = 1;
   int incubatorScreenCurrentTab = 0;
@@ -49,6 +49,13 @@ class AppState extends ChangeNotifier {
   // todo put 'isUserLoggedIn' also into ModelManager?
   bool get isUserLoggedIn {
     return ModelManager.instance.userModel != null;
+  }
+
+  String get confirmLoginMail => _confirmLoginMail;
+
+  set confirmLoginMail(String confirmLoginMail) {
+    _confirmLoginMail = confirmLoginMail;
+    notifyListeners();
   }
 
   ///
