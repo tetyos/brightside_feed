@@ -30,7 +30,7 @@ class _NexthAppState extends State<NexthApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Nexth news',
-      darkTheme: ThemeData.dark(),
+      // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         // colorScheme: ColorScheme.light(
         //   primary: Colors.red,

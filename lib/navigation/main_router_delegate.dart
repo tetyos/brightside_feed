@@ -6,11 +6,11 @@ import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/screens/app_shell_screen.dart';
-import 'package:nexth/screens/confirm_screen.dart';
-import 'package:nexth/screens/intro_screen2.dart';
-import 'package:nexth/screens/loading_screen1.dart';
-import 'package:nexth/screens/loading_screen2.dart';
-import 'package:nexth/screens/login_screen.dart';
+import 'package:nexth/screens/pre_main_screen/confirm_screen.dart';
+import 'package:nexth/screens/pre_main_screen/intro_screen2.dart';
+import 'package:nexth/screens/pre_main_screen/loading_screen1.dart';
+import 'package:nexth/screens/pre_main_screen/loading_screen2.dart';
+import 'package:nexth/screens/pre_main_screen/login_screen.dart';
 import 'package:nexth/screens/web_view_screen.dart';
 import 'package:provider/provider.dart';
 
