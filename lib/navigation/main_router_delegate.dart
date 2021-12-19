@@ -11,6 +11,7 @@ import 'package:nexth/screens/pre_main_screen/intro_screen2.dart';
 import 'package:nexth/screens/pre_main_screen/loading_screen1.dart';
 import 'package:nexth/screens/pre_main_screen/loading_screen2.dart';
 import 'package:nexth/screens/pre_main_screen/login_screen.dart';
+import 'package:nexth/screens/pre_main_screen/reset_password_screen.dart';
 import 'package:nexth/screens/web_view_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -67,9 +68,13 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
         MaterialPage(
           child: LoginScreen(),
         ),
-      if (_appState.confirmLoginMail.isNotEmpty)
+      if (_appState.currentRoutePath is LoginScreenPath && _appState.confirmLoginMail.isNotEmpty)
         MaterialPage(
           child: ConfirmScreen(),
+        ),
+      if (_appState.currentRoutePath is LoginScreenPath && _appState.resetPasswordMail.isNotEmpty)
+        MaterialPage(
+          child: ResetPasswordScreen(),
         ),
       if (_appState.currentRoutePath is LoadingScreen1Path)
         MaterialPage(
@@ -95,6 +100,9 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
     }
     if (_appState.confirmLoginMail.isNotEmpty) {
       _appState.confirmLoginMail = "";
+    }
+    if (_appState.resetPasswordMail.isNotEmpty) {
+      _appState.resetPasswordMail = "";
     }
     if (_appState.currentWebViewItem != null) {
       _appState.currentWebViewItem = null;

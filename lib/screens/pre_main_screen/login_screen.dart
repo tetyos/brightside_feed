@@ -10,26 +10,35 @@ import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
+
+  static String? passwordValidator(value) {
+    if (value!.isEmpty || value.length < 8) {
+      return 'Password is too short!';
+    }
+    return null;
+  }
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  Duration get loginTime => Duration(milliseconds: 2250);
 
   @override
   Widget build(BuildContext context) {
     // isLoggedIn();
     LoginMessages loginMessages = LoginMessages(
         signUpSuccess: "An activation code has been sent.",
+        recoverPasswordSuccess: "An verification code has been sent.",
         recoverPasswordDescription:
-        "We will sent you a confirmation code, which allows you to reset you password.");
+        "We will sent a verification code, which allows you to choose a new password.");
     return FlutterLogin(
       title: 'Nera News',
       // logo: 'assets/images/ecorp-lightblue.png',
       messages: loginMessages,
       onLogin: _signIn,
       onSignup: _registerUser,
+      passwordValidator: LoginScreen.passwordValidator,
       onSubmitAnimationCompleted: () {
         AppState appState = Provider.of<AppState>(context, listen: false);
         if (appState.isDataLoading) {
@@ -43,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onRecoverPassword: _recoverPassword,
       // userValidator: ,
       // passwordValidator: ,
-      navigateBackAfterRecovery: true,
+      // navigateBackAfterRecovery: false, // todo does not change anything right now. check 'recover_card' of FlutterLogin later on
       loginProviders: [
         LoginProvider(
           icon: Icons.facebook_outlined,
@@ -111,12 +120,20 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<String?> _recoverPassword(String name) async {
-    Provider.of<AppState>(context, listen: false).confirmLoginMail = "f";
-    // print('Name: $name');
-    // ResetPasswordResult res = await Amplify.Auth.resetPassword(
-    //   username: name,
-    // );
-    return null;
+    try {
+      await Amplify.Auth.resetPassword(
+        username: name,
+      );
+      // we need a short delay, so that the confirmation from FlutterLogin is visible to user before changing screen.
+      Future.delayed(Duration(milliseconds: 1500), () {
+        Provider.of<AppState>(context, listen: false).resetPasswordMail = name;
+      });
+      return null;
+    } on UserNotFoundException {
+      return "Please enter correct email address.";
+    } on AmplifyException catch (e) {
+      return e.message;
+    }
   }
 
   Future<void> retrieveUserDataIfNecessary() async {

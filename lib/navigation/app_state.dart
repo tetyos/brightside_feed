@@ -8,6 +8,7 @@ class AppState extends ChangeNotifier {
 
   bool _isDataLoading = true;
   bool _isShowIntro = true;
+  String _resetPasswordMail = "";
   String _confirmLoginMail = "";
 
   int explorerScreenCurrentTab = 1;
@@ -55,6 +56,13 @@ class AppState extends ChangeNotifier {
 
   set confirmLoginMail(String confirmLoginMail) {
     _confirmLoginMail = confirmLoginMail;
+    notifyListeners();
+  }
+
+  String get resetPasswordMail => _resetPasswordMail;
+
+  set resetPasswordMail(String resetPasswordMail) {
+    _resetPasswordMail = resetPasswordMail;
     notifyListeners();
   }
 
