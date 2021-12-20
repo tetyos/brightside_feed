@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/item_list_scroll_view.dart';
-import 'package:nexth/model/category_list_model.dart';
-import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/model/list_models/category_list_model.dart';
+import 'package:nexth/model/list_models/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 
 class CategoryTabs extends StatefulWidget {

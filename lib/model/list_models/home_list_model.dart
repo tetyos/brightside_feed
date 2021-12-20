@@ -1,6 +1,6 @@
 import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/backend_connection/database_query.dart';
-import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/model/list_models/item_list_model.dart';
 
 class HomeListModel extends ItemListModel {
   @override

@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:nexth/model/explore_popular_model.dart';
-import 'package:nexth/model/incubator_list_model.dart';
-import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/model/list_models/explore_popular_model.dart';
+import 'package:nexth/model/list_models/incubator_list_model.dart';
+import 'package:nexth/model/list_models/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/model/vote_model.dart';
 

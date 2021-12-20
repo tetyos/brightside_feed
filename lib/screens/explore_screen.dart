@@ -5,7 +5,7 @@ import 'package:nexth/components/explore/explore_add_filter_tab.dart';
 import 'package:nexth/components/explore/explore_popular_tab.dart';
 import 'package:nexth/components/explore/explore_likes_tab.dart';
 import 'package:nexth/components/explore/explore_home_tab.dart';
-import 'package:nexth/model/category_list_model.dart';
+import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/custom_page_view_scroll_physics.dart';

@@ -1,4 +1,4 @@
-import 'package:nexth/model/category_list_model.dart';
+import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 
 class BasicTestUrls {

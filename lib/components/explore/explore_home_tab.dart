@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nexth/components/intro_card.dart';
-import 'package:nexth/model/category_list_model.dart';
+import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:provider/provider.dart';
 

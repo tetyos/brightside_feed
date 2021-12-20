@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nexth/bloc/item_list_model_cubit.dart';
 import 'package:nexth/components/item_card_2.dart';
 import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/model/list_models/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:provider/provider.dart';

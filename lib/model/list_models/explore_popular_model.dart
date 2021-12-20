@@ -1,5 +1,5 @@
 import 'package:nexth/backend_connection/database_query.dart';
-import 'package:nexth/model/item_list_model.dart';
+import 'package:nexth/model/list_models/item_list_model.dart';
 import 'package:nexth/model/vote_model.dart';
 
 class ExplorePopularModel extends ItemListModel {
