@@ -107,7 +107,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     }
     return IconButton(
       icon: Icon(Icons.thumb_up_alt_outlined,
-          color: itemData.upVoteModel.voted ? Colors.orangeAccent : Colors.white),
+          color: itemData.upVoteModel.voted ? kColorAccentOrange : Colors.white),
       onPressed: () => onVoteCallback(voteModel: itemData.upVoteModel),
     );
   }
@@ -116,7 +116,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
     if (!isWebViewOnItem) {
       return renderExternalContentButton(Icons.emoji_events);
     }
-    return SpecialVoteButton(itemData: itemData, onPressed: onVoteCallback, noVoteColor: Colors.white, hasVotesColor: Colors.white, userVotedColor: Colors.orangeAccent,);
+    return SpecialVoteButton(
+      itemData: itemData,
+      onPressed: onVoteCallback,
+      noVoteColor: Colors.white,
+      hasVotesColor: Colors.white,
+      userVotedColor: kColorAccentOrange,
+    );
   }
 
   Widget renderMoreMenu() {

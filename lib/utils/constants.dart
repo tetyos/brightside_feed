@@ -22,6 +22,7 @@ const kColorSecondaryDark = Color(0xFF1c313a);
 const kColorGreyLight = Color(0xFFe1e2e1);
 const kColorWhiteTransparent = Color(0xb2ffffff);
 
+const kColorAccentOrange = Colors.orangeAccent;
 
 // const kBottomContainerHeight = 65.0;
 

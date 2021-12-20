@@ -56,12 +56,7 @@ class _RootCategoryChooserState extends State<RootCategoryChooser> {
             onPressed: rootPressed,
             child: Text(rootCategory.displayTitle),
             style: isRootSelected
-                ? ElevatedButton.styleFrom(
-                    side: BorderSide(
-                    width: 1.5,
-                    color: Colors.blueAccent,
-                  ))
-                : null),
+                ? ElevatedButton.styleFrom(primary: kColorAccentOrange) : null),
         if (isRootSelected) renderLevelTwo(),
         if (isRootSelected) SizedBox(height: 10),
         if (allSelectedLevelTwoCategories.isNotEmpty) renderLevelThree(),
@@ -184,7 +179,7 @@ class _LevelTwoButtonState extends State<LevelTwoButton> {
         onPressed: onPressed,
         child: Text(levelTwoCategory.displayTitle),
         // style: style.copyWith(side: MaterialStateProperty.all(BorderSide(width: 1.0, color: Colors.blueAccent,))));
-        style: isSelected ? style.copyWith(side: MaterialStateProperty.all(BorderSide(width: 1.5, color: Colors.blueAccent,))) : style);
+        style: isSelected ? style.copyWith(backgroundColor: MaterialStateProperty.all(kColorAccentOrange)) : style);
   }
 
   void onPressed() {
@@ -216,7 +211,7 @@ class _LevelThreeButtonState extends State<LevelThreeButton> {
       minimumSize: Size(0, 0),
       // tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 7),
-      primary: kColorSecondaryLight);
+      primary: kColorPrimaryLight);
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +219,7 @@ class _LevelThreeButtonState extends State<LevelThreeButton> {
         onPressed: onPressed,
         child: Text(levelThreeCategory.displayTitle),
         // style: style.copyWith(side: MaterialStateProperty.all(BorderSide(width: 1.0, color: Colors.blueAccent,))));
-        style: isSelected ? style.copyWith(side: MaterialStateProperty.all(BorderSide(width: 1.5, color: Colors.blueAccent,))) : style);
+        style: isSelected ? style.copyWith(backgroundColor: MaterialStateProperty.all(kColorAccentOrange)) : style);
   }
 
   void onPressed() {
