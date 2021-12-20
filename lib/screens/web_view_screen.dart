@@ -107,7 +107,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     }
     return IconButton(
       icon: Icon(Icons.thumb_up_alt_outlined,
-          color: itemData.upVoteModel.voted ? kColorAccentOrange : Colors.white),
+          color: itemData.upVoteModel.voted ? kColorOrange : Colors.white),
       onPressed: () => onVoteCallback(voteModel: itemData.upVoteModel),
     );
   }
@@ -121,7 +121,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       onPressed: onVoteCallback,
       noVoteColor: Colors.white,
       hasVotesColor: Colors.white,
-      userVotedColor: kColorAccentOrange,
+      userVotedColor: kColorOrange,
     );
   }
 

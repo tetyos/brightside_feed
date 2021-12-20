@@ -62,7 +62,7 @@ const LevelTwoCategory medTechCategory = const LevelTwoCategory(
 );
 
 const LevelTwoCategory informationTechCategory = const LevelTwoCategory(
-  displayTitle: "Information Tech",
+  displayTitle: "IT",
   categoryIdentifier: "informationTech",
   levelThreeElements: [],
 );

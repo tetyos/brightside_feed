@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nexth/components/category_chooser/second_level_button.dart';
 import 'package:nexth/components/category_chooser/category_cubit.dart';
 import 'package:nexth/components/category_chooser/category_tree.dart';
+import 'package:nexth/components/category_chooser/third_level_button.dart';
 import 'package:nexth/model/category_tree_non_tech.dart';
 import 'package:nexth/model/category_tree_tech.dart';
 import 'package:nexth/utils/constants.dart';
@@ -24,7 +26,6 @@ class _CategoryChooserState extends State<CategoryChooser> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CurrentSelectionList(),
             RootCategoryChooser(rootModel: kTechCategory),
             RootCategoryChooser(rootModel: kNonTechCategory),
           ],
@@ -55,12 +56,9 @@ class _RootCategoryChooserState extends State<RootCategoryChooser> {
         ElevatedButton(
             onPressed: rootPressed,
             child: Text(rootCategory.displayTitle),
-            style: isRootSelected
-                ? ElevatedButton.styleFrom(primary: kColorAccentOrange) : null),
+            style: ElevatedButton.styleFrom(primary: isRootSelected ? kColorOrange1 : kColorPrimary)),
         if (isRootSelected) renderLevelTwo(),
-        if (isRootSelected) SizedBox(height: 10),
         if (allSelectedLevelTwoCategories.isNotEmpty) renderLevelThree(),
-        if (allSelectedLevelTwoCategories.isNotEmpty) SizedBox(height: 10),
       ],
     );
   }
@@ -72,7 +70,7 @@ class _RootCategoryChooserState extends State<RootCategoryChooser> {
     List<Widget> levelTwoButtons = [];
     for (LevelTwoCategory levelTwoCategory in levelTwoCategories) {
       levelTwoButtons.add(
-        LevelTwoButton(
+        SecondLevelButton(
           levelTwoCategory: levelTwoCategory,
           callback: levelTwoPressed,
         ),
@@ -150,92 +148,6 @@ class _RootCategoryChooserState extends State<RootCategoryChooser> {
   }
 }
 
-class LevelTwoButton extends StatefulWidget {
-  final LevelTwoCategory levelTwoCategory;
-  final void Function(LevelTwoCategory, bool) callback;
-
-  const LevelTwoButton(
-      {required this.levelTwoCategory,
-      required this.callback,
-      Key? key})
-      : super(key: key);
-
-  @override
-  _LevelTwoButtonState createState() => _LevelTwoButtonState();
-}
-
-class _LevelTwoButtonState extends State<LevelTwoButton> {
-  bool isSelected = false;
-  final ButtonStyle style =
-  ElevatedButton.styleFrom(
-      minimumSize: Size(0, 0),
-      // tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-      primary: kColorPrimaryLight);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-        onPressed: onPressed,
-        child: Text(levelTwoCategory.displayTitle),
-        // style: style.copyWith(side: MaterialStateProperty.all(BorderSide(width: 1.0, color: Colors.blueAccent,))));
-        style: isSelected ? style.copyWith(backgroundColor: MaterialStateProperty.all(kColorAccentOrange)) : style);
-  }
-
-  void onPressed() {
-    widget.callback(levelTwoCategory, isSelected);
-    setState(() {
-      isSelected = !isSelected;
-    });
-  }
-
-  LevelTwoCategory get levelTwoCategory => widget.levelTwoCategory;
-}
-
-class LevelThreeButton extends StatefulWidget {
-  final LevelThreeCategory levelThreeCategory;
-
-  const LevelThreeButton(
-      {required this.levelThreeCategory,
-        Key? key})
-      : super(key: key);
-
-  @override
-  _LevelThreeButtonState createState() => _LevelThreeButtonState();
-}
-
-class _LevelThreeButtonState extends State<LevelThreeButton> {
-  bool isSelected = false;
-  final ButtonStyle style =
-  ElevatedButton.styleFrom(
-      minimumSize: Size(0, 0),
-      // tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 7),
-      primary: kColorPrimaryLight);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-        onPressed: onPressed,
-        child: Text(levelThreeCategory.displayTitle),
-        // style: style.copyWith(side: MaterialStateProperty.all(BorderSide(width: 1.0, color: Colors.blueAccent,))));
-        style: isSelected ? style.copyWith(backgroundColor: MaterialStateProperty.all(kColorAccentOrange)) : style);
-  }
-
-  void onPressed() {
-    setState(() {
-      if (isSelected) {
-        context.read<CategoryCubit>().removeElement(levelThreeCategory);
-      } else {
-        context.read<CategoryCubit>().addElement(levelThreeCategory);
-      }
-      isSelected = !isSelected;
-    });
-  }
-
-  LevelThreeCategory get levelThreeCategory => widget.levelThreeCategory;
-}
-
 
 class CurrentSelectionList extends StatelessWidget {
   const CurrentSelectionList({Key? key}) : super(key: key);
@@ -263,7 +175,7 @@ class CurrentSelectionList extends StatelessWidget {
                       primary: kColorSecondaryLight,
                       minimumSize: Size(0, 0),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+                      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
                     ),
                     child: Text(categoryElement.displayTitle),
                   )
