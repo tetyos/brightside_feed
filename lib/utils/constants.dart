@@ -27,3 +27,7 @@ const kColorAccentOrange = Colors.orangeAccent;
 // const kBottomContainerHeight = 65.0;
 
 // const kLargeButtonTextStyle = TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold);
+
+
+const kLocalStorageIntroWatched = "isIntroWatched";
+const kLocalStorageAlwaysShowIntro = "isAlwaysShowIntro";

@@ -7,7 +7,7 @@ class AppState extends ChangeNotifier {
   NexthRoutePath _currentRoutePath = LoadingScreen1Path();
 
   bool _isDataLoading = true;
-  bool _isShowIntro = true;
+  bool isShowIntro = false;
   String _resetPasswordMail = "";
   String _confirmLoginMail = "";
 
@@ -30,13 +30,6 @@ class AppState extends ChangeNotifier {
       currentSelectedItem = null;
     }
     _currentRoutePath = newRoutePath;
-    notifyListeners();
-  }
-
-  bool get isShowIntro => _isShowIntro;
-
-  set isShowIntro(bool isShowIntro) {
-    _isShowIntro = isShowIntro;
     notifyListeners();
   }
 

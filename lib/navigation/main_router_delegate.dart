@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nexth/bloc/item_list_model_cubit.dart';
-import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/screens/app_shell_screen.dart';
@@ -17,7 +16,6 @@ import 'package:provider/provider.dart';
 
 class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<NexthRoutePath> {
-
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final AppState _appState = AppState();
 
@@ -36,7 +34,7 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
     return ChangeNotifierProvider<AppState>(
       create: (BuildContext context) => _appState,
       child: BlocProvider(
-          create: (context) => ItemListModelCubit(),
+        create: (context) => ItemListModelCubit(),
         child: Navigator(
           key: navigatorKey,
           pages: getPages(),
@@ -56,41 +54,14 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
         MaterialPage(
           child: WebViewScreen(),
         ),
-      if (_appState.currentRoutePath is LoadingScreen2Path)
-        MaterialPage(
-          child: LoadingScreen2(),
-        ),
-      if (_appState.currentRoutePath is IntroScreenPath)
-        MaterialPage(
-          child: IntroScreen2(),
-        ),
-      if (_appState.currentRoutePath is LoginScreenPath)
-        MaterialPage(
-          child: LoginScreen(),
-        ),
+      if (_appState.currentRoutePath is LoadingScreen2Path) MaterialPage(child: LoadingScreen2()),
+      if (_appState.currentRoutePath is IntroScreenPath) MaterialPage(child: IntroScreen2()),
+      if (_appState.currentRoutePath is LoginScreenPath) MaterialPage(child: LoginScreen()),
       if (_appState.currentRoutePath is LoginScreenPath && _appState.confirmLoginMail.isNotEmpty)
-        MaterialPage(
-          child: ConfirmScreen(),
-        ),
+        MaterialPage(child: ConfirmScreen()),
       if (_appState.currentRoutePath is LoginScreenPath && _appState.resetPasswordMail.isNotEmpty)
-        MaterialPage(
-          child: ResetPasswordScreen(),
-        ),
-      if (_appState.currentRoutePath is LoadingScreen1Path)
-        MaterialPage(
-          child: LoadingScreen1(
-            onDataLoaded: () async {
-              if (_appState.isUserLoggedIn && !ModelManager.instance.isUserDataRetrieved) {
-                print("Retrieving user votes");
-                await ModelManager.instance.retrieveUserData();
-              }
-              _appState.isDataLoading = false;
-              if (_appState.currentRoutePath is LoadingScreen2Path) {
-                _appState.currentRoutePath = NexthHomePath();
-              }
-            },
-          ),
-        ),
+        MaterialPage(child: ResetPasswordScreen()),
+      if (_appState.currentRoutePath is LoadingScreen1Path) MaterialPage(child: LoadingScreen1()),
     ];
   }
 
@@ -120,5 +91,4 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
     _appState.currentRoutePath = path;
     return SynchronousFuture<void>(null);
   }
-
 }

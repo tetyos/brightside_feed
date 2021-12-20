@@ -5,6 +5,7 @@ import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class IntroScreen2 extends StatefulWidget {
@@ -140,7 +141,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
   Widget build(BuildContext context) {
     return IntroSlider(
       slides: getSlides(),
-      onDonePress: () => navigateToNextScreen(context),
+      onDonePress: () => onDone(context),
       onSkipPress: () => navigateToNextScreen(context),
       backgroundColorAllSlides: kColorPrimary,
     );
@@ -150,6 +151,12 @@ class _IntroScreen2State extends State<IntroScreen2> {
   void dispose() {
     _youtubePlayerController.close();
     super.dispose();
+  }
+
+  void onDone(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(kLocalStorageIntroWatched, true);
+    navigateToNextScreen(context);
   }
 
   void navigateToNextScreen(BuildContext context) {

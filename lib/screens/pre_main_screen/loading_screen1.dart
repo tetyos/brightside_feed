@@ -16,14 +16,12 @@ import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
 class LoadingScreen1 extends StatefulWidget {
   static const String id = 'loading_screen';
-  final Function onDataLoaded;
-
-  LoadingScreen1({required this.onDataLoaded});
 
   @override
   _LoadingScreen1State createState() => _LoadingScreen1State();
@@ -75,8 +73,11 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     Future<void> dataLoadingFuture = Future.wait(finishBeforeLoadingInitDataFutures).then((_) => _loadInitialData());
     // commend out above and uncomment to below to use hardcoded items
     // Future<void> dataLoadingFuture = Future.wait(finishBeforeLoadingInitDataFutures).then((_) => _loadInitialHardcodedItems());
+
+    AppState appState = Provider.of<AppState>(context, listen: false);
+    // appState can not be fetched inside future, since loading_screen might not be mounted then anymore (no context)
     dataLoadingFuture.then((_) {
-      widget.onDataLoaded();
+      _handleDataLoaded(appState);
       print("Loading initial data finished.");
     });
 
@@ -183,7 +184,12 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   /// Loads user defined categories.
   /// Adds all items stored as json in shared preferences to the hardcoded test data.
   Future<void> _loadDataFromLocalStorage() async {
-    // final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
+
+    bool isIntroWatched = prefs.getBool(kLocalStorageIntroWatched) ?? false;
+    bool isAlwaysShowIntro = prefs.getBool(kLocalStorageAlwaysShowIntro) ?? false;
+    Provider.of<AppState>(context, listen: false).isShowIntro = !isIntroWatched || isAlwaysShowIntro;
+
     _initializeUserDefinedCategories();
     print("Data from local storage loaded.");
   }
@@ -211,5 +217,19 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     }
 
     Provider.of<AppState>(context, listen: false).currentRoutePath = newPath;
+  }
+
+  _handleDataLoaded(AppState appState) async {
+    if (appState.isUserLoggedIn && !ModelManager.instance.isUserDataRetrieved) {
+      print("Retrieving user votes");
+      await ModelManager.instance.retrieveUserData();
+    }
+    appState.isDataLoading = false;
+
+    bool isNavigateToHomeScreen =
+        (appState.isUserLoggedIn && !appState.isShowIntro) || appState.currentRoutePath is LoadingScreen2Path;
+    if (isNavigateToHomeScreen) {
+      appState.currentRoutePath = NexthHomePath();
+    }
   }
 }
