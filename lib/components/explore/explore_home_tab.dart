@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nexth/components/intro_card.dart';
-import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:provider/provider.dart';
 
@@ -107,15 +106,6 @@ class CategoryOverviewCard extends StatelessWidget {
               child: Column(
                 children: [
                   Text("Categories", style: TextStyle(fontSize: 20)),
-                  for (ItemCategory itemCategory in ItemCategory.values)
-                    ListTile(
-                      leading: Icon(itemCategory.icon),
-                      title: Text(itemCategory.displayTitle),
-                      onTap: () {
-                        Provider.of<AppState>(context, listen: false)
-                            .setExplorerScreenCurrentTabAndNotify(itemCategory.index + 4);
-                      },
-                    )
                 ],
               ),
             ),

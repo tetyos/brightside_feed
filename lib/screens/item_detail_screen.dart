@@ -4,7 +4,6 @@ import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/bloc/item_list_model_cubit.dart';
 import 'package:nexth/components/vote_buttons.dart';
-import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/model/list_models/incubator_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/model_manager.dart';
@@ -100,11 +99,6 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
                         style: TextStyle(color: Colors.grey[500]),
                       ),
                     ),
-                    if (_itemData.itemCategory != null) ...[
-                      Text(_itemData.itemCategory!.displayTitle),
-                      SizedBox(width: 2),
-                      Icon(_itemData.itemCategory!.icon),
-                    ],
                   ],
                 ),
                 renderDivider(),

@@ -5,7 +5,6 @@ import 'package:nexth/components/explore/explore_add_filter_tab.dart';
 import 'package:nexth/components/explore/explore_popular_tab.dart';
 import 'package:nexth/components/explore/explore_likes_tab.dart';
 import 'package:nexth/components/explore/explore_home_tab.dart';
-import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/custom_page_view_scroll_physics.dart';
@@ -26,7 +25,7 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
     super.initState();
     AppState appState = Provider.of<AppState>(context, listen: false);
     _tabController = new TabController(
-        length: 3 + appState.numberOfUserDefinedTabs + ItemCategory.values.length,
+        length: 4 + appState.numberOfUserDefinedTabs,
         vsync: this,
         initialIndex: appState.explorerScreenStartTab);
     _tabController.addListener(() {
@@ -54,10 +53,9 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
             Tab(
               child: Row(children: [FaIcon(FontAwesomeIcons.award), SizedBox(width: 5), Text("Popular")]),
             ),
-            for (ItemCategory itemCategory in ItemCategory.values)
-              CategoryTab(
-                itemCategory: itemCategory,
-              ),
+            Tab(
+              child: Row(children: [FaIcon(FontAwesomeIcons.award), SizedBox(width: 5), Text("Categories")]),
+            ),
           ],
           isScrollable: true,
           controller: _tabController,
@@ -69,11 +67,7 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
           ExploreLikesTab(),
           ExploreHomeTab(),
           ExplorePopularTab(),
-          for (ItemCategory itemCategory in ItemCategory.values)
-            CategoryTabs(
-              category: itemCategory,
-              key: PageStorageKey<String>(itemCategory.displayTitle),
-            ),
+          CategoryTab(),
         ]),
       ),
     ]);
@@ -83,22 +77,5 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
   void dispose() {
     _tabController.dispose();
     super.dispose();
-  }
-}
-
-class CategoryTab extends StatelessWidget {
-  final ItemCategory itemCategory;
-
-  CategoryTab({required this.itemCategory});
-
-  @override
-  Widget build(BuildContext context) {
-    return Tab(
-      child: Row(children: [
-        Icon(itemCategory.icon),
-        SizedBox(width: 5),
-        Text(itemCategory.displayTitle)
-      ]),
-    );
   }
 }

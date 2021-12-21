@@ -38,13 +38,9 @@ class ModelManager {
   final ItemListModel inc1IncubatorModel = IncubatorListModel(incubatorType: IncubatorType.inc1);
   final ItemListModel unsafeIncubatorModel = IncubatorListModel(incubatorType: IncubatorType.unsafe, isPreloadImages: false);
 
-  // category item lists
-  ItemListModel _energyItemList = CategoryListModel(itemCategory: ItemCategory.energy);
-  ItemListModel _informationItemList = CategoryListModel(itemCategory: ItemCategory.information);
-  ItemListModel _healthItemList = CategoryListModel(itemCategory: ItemCategory.health);
-  ItemListModel _mobilityItemList = CategoryListModel(itemCategory: ItemCategory.mobility);
-  ItemListModel _foodItemList = CategoryListModel(itemCategory: ItemCategory.food);
-  ItemListModel _otherItemList = CategoryListModel(itemCategory: ItemCategory.other);
+  // category item list
+  final ItemListModel categoryItemModel = CategoryListModel();
+
 
   static ModelManager get instance => _instance;
 
@@ -56,34 +52,12 @@ class ModelManager {
       unsafeIncubatorModel,
       exploreLikesModel,
       explorePopularModel,
-      _energyItemList,
-      _informationItemList,
-      _healthItemList,
-      _mobilityItemList,
-      _foodItemList,
-      _otherItemList
+      categoryItemModel,
     ]);
   }
 
   bool isAdmin() {
     return userModel != null && userModel!.rank == "admin";
-  }
-
-  ItemListModel getModelForCategory(ItemCategory itemCategory) {
-    switch (itemCategory) {
-      case ItemCategory.energy:
-        return _energyItemList;
-      case ItemCategory.information:
-        return _informationItemList;
-      case ItemCategory.health:
-        return _healthItemList;
-      case ItemCategory.mobility:
-        return _mobilityItemList;
-      case ItemCategory.food:
-        return _foodItemList;
-      case ItemCategory.other:
-        return _otherItemList;
-    }
   }
 
   ItemListModel getModelForIncubatorType(IncubatorType incubatorType) {

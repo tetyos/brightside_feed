@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/components/vote_buttons.dart';
-import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
@@ -69,12 +68,9 @@ class ItemCard2 extends StatelessWidget {
   }
 
   void createImageWidget() {
-    ItemCategory? itemCategory = _itemData.itemCategory;
     Image image;
     if (_itemData.imageProvider != null) {
       image = Image(image: _itemData.imageProvider!);
-    } else if (itemCategory != null) {
-      image = Image.asset(itemCategory.imagePath);
     } else {
       image = Image.asset('images/default_card_images/no_picture.png');
     }

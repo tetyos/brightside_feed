@@ -1,3 +1,5 @@
+import 'package:nexth/model/category_tree_model.dart';
+
 /// Helper class for generating the json-query that is needed for the HTTP-API.
 class DatabaseQuery {
 
@@ -6,7 +8,7 @@ class DatabaseQuery {
   int? limit;
   /// skip-parameter only works if 'isFetchUserLikes' is true
   int? skip;
-  List<String>? categories;
+  List<CategoryElement>? categories;
   String? incubatorStatus;
   String? dateLT;
   String? dateGT;

@@ -7,7 +7,6 @@ import 'package:nexth/amplifyconfiguration.dart';
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/model/basic_test_urls.dart';
-import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/list_models/item_list_model.dart';
 import 'package:nexth/model/user_data.dart';
@@ -175,8 +174,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
 
   Future<void> _loadInitialHardcodedItems() async {
     ModelManager modelManager = ModelManager.instance;
-    modelManager.homeModel.items.addAll( BasicTestUrls.testItemsRecent);
-    modelManager.getModelForCategory(ItemCategory.food).items.addAll(BasicTestUrls.testItemsManualIncubator);
+    modelManager.homeModel.items.addAll(BasicTestUrls.testItemsRecent);
     await modelManager.homeModel.preloadNextItems(2);
     await Future.delayed(Duration(seconds: 5));
   }

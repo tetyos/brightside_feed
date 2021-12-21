@@ -7,7 +7,6 @@ import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/bloc/item_list_model_cubit.dart';
 import 'package:nexth/components/add_url_preview_card.dart';
 import 'package:nexth/model/category_tree_model.dart';
-import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/model/list_models/incubator_list_model.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/app_state.dart';
@@ -29,7 +28,6 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
   Widget _previewCard = PreviewPlaceHolderCard(child: Text(no_input_yet_label),);
   ItemData? _itemData;
   String? _lastInput;
-  ItemCategory? _categorySelection;
   List<CategoryElement> _categoriesSelection = [];
   String? _languageSelection;
 
@@ -70,7 +68,6 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
             SizedBox(height: 10),
             Text('Add optional meta data', textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),
             SizedBox(height: 10),
-            CategoryDropdownButton(callback: (ItemCategory? value) => _categorySelection = value),
             SizedBox(height: 10),
             LanguageDropdownButton(callback: (String? value) => _languageSelection = value),
             SizedBox(height: 30),
@@ -90,7 +87,6 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
       UIUtils.showSnackBar("Please insert valid link", context);
     } else {
       _itemData!.categories = _categoriesSelection;
-      _itemData!.itemCategory = _categorySelection;
       ItemData? itemData = await APIConnector.postItem(Dart.jsonEncode(_itemData));
       if (itemData != null) {
         IncubatorType? incubatorTypeOfItem = itemData.incubatorStatus;
@@ -196,53 +192,6 @@ class PreviewPlaceHolderCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Center(child: child),
         ),
-      ),
-    );
-  }
-}
-
-class CategoryDropdownButton extends StatefulWidget {
-  final Function(ItemCategory?) callback;
-
-  CategoryDropdownButton({required this.callback});
-
-  @override
-  _CategoryDropdownButtonState createState() => _CategoryDropdownButtonState();
-}
-
-class _CategoryDropdownButtonState extends State<CategoryDropdownButton> {
-  ItemCategory? dropdownValue;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(
-        Icons.category_rounded,
-      ),
-      title: DropdownButton<ItemCategory>(
-        value: dropdownValue,
-        hint: Text('Category of content'),
-        //icon: const Icon(Icons.arrow_downward),
-        //iconSize: 24,
-        //elevation: 16,
-        isExpanded: true,
-        style: const TextStyle(color: Constants.kColorPrimary),
-        underline: Container(
-          height: 2,
-          color: Color(0xFFBDBDBD),
-        ),
-        onChanged: (ItemCategory? newValue) {
-          widget.callback(newValue);
-          setState(() {
-            dropdownValue = newValue;
-          });
-        },
-        items: ItemCategory.values.map<DropdownMenuItem<ItemCategory>>((ItemCategory value) {
-          return DropdownMenuItem<ItemCategory>(
-            value: value,
-            child: Text(value.displayTitle),
-          );
-        }).toList(),
       ),
     );
   }

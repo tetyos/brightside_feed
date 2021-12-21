@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nexth/model/category_tree_model.dart';
-import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/model/list_models/incubator_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
@@ -19,7 +18,6 @@ class ItemData {
   String url;
   String dateAdded;
   String? imageUrl;
-  ItemCategory? itemCategory;
   List<CategoryElement> categories = [];
   IncubatorType? incubatorStatus;
 
@@ -33,9 +31,10 @@ class ItemData {
       required this.title,
       String? description,
       this.imageUrl,
-      this.itemCategory})
+      List<CategoryElement>? categories})
       : id = "",
         description = PreviewDataLoader.shortenDescriptionIfNecessary(description, 300),
+        categories = categories ?? [],
         dateAdded = DateTime.now().toIso8601String(),
         upVoteModel = UpVoteModel.empty(),
         impactVoteModel = ImpactVoteModel.empty(),
@@ -49,7 +48,6 @@ class ItemData {
         title = json['title'],
         description = json['description'],
         imageUrl = json['imageUrl'],
-        itemCategory = getItemCategoryFromString(json['itemCategory']),
         categories = ModelManager.instance.getItemCategoriesFromJson(json['categories']),
         incubatorStatus = getIncubatorTypeFromString(json['incubatorStatus']),
         upVoteModel = UpVoteModel(
@@ -83,7 +81,6 @@ class ItemData {
     title = newJson['title'];
     description = newJson['description'];
     imageUrl = newJson['imageUrl'];
-    itemCategory = getItemCategoryFromString(newJson['itemCategory']);
     categories = ModelManager.instance.getItemCategoriesFromJson(newJson['categories']);
     upVoteModel.numberOfRatings = newJson[API_Identifier.totalUpVotes] ?? 0;
     impactVoteModel.numberOfRatings = newJson[API_Identifier.totalImpactVotes] ?? 0;
@@ -110,7 +107,6 @@ class ItemData {
     'description': description,
     'url': url,
     'imageUrl': imageUrl,
-    'itemCategory' : itemCategory.toString(),
     'categories': categories,
   };
 
