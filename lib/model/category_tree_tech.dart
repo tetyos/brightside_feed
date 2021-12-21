@@ -1,4 +1,4 @@
-import 'package:nexth/components/category_chooser/category_tree.dart';
+import 'package:nexth/model/category_tree_model.dart';
 
 const RootCategory kTechCategory = const RootCategory(
   displayTitle: "Tech",

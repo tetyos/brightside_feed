@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nexth/model/category_tree_model.dart';
 import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/model/list_models/incubator_list_model.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/model/vote_model.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
 
@@ -13,12 +15,12 @@ class ItemData {
   String id;
   String title;
   String? description;
-  CachedNetworkImage? image;
   CachedNetworkImageProvider? imageProvider;
   String url;
   String dateAdded;
   String? imageUrl;
   ItemCategory? itemCategory;
+  List<CategoryElement> categories = [];
   IncubatorType? incubatorStatus;
 
   UpVoteModel upVoteModel;
@@ -48,6 +50,7 @@ class ItemData {
         description = json['description'],
         imageUrl = json['imageUrl'],
         itemCategory = getItemCategoryFromString(json['itemCategory']),
+        categories = ModelManager.instance.getItemCategoriesFromJson(json['categories']),
         incubatorStatus = getIncubatorTypeFromString(json['incubatorStatus']),
         upVoteModel = UpVoteModel(
             itemId: json[API_Identifier.itemId],
@@ -81,6 +84,7 @@ class ItemData {
     description = newJson['description'];
     imageUrl = newJson['imageUrl'];
     itemCategory = getItemCategoryFromString(newJson['itemCategory']);
+    categories = ModelManager.instance.getItemCategoriesFromJson(newJson['categories']);
     upVoteModel.numberOfRatings = newJson[API_Identifier.totalUpVotes] ?? 0;
     impactVoteModel.numberOfRatings = newJson[API_Identifier.totalImpactVotes] ?? 0;
     inspiringVoteModel.numberOfRatings = newJson[API_Identifier.totalInspiringVotes] ?? 0;
@@ -101,12 +105,13 @@ class ItemData {
     return this;
   }
 
-  Map<String, String?> toJson() => {
+  Map<String, dynamic> toJson() => {
     'title': title,
     'description': description,
     'url': url,
     'imageUrl': imageUrl,
     'itemCategory' : itemCategory.toString(),
+    'categories': categories,
   };
 
   Future<void> preLoadImage() async {

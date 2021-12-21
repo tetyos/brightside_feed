@@ -1,9 +1,11 @@
 abstract class CategoryElement {
   String get displayTitle;
   String get categoryIdentifier;
+
+  String toJson() => categoryIdentifier;
 }
 
-class RootCategory implements CategoryElement{
+class RootCategory with CategoryElement{
   final List<LevelTwoCategory> _levelTwoCategories;
   final String _displayTitle;
   final String _categoryIdentifier;
@@ -26,7 +28,7 @@ class RootCategory implements CategoryElement{
   List<LevelTwoCategory> get levelTwoCategories => _levelTwoCategories;
 }
 
-class LevelTwoCategory implements CategoryElement {
+class LevelTwoCategory with CategoryElement {
   final List<LevelThreeCategory> _levelThreeElements;
   final String _displayTitle;
   final String _categoryIdentifier;
@@ -49,7 +51,7 @@ class LevelTwoCategory implements CategoryElement {
   List<LevelThreeCategory> get levelThreeElements => _levelThreeElements;
 }
 
-class LevelThreeCategory implements CategoryElement {
+class LevelThreeCategory with CategoryElement {
   final String _displayTitle;
   final String _categoryIdentifier;
 

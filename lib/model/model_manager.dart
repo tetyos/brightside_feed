@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/backend_connection/database_query.dart';
+import 'package:nexth/model/category_tree_model.dart';
+import 'package:nexth/model/category_tree_non_tech.dart';
+import 'package:nexth/model/category_tree_tech.dart';
 import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/model/list_models/explore_likes_model.dart';
 import 'package:nexth/model/list_models/explore_popular_model.dart';
@@ -24,8 +27,9 @@ class ModelManager {
   UserModel? userModel;
   bool isUserDataRetrieved = false;
 
-  Map<String, ItemData> allItems = {};
-  List<ItemListModel> allModels = [];
+  final Map<String, ItemData> allItems = {};
+  final Map<String, CategoryElement> _allCategories = {};
+  final List<ItemListModel> allModels = [];
 
   final ItemListModel homeModel = HomeListModel();
   final ItemListModel exploreLikesModel = ExploreLikesModel();
@@ -45,6 +49,7 @@ class ModelManager {
   static ModelManager get instance => _instance;
 
   ModelManager._() {
+    _initCategoryMap();
     allModels.addAll([
       homeModel,
       inc1IncubatorModel,
@@ -162,4 +167,42 @@ class ModelManager {
       model.fullyLoadedItems.remove(itemData);
     }
   }
+
+  List<CategoryElement> getItemCategoriesFromJson(List<dynamic>? categoriesAsJson) {
+    if (categoriesAsJson == null) return [];
+    List<CategoryElement> categories = [];
+    for (String categoryIdentifier in categoriesAsJson) {
+      CategoryElement? categoryElement = _allCategories[categoryIdentifier];
+      if (categoryElement != null) {
+        categories.add(categoryElement);
+      }
+    }
+    return categories;
+  }
+
+  void _initCategoryMap() {
+    _allCategories[kTechCategory.categoryIdentifier] = kTechCategory;
+    _allCategories[kNonTechCategory.categoryIdentifier] = kNonTechCategory;
+    _addSubCategories(kTechCategory.levelTwoCategories);
+    _addSubCategories(kNonTechCategory.levelTwoCategories);
+  }
+
+  void _addSubCategories(List<LevelTwoCategory> levelTwoCategories) {
+    for (LevelTwoCategory levelTwoCategory in levelTwoCategories) {
+      if (_allCategories.containsKey(levelTwoCategory.categoryIdentifier)) {
+        print("SNH: Duplicate identifier detected for category");
+        return;
+      }
+      _allCategories[levelTwoCategory.categoryIdentifier] = levelTwoCategory;
+
+      for (LevelThreeCategory levelThreeCategory in levelTwoCategory.levelThreeElements) {
+        if (_allCategories.containsKey(levelThreeCategory.categoryIdentifier)) {
+          print("SNH: Duplicate identifier detected for category");
+          return;
+        }
+        _allCategories[levelThreeCategory.categoryIdentifier] = levelThreeCategory;
+      }
+    }
+  }
+
 }

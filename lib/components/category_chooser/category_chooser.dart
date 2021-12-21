@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nexth/components/category_chooser/second_level_button.dart';
 import 'package:nexth/components/category_chooser/category_cubit.dart';
-import 'package:nexth/components/category_chooser/category_tree.dart';
+import 'package:nexth/model/category_tree_model.dart';
 import 'package:nexth/components/category_chooser/third_level_button.dart';
 import 'package:nexth/model/category_tree_non_tech.dart';
 import 'package:nexth/model/category_tree_tech.dart';

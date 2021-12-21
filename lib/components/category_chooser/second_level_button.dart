@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nexth/components/category_chooser/category_tree.dart';
+import 'package:nexth/model/category_tree_model.dart';
 import 'package:nexth/utils/constants.dart';
 
 class SecondLevelButton extends StatefulWidget {

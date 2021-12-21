@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/bloc/item_list_model_cubit.dart';
 import 'package:nexth/components/add_url_preview_card.dart';
+import 'package:nexth/model/category_tree_model.dart';
 import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/model/list_models/incubator_list_model.dart';
 import 'package:nexth/model/item_data.dart';
@@ -29,6 +30,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
   ItemData? _itemData;
   String? _lastInput;
   ItemCategory? _categorySelection;
+  List<CategoryElement> _categoriesSelection = [];
   String? _languageSelection;
 
   @override
@@ -52,41 +54,21 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'Add Url',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 30.0),
-            ),
+            Text('Add Url', textAlign: TextAlign.center, style: TextStyle(fontSize: 30.0)),
             _previewCard,
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _textEditingController,
-                    // autofocus: true,
-                  ),
-                ),
-                SizedBox(width: 10,),
-                ElevatedButton(
-                  onPressed: onPaste,
-                  child: Text('Paste'),
-                )
-              ],
-            ),
+            Row(children: [
+              Expanded(child: TextField(controller: _textEditingController)),
+              SizedBox(
+                width: 10,
+              ),
+              ElevatedButton(onPressed: onPaste, child: Text('Paste'))
+            ]),
             SizedBox(height: 40),
-            Text(
-              'Choose categories of content',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20.0),
-            ),
+            Text('Choose categories of content', textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),
             SizedBox(height: 10),
-            CategoryChooser(callback: (currentCategories) => print(currentCategories)),
+            CategoryChooser(callback: (currentCategories) => _categoriesSelection = currentCategories),
             SizedBox(height: 10),
-            Text(
-              'Add optional meta data',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20.0),
-            ),
+            Text('Add optional meta data', textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),
             SizedBox(height: 10),
             CategoryDropdownButton(callback: (ItemCategory? value) => _categorySelection = value),
             SizedBox(height: 10),
@@ -107,6 +89,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
     if (input == '' || _itemData == null) {
       UIUtils.showSnackBar("Please insert valid link", context);
     } else {
+      _itemData!.categories = _categoriesSelection;
       _itemData!.itemCategory = _categorySelection;
       ItemData? itemData = await APIConnector.postItem(Dart.jsonEncode(_itemData));
       if (itemData != null) {

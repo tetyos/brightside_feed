@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:nexth/components/category_chooser/category_tree.dart';
+import 'package:nexth/model/category_tree_model.dart';
 
 class CategoryCubit extends Cubit<List<CategoryElement>> {
   final Function(List<CategoryElement>) callback;
