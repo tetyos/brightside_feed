@@ -70,7 +70,7 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  int get explorerScreenStartTab => numberOfUserDefinedTabs + 1;
+  int get explorerScreenStartTab => 1;
 
   void setIncubatorScreenCurrentTabAndNotify(int incubatorScreenCurrentTab) {
     if (this.incubatorScreenCurrentTab != incubatorScreenCurrentTab) {

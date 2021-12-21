@@ -42,9 +42,6 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
         child: TabBar(
           tabs: [
             Tab(
-              child: Row(children: [Icon(Icons.add_outlined), SizedBox(width: 5), Text("Custom filter")]),
-            ),
-            Tab(
               child: Row(children: [Icon(Icons.favorite_border_outlined), SizedBox(width: 5), Text("Your likes")]),
             ),
             Tab(
@@ -56,6 +53,9 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
             Tab(
               child: Row(children: [FaIcon(FontAwesomeIcons.award), SizedBox(width: 5), Text("Categories")]),
             ),
+            Tab(
+              child: Row(children: [Icon(Icons.add_outlined), SizedBox(width: 5), Text("Custom filter")]),
+            ),
           ],
           isScrollable: true,
           controller: _tabController,
@@ -63,11 +63,11 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
       ),
       Expanded(
         child: TabBarView(controller: _tabController, physics: CustomPageViewScrollPhysics(), children: [
-          ExploreAddFilterTab(),
           ExploreLikesTab(),
           ExploreHomeTab(),
           ExplorePopularTab(),
           CategoryTab(),
+          ExploreAddFilterTab(),
         ]),
       ),
     ]);

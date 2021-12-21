@@ -42,13 +42,13 @@ class OtherTabsOverviewCard extends StatelessWidget {
                     leading: Icon(Icons.favorite_border_outlined),
                     title: Text('Your likes'),
                     onTap: () {Provider.of<AppState>(context, listen: false)
-                        .setExplorerScreenCurrentTabAndNotify(1);},
+                        .setExplorerScreenCurrentTabAndNotify(0);},
                   ),
                   ListTile(
                     leading: FaIcon(FontAwesomeIcons.award),
                     title: Text('Popular'),
                     onTap: () {Provider.of<AppState>(context, listen: false)
-                        .setExplorerScreenCurrentTabAndNotify(1);},
+                        .setExplorerScreenCurrentTabAndNotify(2);},
                   )
                 ],
               ),
@@ -80,7 +80,7 @@ class CustomTabsOverviewCard extends StatelessWidget {
                     leading: Icon(Icons.add_outlined),
                     title: Text('Click to add custom filter.'),
                     onTap: () {Provider.of<AppState>(context, listen: false)
-                        .setExplorerScreenCurrentTabAndNotify(0);},
+                        .setExplorerScreenCurrentTabAndNotify(4);},
                   )
                 ],
               ),
