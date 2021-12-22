@@ -39,7 +39,7 @@ class ModelManager {
   final ItemListModel unsafeIncubatorModel = IncubatorListModel(incubatorType: IncubatorType.unsafe, isPreloadImages: false);
 
   // category item list
-  final ItemListModel categoryItemModel = CategoryListModel();
+  final CategoryListModel categoryItemModel = CategoryListModel();
 
 
   static ModelManager get instance => _instance;

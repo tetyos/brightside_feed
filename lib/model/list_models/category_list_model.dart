@@ -10,7 +10,7 @@ class CategoryListModel extends ItemListModel {
   @override
   int imagesToPreloadDuringAppStart = 0;
 
-  final List<CategoryElement> categories = [storageCategory];
+  List<CategoryElement> categories = [storageCategory];
 
   CategoryListModel();
 

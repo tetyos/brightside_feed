@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:nexth/model/category_tree_model.dart';
+import 'package:nexth/model/list_models/category_list_model.dart';
 import 'package:nexth/model/list_models/explore_popular_model.dart';
 import 'package:nexth/model/list_models/incubator_list_model.dart';
 import 'package:nexth/model/list_models/item_list_model.dart';
@@ -17,6 +19,13 @@ class ItemListModelCubit extends Cubit<ItemListModelState> {
     explorePopularModel.votingType = votingType;
     explorePopularModel.reset();
     emit(ItemListModelReset(itemListModel: explorePopularModel));
+  }
+
+  void changeCategory(CategoryElement categoryElement) {
+    CategoryListModel categoryListModel = ModelManager.instance.categoryItemModel;
+    categoryListModel.categories = [categoryElement];
+    categoryListModel.reset();
+    emit(ItemListModelReset(itemListModel: categoryListModel));
   }
 
   void resetIncubatorModel(IncubatorType incubatorType) {

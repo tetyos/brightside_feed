@@ -7,6 +7,7 @@ import 'package:nexth/components/category_chooser/third_level_button.dart';
 import 'package:nexth/model/category_tree_non_tech.dart';
 import 'package:nexth/model/category_tree_tech.dart';
 import 'package:nexth/utils/constants.dart';
+import 'package:nexth/utils/ui_utils.dart';
 
 class CategoryChooser extends StatefulWidget {
   final Function(List<CategoryElement>) callback;
@@ -181,17 +182,12 @@ class CurrentSelectionList extends StatelessWidget {
                   )
               ],
             ),
-            renderDivider(),
+            UIUtils.renderDivider(),
           ],
         );
       },
     );
   }
 
-  Widget renderDivider() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Divider(color: Colors.black),
-    );
-  }
+
 }

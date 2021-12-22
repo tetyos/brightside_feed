@@ -5,6 +5,8 @@ import 'package:nexth/components/explore/explore_add_filter_tab.dart';
 import 'package:nexth/components/explore/explore_popular_tab.dart';
 import 'package:nexth/components/explore/explore_likes_tab.dart';
 import 'package:nexth/components/explore/explore_home_tab.dart';
+import 'package:nexth/model/category_tree_model.dart';
+import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/custom_page_view_scroll_physics.dart';
@@ -36,6 +38,9 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     _tabController.index = Provider.of<AppState>(context, listen: false).explorerScreenCurrentTab;
+    List<CategoryElement> currentCategories = ModelManager.instance.categoryItemModel.categories;
+    String currentCategory = currentCategories.isEmpty ? "" : currentCategories.first.displayTitle;
+
     return Column(children: [
       Container(
         color: kColorPrimary,
@@ -51,7 +56,7 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
               child: Row(children: [FaIcon(FontAwesomeIcons.award), SizedBox(width: 5), Text("Popular")]),
             ),
             Tab(
-              child: Row(children: [FaIcon(FontAwesomeIcons.award), SizedBox(width: 5), Text("Categories")]),
+              child: Row(children: [Icon(Icons.category_rounded), SizedBox(width: 5), Text("Category: " + currentCategory)]),
             ),
             Tab(
               child: Row(children: [Icon(Icons.add_outlined), SizedBox(width: 5), Text("Custom filter")]),

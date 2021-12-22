@@ -101,7 +101,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
                     ),
                   ],
                 ),
-                renderDivider(),
+                UIUtils.renderDivider(),
                 renderSocialIcons(),
                 if (isUnsafeIncubatorItem)
                   Center(child: ElevatedButton(onPressed: () => showRemoveUnsafeDialog(), child: Text("Remove unsafe status"))),
@@ -136,13 +136,6 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
         child: _imageWidget,
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       ),
-    );
-  }
-
-  Widget renderDivider() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Divider(color: Colors.black),
     );
   }
 
