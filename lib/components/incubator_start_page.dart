@@ -26,8 +26,10 @@ class WelcomeCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: Card(
+          elevation: 3,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
           child: Padding(
-            padding: const EdgeInsets.all(22.0),
+            padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 15),
             child: Column(
               children: [
                 Text(

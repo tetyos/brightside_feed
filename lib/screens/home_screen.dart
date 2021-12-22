@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nexth/components/item_list_scroll_view.dart';
 import 'package:nexth/model/model_manager.dart';
+import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -37,16 +40,19 @@ class WelcomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isFirstLogin = Provider.of<AppState>(context, listen: false).isFirstLogin;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: Card(
+          elevation: 3,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Padding(
             padding: const EdgeInsets.all(22.0),
             child: Column(
               children: [
                 Text(
-                  "Welcome back!",
+                  isFirstLogin? "Welcome, my friend!" : "Welcome back!",
                   style: TextStyle(
                     color: Colors.black87,
                     fontFamily: "Pacifico",
@@ -55,9 +61,9 @@ class WelcomeCard extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "Scroll down, to catch up on what happened since your last login.",
+                  "Scroll down, to catch up on the cool stuff happening around the world.",
                   // "Scroll down, to catch up on the good things fellow human beings have done since your last login.",
-                  style: TextStyle(color: Colors.black87),
+                  style: TextStyle(color: Colors.black87), textAlign: TextAlign.center,
                 )
               ],
             ),

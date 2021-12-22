@@ -112,14 +112,14 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
     if (widget.incubatorType == IncubatorType.unsafe) {
       _itemCardProvider = (itemData) => IncubatorUnsafeCard(
           linkPreviewData: itemData, isAdminCard: ModelManager.instance.isAdmin());
-      exploreIntroCard = SliverToBoxAdapter(
+      exploreIntroCard = const SliverToBoxAdapter(
         child: const IntroCard(
             title: "New items: unknown websites",
             message:
                 "Content from unknown websites is sorted into this list first. Preview images are not shown on purpose here."),
       );
     } else {
-      exploreIntroCard = SliverToBoxAdapter(
+      exploreIntroCard = const SliverToBoxAdapter(
         child: const IntroCard(
             title: "New items: trusted websites",
             message:

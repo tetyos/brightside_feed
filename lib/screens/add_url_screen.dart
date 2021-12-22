@@ -52,7 +52,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Add Url', textAlign: TextAlign.center, style: TextStyle(fontSize: 30.0)),
+            Text('Add a link', textAlign: TextAlign.center, style: TextStyle(fontSize: 30.0)),
             _previewCard,
             Row(children: [
               Expanded(child: TextField(controller: _textEditingController)),
@@ -172,7 +172,9 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
       print(s);
       _previewCard = PreviewPlaceHolderCard(child: Text("Link does not work."));
     }
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 }
 

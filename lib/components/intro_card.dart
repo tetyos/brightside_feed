@@ -13,8 +13,10 @@ class IntroCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: Card(
+          elevation: 3,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
           child: Padding(
-            padding: const EdgeInsets.all(22.0),
+            padding: const EdgeInsets.all(15.0),
             child: Column(
               children: [
                 Text(
@@ -27,7 +29,7 @@ class IntroCard extends StatelessWidget {
                 SizedBox(height: 10),
                 Text(
                   message,
-                  style: TextStyle(color: Colors.black87,),
+                  style: TextStyle(color: Colors.black87, fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
               ],

@@ -20,6 +20,7 @@ const kColorWhiteTransparent = Color(0xb2ffffff);
 const kColorOrange = Colors.orange;
 const kColorOrange1 = Color(0xFFED7117);
 
+const kLocalStorageFirstLogin = "isFirstLogin";
 const kLocalStorageIntroWatched = "isIntroWatched";
 const kLocalStorageAlwaysShowIntro = "isAlwaysShowIntro";
 const kLocalStorageShowCategoryUpdater = "isShowCategoryUpdater";

@@ -8,6 +8,7 @@ class AppState extends ChangeNotifier {
 
   bool _isDataLoading = true;
   bool isShowIntro = false;
+  bool isFirstLogin = true;
   String _resetPasswordMail = "";
   String _confirmLoginMail = "";
 
