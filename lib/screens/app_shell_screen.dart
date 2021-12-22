@@ -91,7 +91,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
   }
 
   FloatingActionButton renderFAB(AppState appState) {
-    if (appState.currentRoutePath is NexthExplorePath && appState.explorerScreenCurrentTab == 3) {
+    if (appState.currentRoutePath is NexthExplorePath && appState.explorerScreenCurrentTab == 2) {
       return FloatingActionButton(
         onPressed: showFilterDialog,
         tooltip: 'Change filter',

@@ -52,6 +52,10 @@ class RootCategoryChooser extends StatefulWidget {
 class _RootCategoryChooserState extends State<RootCategoryChooser> {
   bool isRootSelected = false;
   final List<LevelTwoCategory> allSelectedLevelTwoCategories = [];
+  final ButtonStyle style = ElevatedButton.styleFrom(
+      minimumSize: Size(80, 36),
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      primary: kColorPrimary);
 
   @override
   void initState() {
@@ -74,7 +78,7 @@ class _RootCategoryChooserState extends State<RootCategoryChooser> {
         ElevatedButton(
             onPressed: rootPressed,
             child: Text(rootCategory.displayTitle),
-            style: ElevatedButton.styleFrom(primary: isRootSelected ? kColorOrange1 : kColorPrimary)),
+            style: isRootSelected ? style.copyWith(backgroundColor: MaterialStateProperty.all(kColorOrange1)) : style),
         if (isRootSelected) renderLevelTwo(),
         if (allSelectedLevelTwoCategories.isNotEmpty) renderLevelThree(),
       ],
