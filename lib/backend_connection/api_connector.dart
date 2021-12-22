@@ -4,6 +4,7 @@ import 'package:amplify_flutter/amplify.dart';
 import 'package:http/http.dart' as http;
 import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/backend_connection/database_query.dart';
+import 'package:nexth/backend_connection/item_update.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/vote_model.dart';
 
@@ -181,6 +182,28 @@ class APIConnector {
       print(response.body);
     } catch (e) {
       print("Admin action could not be processed.");
+      print(e);
+    }
+    return false;
+  }
+
+  /// executes the given update.  returns true if successful.
+  static Future<bool> updateItem(ItemUpdate itemUpdate) async {
+    numberOfHttpRequests++;
+    if (numberOfHttpRequests > httpRequestThreshold) return false;
+    String payloadJson = Dart.jsonEncode(itemUpdate);
+
+    try {
+      http.Response response = await httpPostAuthorized(
+          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/update_item'),
+          payloadJson);
+      if (response.statusCode == 200) {
+        return true;
+      }
+      print("Item update not be processed. StatusCode: ${response.statusCode}");
+      print(response.body);
+    } catch (e) {
+      print("Item update could not be processed.");
       print(e);
     }
     return false;

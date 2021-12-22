@@ -22,3 +22,4 @@ const kColorOrange1 = Color(0xFFED7117);
 
 const kLocalStorageIntroWatched = "isIntroWatched";
 const kLocalStorageAlwaysShowIntro = "isAlwaysShowIntro";
+const kLocalStorageShowCategoryUpdater = "isShowCategoryUpdater";

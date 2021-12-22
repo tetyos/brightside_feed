@@ -11,18 +11,21 @@ import 'package:nexth/utils/ui_utils.dart';
 
 class CategoryChooser extends StatefulWidget {
   final Function(List<CategoryElement>) callback;
+  final List<CategoryElement> initElements;
   
-  const CategoryChooser({Key? key, required this.callback}) : super(key: key);
+  const CategoryChooser({Key? key, required this.callback, this.initElements = const []}) : super(key: key);
 
   @override
   _CategoryChooserState createState() => _CategoryChooserState();
 }
 
 class _CategoryChooserState extends State<CategoryChooser> {
+  late final CategoryCubit _categoryCubit = CategoryCubit(callback: widget.callback, initElements: widget.initElements);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CategoryCubit(callback: widget.callback),
+      create: (context) => _categoryCubit,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,6 +52,20 @@ class RootCategoryChooser extends StatefulWidget {
 class _RootCategoryChooserState extends State<RootCategoryChooser> {
   bool isRootSelected = false;
   final List<LevelTwoCategory> allSelectedLevelTwoCategories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    List<CategoryElement> initElements = context.read<CategoryCubit>().state;
+    if (initElements.contains(widget.rootModel)) {
+      isRootSelected = true;
+    }
+    for (CategoryElement categoryElement in initElements) {
+      if (categoryElement is LevelTwoCategory && widget.rootModel.levelTwoCategories.contains(categoryElement)) {
+        allSelectedLevelTwoCategories.add(categoryElement);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

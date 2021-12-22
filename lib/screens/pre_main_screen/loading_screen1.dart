@@ -186,7 +186,9 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
 
     bool isIntroWatched = prefs.getBool(kLocalStorageIntroWatched) ?? false;
     bool isAlwaysShowIntro = prefs.getBool(kLocalStorageAlwaysShowIntro) ?? false;
+    bool isShowCategoryUpdater = prefs.getBool(kLocalStorageShowCategoryUpdater) ?? false;
     Provider.of<AppState>(context, listen: false).isShowIntro = !isIntroWatched || isAlwaysShowIntro;
+    Provider.of<AppState>(context, listen: false).isShowCategoryUpdater = isShowCategoryUpdater;
 
     _initializeUserDefinedCategories();
     print("Data from local storage loaded.");

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nexth/components/category_chooser/category_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nexth/model/category_tree_model.dart';
 import 'package:nexth/utils/constants.dart';
 
@@ -24,6 +26,15 @@ class _SecondLevelButtonState extends State<SecondLevelButton> {
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       primary: kColorPrimaryLight);
+
+  @override
+  void initState() {
+    super.initState();
+    List<CategoryElement> initElements = context.read<CategoryCubit>().state;
+    if (initElements.contains(widget.levelTwoCategory)) {
+      isSelected = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

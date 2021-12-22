@@ -3,7 +3,7 @@ import 'package:nexth/model/category_tree_model.dart';
 
 class CategoryCubit extends Cubit<List<CategoryElement>> {
   final Function(List<CategoryElement>) callback;
-  CategoryCubit({required this.callback}) : super([]);
+  CategoryCubit({required this.callback, List<CategoryElement> initElements = const [],}) : super(initElements);
 
   void addElement(CategoryElement categoryElement) {
     state.add(categoryElement);

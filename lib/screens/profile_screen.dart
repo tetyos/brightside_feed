@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nexth/model/model_manager.dart';
+import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -12,7 +14,6 @@ class ProfileScreen extends StatelessWidget {
     String mail = ModelManager.instance.userModel!.email;
     return Center(
       child: Container(
-        // color: kColorSecondaryDark,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -24,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
               Image.asset("images/russian_miner.gif"),
               SizedBox(height: 20),
               if (ModelManager.instance.isAdmin())
-                ToggleIntroButton(),
+                AdminAddonButtons(),
               ElevatedButton(
                 onPressed: () => ModelManager.instance.logout(context),
                 child: Row(
@@ -40,43 +41,68 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-class ToggleIntroButton extends StatefulWidget {
-  const ToggleIntroButton({Key? key}) : super(key: key);
+class AdminAddonButtons extends StatefulWidget {
+  const AdminAddonButtons({Key? key}) : super(key: key);
 
   @override
-  _ToggleIntroButtonState createState() => _ToggleIntroButtonState();
+  _AdminAddonButtonsState createState() => _AdminAddonButtonsState();
 }
 
-class _ToggleIntroButtonState extends State<ToggleIntroButton> {
-  bool isSelected = false;
+class _AdminAddonButtonsState extends State<AdminAddonButtons> {
+  bool isShowIntroSelected = false;
+  bool isShowCategoryUpdaterSelected = false;
 
   @override
   void initState() {
     super.initState();
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
-        isSelected = prefs.getBool(kLocalStorageAlwaysShowIntro) ?? false;
+        isShowIntroSelected = prefs.getBool(kLocalStorageAlwaysShowIntro) ?? false;
+        isShowCategoryUpdaterSelected = prefs.getBool(kLocalStorageShowCategoryUpdater) ?? false;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
       children: [
-        SizedBox(height: 20),
-        Text("Always show intro: "),
-        Switch(value: isSelected, onChanged: onChanged, activeColor: Theme.of(context).primaryColor),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Always show intro: "),
+            Switch(value: isShowIntroSelected, onChanged: isShowIntroChanged, activeColor: Theme.of(context).primaryColor),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Show category updater: "),
+            Switch(
+              value: isShowCategoryUpdaterSelected,
+              onChanged: (value) => isShowCategoryUpdaterChanged(context, value),
+              activeColor: Theme.of(context).primaryColor,
+            ),
+          ],
+        ),
       ],
     );
   }
 
-  void onChanged(bool value) async {
+  void isShowIntroChanged(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(kLocalStorageAlwaysShowIntro, value);
     setState(() {
-      isSelected = value;
+      isShowIntroSelected = value;
+    });
+  }
+
+  void isShowCategoryUpdaterChanged(BuildContext context, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(kLocalStorageShowCategoryUpdater, value);
+    Provider.of<AppState>(context, listen: false).isShowCategoryUpdater = value;
+    setState(() {
+      isShowCategoryUpdaterSelected = value;
     });
   }
 }

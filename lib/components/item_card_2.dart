@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nexth/components/category_chooser/category_updater.dart';
 import 'package:nexth/components/vote_buttons.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/app_state.dart';
@@ -59,6 +60,8 @@ class ItemCard2 extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
+                if (Provider.of<AppState>(context, listen: false).isShowCategoryUpdater)
+                  CategoryUpdater(itemData: _itemData),
               ],
             ),
           ),

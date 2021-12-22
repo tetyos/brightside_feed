@@ -25,6 +25,15 @@ class _LevelThreeButtonState extends State<LevelThreeButton> {
       primary: kColorSecondaryLight);
 
   @override
+  void initState() {
+    super.initState();
+    List<CategoryElement> initElements = context.read<CategoryCubit>().state;
+    if (initElements.contains(widget.levelThreeCategory)) {
+      isSelected = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
