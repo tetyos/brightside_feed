@@ -103,11 +103,7 @@ class VoteButton extends StatelessWidget {
               SizedBox(width: 10),
               Icon(voteModel.iconData, color: voteColor),
               SizedBox(width: 2),
-              if (hasVotes)
-                Text(
-                  voteModel.numberOfRatings.toString(),
-                  style: TextStyle(color: voteColor),
-                ),
+              if (hasVotes) Text(voteModel.numberOfRatings.toString(), style: TextStyle(color: voteColor)),
               if (!hasVotes) SizedBox(width: 2),
             ],
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/utils/ui_utils.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MoreMenu extends StatelessWidget {
@@ -21,7 +22,9 @@ class MoreMenu extends StatelessWidget {
       onSelected: (String value) {
         switch (value) {
           case "share":
-            UIUtils.showSnackBar("Not yet implemented", context);
+            // Share.share(itemData.url);
+            // todo fix app name, as soon as set
+            Share.share('Check what I found on some-app ' + itemData.url);
             break;
           case "flag":
             UIUtils.showSnackBar("Not yet implemented", context);
@@ -34,15 +37,30 @@ class MoreMenu extends StatelessWidget {
       itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
         PopupMenuItem<String>(
           value: "share",
-          child: const Text('Share'),
+          child: ListTile(
+            leading: Icon(Icons.share_outlined),
+            title: const Text('Share'),
+            dense: true,
+            horizontalTitleGap: 0,
+          ),
         ),
         PopupMenuItem<String>(
           value: "browser",
-          child: const Text('Open in browser'),
+          child: ListTile(
+            leading: Icon(Icons.open_in_new_outlined),
+            title: const Text('Open in browser'),
+            dense: true,
+            horizontalTitleGap: 0,
+          ),
         ),
         PopupMenuItem<String>(
           value: "flag",
-          child: const Text('Report content'),
+          child: ListTile(
+            leading: Icon(Icons.report_outlined),
+            title: const Text('Report content'),
+            dense: true,
+            horizontalTitleGap: 0,
+          ),
         ),
       ],
     );
