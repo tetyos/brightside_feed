@@ -17,6 +17,13 @@ class NexthIncubatorPath extends NexthRoutePath {
   const NexthIncubatorPath();
 }
 
+class NexthAnimationPath extends NexthRoutePath {
+  ThemeAnimationPage();
+
+  @override
+  noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
 /// Pre main screen paths
 abstract class PreMainScreenPath extends NexthRoutePath {
   const PreMainScreenPath();

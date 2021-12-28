@@ -4,9 +4,7 @@ import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/utils/constants.dart';
 
 class HomeScreen extends StatelessWidget {
-
-  HomeScreen({required Key key})
-      : super(key: key);
+  HomeScreen({required Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

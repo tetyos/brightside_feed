@@ -20,21 +20,25 @@ class AppShellScreen extends StatefulWidget {
 }
 
 class _AppShellScreenState extends State<AppShellScreen> {
-
   @override
   Widget build(BuildContext context) {
     final RootBackButtonDispatcher backButtonDispatcher =
-    Router.of(context).backButtonDispatcher as RootBackButtonDispatcher;
+        Router.of(context).backButtonDispatcher as RootBackButtonDispatcher;
 
     return Consumer<AppState>(
       builder: (context, appState, child) {
         return Scaffold(
-          appBar: appState.currentSelectedItem != null ? AppBar(title: Text(appState.currentSelectedItem!.title),) : null,
+          appBar: appState.currentSelectedItem != null
+              ? AppBar(
+                  title: Text(appState.currentSelectedItem!.title),
+                )
+              : null,
           body: SafeArea(
             child: Router(
               routerDelegate: InnerRouterDelegate(),
-              backButtonDispatcher: ChildBackButtonDispatcher(backButtonDispatcher)
-                ..takePriority(),
+              backButtonDispatcher:
+                  ChildBackButtonDispatcher(backButtonDispatcher)
+                    ..takePriority(),
             ),
           ),
           floatingActionButton: renderFAB(appState),
@@ -64,15 +68,25 @@ class _AppShellScreenState extends State<AppShellScreen> {
               icon: Icons.dashboard_outlined,
               currentlySelected: appState.currentRoutePath is NexthExplorePath,
               onPressed: () {
-                appState.setExplorerScreenCurrentTabAndNotify(appState.explorerScreenStartTab);
+                appState.setExplorerScreenCurrentTabAndNotify(
+                    appState.explorerScreenStartTab);
                 appState.currentRoutePath = NexthExplorePath();
               }),
           BottomNavItem(
               icon: Icons.add_chart,
-              currentlySelected: appState.currentRoutePath is NexthIncubatorPath,
+              currentlySelected:
+                  appState.currentRoutePath is NexthIncubatorPath,
               onPressed: () {
                 appState.setIncubatorScreenCurrentTabAndNotify(0);
                 appState.currentRoutePath = NexthIncubatorPath();
+              }),
+          BottomNavItem(
+              icon: Icons.color_lens,
+              currentlySelected:
+                  appState.currentRoutePath is NexthIncubatorPath,
+              onPressed: () {
+                appState.setIncubatorScreenCurrentTabAndNotify(0);
+                appState.currentRoutePath = NexthAnimationPath();
               }),
           BottomNavItem(
               icon: Icons.logout,
@@ -90,7 +104,8 @@ class _AppShellScreenState extends State<AppShellScreen> {
   }
 
   FloatingActionButton renderFAB(AppState appState) {
-    if (appState.currentRoutePath is NexthExplorePath && appState.explorerScreenCurrentTab == 3) {
+    if (appState.currentRoutePath is NexthExplorePath &&
+        appState.explorerScreenCurrentTab == 3) {
       return FloatingActionButton(
         onPressed: showFilterDialog,
         tooltip: 'Change filter',
@@ -98,17 +113,17 @@ class _AppShellScreenState extends State<AppShellScreen> {
       );
     }
     return FloatingActionButton(
-          onPressed: showAddUrlDialog,
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        );
+      onPressed: showAddUrlDialog,
+      tooltip: 'Increment',
+      child: Icon(Icons.add),
+    );
   }
 
   void showFilterDialog() {
     // we need to fetch root backButtonDispatcher and give priority back to it.
     // otherwise inner-backButtonDispatcher has priority
     RootBackButtonDispatcher backButtonDispatcher =
-    Router.of(context).backButtonDispatcher as RootBackButtonDispatcher;
+        Router.of(context).backButtonDispatcher as RootBackButtonDispatcher;
     backButtonDispatcher.takePriority();
 
     showModalBottomSheet(
@@ -116,22 +131,24 @@ class _AppShellScreenState extends State<AppShellScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => FractionallySizedBox(
-        heightFactor: MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.4 : 0.7,
+        heightFactor:
+            MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.4 : 0.7,
         child: FilterPopularScreen(),
       ),
-    ).whenComplete(() => setState((){}));
+    ).whenComplete(() => setState(() {}));
   }
 
   void showAddUrlDialog() {
     if (!Provider.of<AppState>(context, listen: false).isUserLoggedIn) {
-      UIUtils.showSnackBar("You need to log in, in order to add items.", context);
+      UIUtils.showSnackBar(
+          "You need to log in, in order to add items.", context);
       return;
     }
 
     // we need to fetch root backButtonDispatcher and give priority back to it.
     // otherwise inner-backButtonDispatcher has priority
     RootBackButtonDispatcher backButtonDispatcher =
-    Router.of(context).backButtonDispatcher as RootBackButtonDispatcher;
+        Router.of(context).backButtonDispatcher as RootBackButtonDispatcher;
     backButtonDispatcher.takePriority();
 
     showModalBottomSheet(
@@ -139,10 +156,11 @@ class _AppShellScreenState extends State<AppShellScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => FractionallySizedBox(
-        heightFactor: MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.9 : 0.9,
+        heightFactor:
+            MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.9 : 0.9,
         child: AddUrlScreen(),
       ),
-    ).whenComplete(() => setState((){}));
+    ).whenComplete(() => setState(() {}));
   }
 
   Future<void> logout(AppState appState) async {
@@ -165,10 +183,20 @@ class BottomNavItem extends StatelessWidget {
   final bool currentlySelected;
   final void Function() onPressed;
 
-  const BottomNavItem({required this.icon, required this.currentlySelected, required this.onPressed,});
+  const BottomNavItem({
+    required this.icon,
+    required this.currentlySelected,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(icon: Icon(icon, color: currentlySelected ? Colors.white : kColorWhiteTransparent,), onPressed: onPressed,);
+    return IconButton(
+      icon: Icon(
+        icon,
+        color: currentlySelected ? Colors.white : kColorWhiteTransparent,
+      ),
+      onPressed: onPressed,
+    );
   }
 }
