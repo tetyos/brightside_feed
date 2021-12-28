@@ -36,14 +36,15 @@ class SpecialVoteButton extends StatelessWidget {
     return PopupMenuButton<String>(
       child: Row(
         children: [
-          if (!hasVotes) SizedBox(width: 3),
+          SizedBox(width: 5),
           FaIcon(FontAwesomeIcons.award, color: menuButtonColor),
-          SizedBox(width: 2),
+          SizedBox(width: 2, height: 48,),
           if (hasVotes)
             Text(
               sumSpecialVotes.toString(),
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: menuButtonColor),
             ),
+          SizedBox(width: hasVotes ? 2 : 5),
         ],
       ),
       onSelected: (String value) async {

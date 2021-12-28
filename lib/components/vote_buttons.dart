@@ -29,7 +29,6 @@ class _VoteButtonsState extends State<VoteButtons> {
     return Row(
       children: [
         VoteButton(voteModel: widget.itemData.upVoteModel, onPressed: onVoteCallback,),
-        SizedBox(width: 5),
         SpecialVoteButton(itemData: widget.itemData, onPressed: onVoteCallback, noVoteColor: Colors.grey, hasVotesColor: Colors.black, userVotedColor: kColorPrimary,),
       ],
     );
@@ -92,24 +91,33 @@ class VoteButton extends StatelessWidget {
         ? kColorPrimary
         : Colors.black
         : Colors.grey;
-    return TextButton(
-      child: Row(
-        children: [
-          if (!hasVotes) SizedBox(width: 3),
-          Icon(voteModel.iconData, color: voteColor),
-          SizedBox(width: 2),
-          if (hasVotes)
-            Text(
-              voteModel.numberOfRatings.toString(),
-              style: TextStyle(color: voteColor),
-            ),
-        ],
-      ),
-      onPressed: () => onPressed(voteModel: voteModel),
-      style: TextButton.styleFrom(
-        padding: EdgeInsets.zero,
-        minimumSize: Size.zero,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    return GestureDetector(
+      onTap: () => onPressed(voteModel: voteModel),
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5),
+        color: Colors.transparent,
+        child: TextButton(
+          child: Row(
+            children: [
+              SizedBox(width: 10),
+              Icon(voteModel.iconData, color: voteColor),
+              SizedBox(width: 2),
+              if (hasVotes)
+                Text(
+                  voteModel.numberOfRatings.toString(),
+                  style: TextStyle(color: voteColor),
+                ),
+              if (!hasVotes) SizedBox(width: 2),
+            ],
+          ),
+          onPressed: () => onPressed(voteModel: voteModel),
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
+            minimumSize: Size(30, 48),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+        ),
       ),
     );
   }

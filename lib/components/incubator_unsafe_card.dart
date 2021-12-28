@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nexth/components/more_menu.dart';
 import 'package:nexth/components/vote_buttons.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/app_state.dart';
@@ -44,17 +45,16 @@ class IncubatorUnsafeCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(_host, style: TextStyle(color: kColorPrimary, fontWeight: FontWeight.bold),),
                 ),
-                SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.only(left: 16.0),
                   child: Row(
                     children: [
                       Expanded(child: renderDate(context)),
-                      VoteButtons(itemData: _itemData)
+                      VoteButtons(itemData: _itemData),
+                      MoreMenu(itemData: _itemData, buttonColor: Colors.grey,)
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
               ],
             ),
           ),

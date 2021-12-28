@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/backend_connection/api_connector.dart';
+import 'package:nexth/components/more_menu.dart';
 import 'package:nexth/components/special_vote_button.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/vote_model.dart';
@@ -7,7 +8,6 @@ import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/ui_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
@@ -92,7 +92,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 },),
                 renderUpVoteButton(),
                 renderAwardMenu(),
-                renderMoreMenu(),
+                MoreMenu(itemData: itemData),
               ],
             ),
           ),
@@ -122,32 +122,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
       noVoteColor: Colors.white,
       hasVotesColor: Colors.white,
       userVotedColor: kColorOrange,
-    );
-  }
-
-  Widget renderMoreMenu() {
-    return PopupMenuButton<String>(
-      icon: Row (children: [Icon(Icons.more_vert, color: Colors.white)],),
-      onSelected: (String value) {
-        switch (value) {
-          case "flag":
-            UIUtils.showSnackBar("Not yet implemented", context);
-            break;
-          case "browser":
-            launchUrl();
-            break;
-        }
-      },
-      itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
-        PopupMenuItem<String>(
-          value: "browser",
-          child: const Text('Open in browser'),
-        ),
-        PopupMenuItem<String>(
-          value: "flag",
-          child: const Text('Report content'),
-        ),
-      ],
     );
   }
 
@@ -200,19 +174,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
           });
         }
       });
-    }
-  }
-
-  void launchUrl() async {
-    String url = itemData.url;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      try {
-        await launch(url);
-      } catch (err) {
-        throw Exception('Could not launch $url. Error: $err');
-      }
     }
   }
 }
