@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nexth/bloc/item_list_model_cubit.dart';
-import 'package:nexth/components/item_card_2.dart';
+import 'package:nexth/components/item_card.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/list_models/item_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
@@ -46,7 +46,7 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
       _itemCardProvider = widget._customItemCardProvider!;
     } else {
       _itemCardProvider = (itemData) =>
-          ItemCard2(linkPreviewData: itemData, isAdminCard: ModelManager.instance.isAdmin());
+          ItemCard(linkPreviewData: itemData, isAdminCard: ModelManager.instance.isAdmin());
     }
     _initModel();
     _scrollController.addListener(scrollingListener);
