@@ -51,10 +51,12 @@ class AdminAddonButtons extends StatefulWidget {
 class _AdminAddonButtonsState extends State<AdminAddonButtons> {
   bool isShowIntroSelected = false;
   bool isShowCategoryUpdaterSelected = false;
+  bool isDefaultPreviewDataLoader = true;
 
   @override
   void initState() {
     super.initState();
+    isDefaultPreviewDataLoader = Provider.of<AppState>(context, listen: false).isDefaultPreviewDataLoader;
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
         isShowIntroSelected = prefs.getBool(kLocalStorageAlwaysShowIntro) ?? false;
@@ -85,6 +87,16 @@ class _AdminAddonButtonsState extends State<AdminAddonButtons> {
             ),
           ],
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Use default preview data loader: "),
+            Switch(
+                value: isDefaultPreviewDataLoader,
+                onChanged: (value) => isPreviewDataLoaderChanged(context, value),
+                activeColor: Theme.of(context).primaryColor),
+          ],
+        ),
       ],
     );
   }
@@ -103,6 +115,13 @@ class _AdminAddonButtonsState extends State<AdminAddonButtons> {
     Provider.of<AppState>(context, listen: false).isShowCategoryUpdater = value;
     setState(() {
       isShowCategoryUpdaterSelected = value;
+    });
+  }
+
+  void isPreviewDataLoaderChanged(BuildContext context, bool value) async {
+    Provider.of<AppState>(context, listen: false).isDefaultPreviewDataLoader = value;
+    setState(() {
+      isDefaultPreviewDataLoader = value;
     });
   }
 }

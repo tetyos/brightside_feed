@@ -20,6 +20,7 @@ class AppState extends ChangeNotifier {
   ItemData? _currentWebViewItem;
 
   bool isShowCategoryUpdater = false;
+  bool isDefaultPreviewDataLoader = true;
 
   final GlobalKey homeScreenKey = GlobalKey();
   final GlobalKey incubatorScreenKey = GlobalKey();

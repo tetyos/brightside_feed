@@ -26,15 +26,19 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
   static const String no_input_yet_label = "Preview appears after entering a link.";
   TextEditingController _textEditingController = TextEditingController();
   Widget _previewCard = PreviewPlaceHolderCard(child: Text(no_input_yet_label),);
+
   ItemData? _itemData;
   String? _lastInput;
   List<CategoryElement> _categoriesSelection = [];
   String? _languageSelection;
 
+  bool isDefaultPreviewDataLoader = true;
+
   @override
   void initState() {
     super.initState();
     _textEditingController.addListener(urlInputChanged);
+    isDefaultPreviewDataLoader = Provider.of<AppState>(context, listen: false).isDefaultPreviewDataLoader;
   }
 
   @override
@@ -53,6 +57,8 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text('Add a link', textAlign: TextAlign.center, style: TextStyle(fontSize: 30.0)),
+            if (!isDefaultPreviewDataLoader)
+              Text('(Using non-default preview-data-loader)', textAlign: TextAlign.center, style: TextStyle(fontSize: 12.0)),
             _previewCard,
             Row(children: [
               Expanded(child: TextField(controller: _textEditingController)),
@@ -165,7 +171,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
       _lastInput = input;
     });
     try {
-      _itemData = await PreviewDataLoader.fetchDataFromUrl(input);
+      _itemData = await PreviewDataLoader.fetchDataFromUrl(input, isDefaultPreviewDataLoader);
       _previewCard = AddUrlPreviewCard(linkPreviewData: _itemData!);
     } catch (e, s) {
       print(e);

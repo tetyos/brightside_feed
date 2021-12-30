@@ -9,22 +9,11 @@ import 'package:link_preview_generator/link_preview_generator.dart';
 import 'package:nexth/model/item_data.dart';
 
 class PreviewDataLoader {
-  static final RegExp _twitterUrl =
-  RegExp(r'^(https?:\/\/(www)?\.?)?twitter\.com\/.+');
 
-  static Future<ItemData> fetchDataFromUrl(String url) async {
+  static Future<ItemData> fetchDataFromUrl(String url, bool isDefaultPreviewDataLoader) async {
     ItemData itemData;
-    if (!isTwitter(url)) {
-      PreviewData previewData = await FlutterLinkPreviewer.getPreviewData(url);
-      if (previewData.title == null) {
-        throw HttpException("Could not read title for url");
-      }
-      String? imageURL = previewData.image == null ? null : previewData.image!.url;
-      itemData = ItemData(url: previewData.link!,
-          title: previewData.title!,
-          description: previewData.description,
-          imageUrl: imageURL);
-    } else {
+
+    if (isDefaultPreviewDataLoader) {
       WebInfo webInfo = await LinkPreview.scrapeFromURL(url);
       if (webInfo.type == LinkPreviewType.error) {
         throw HttpException("Could not read data for url");
@@ -34,17 +23,21 @@ class PreviewDataLoader {
           title: webInfo.title,
           description: webInfo.description,
           imageUrl: webInfo.image);
+    } else {
+      PreviewData previewData = await FlutterLinkPreviewer.getPreviewData(url);
+      if (previewData.title == null) {
+        throw HttpException("Could not read title for url");
+      }
+      String? imageURL = previewData.image == null ? null : previewData.image!.url;
+      itemData = ItemData(url: previewData.link!,
+          title: previewData.title!,
+          description: previewData.description,
+          imageUrl: imageURL);
     }
-    // print('\n\n\nLinkPreviewData('
-    //     +' url: \'' + itemData.url + '\','
-    //     +'title: \'' + itemData.title + '\','
-    //     +'description: \'' + itemData.description + '\','
-    //     +'imageUrl: \'' + itemData.imageUrl! + '\'),');
+
     await itemData.preLoadImage();
     return itemData;
   }
-
-  static bool isTwitter(String url) => _twitterUrl.hasMatch(url);
 
   static String? shortenDescriptionIfNecessary(String? description, int maxLength) {
     if (description == null || description == "")  {
