@@ -123,7 +123,7 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
         child: const IntroCard(
             title: "New items: trusted websites",
             message:
-                "Trusted means that the website itself can be trusted and does host spam, inappropriate or illegal content. "
+                "Trusted means that the website itself can be trusted and does not host spam, inappropriate or illegal content. "
                 // "Trusted means NOT that the content is guaranteed to provided correct facts or anything."
         ),
       );
