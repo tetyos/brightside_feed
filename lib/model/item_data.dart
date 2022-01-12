@@ -17,6 +17,7 @@ class ItemData {
   CachedNetworkImageProvider? imageProvider;
   String url;
   String dateAdded;
+  String? datePublished;
   String? imageUrl;
   List<CategoryElement> categories = [];
   IncubatorType? incubatorStatus;
@@ -44,7 +45,8 @@ class ItemData {
   ItemData.fromJson(Map<String, dynamic> json)
       : id = json[API_Identifier.itemId],
         url = json['url'],
-        dateAdded = json['dateAdded'],
+        dateAdded = json['dateAdded'] ?? DateTime.now().toIso8601String(),
+        datePublished = json['datePublished'],
         title = json['title'],
         description = json['description'],
         imageUrl = json['imageUrl'],
@@ -78,6 +80,7 @@ class ItemData {
   ItemData update(Map<String, dynamic> newJson) {
     url = newJson['url'];
     dateAdded = newJson['dateAdded'];
+    datePublished = newJson['datePublished'];
     title = newJson['title'];
     description = newJson['description'];
     imageUrl = newJson['imageUrl'];

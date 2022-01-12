@@ -36,6 +36,7 @@ class ModelManager {
   ExplorePopularModel explorePopularModel = ExplorePopularModel(votingType: VoteType.impact, periodicity: Periodicity.week);
 
   final ItemListModel inc1IncubatorModel = IncubatorListModel(incubatorType: IncubatorType.inc1);
+  final ItemListModel scrapedIncubatorModel = IncubatorListModel(incubatorType: IncubatorType.scraped);
   final ItemListModel unsafeIncubatorModel = IncubatorListModel(incubatorType: IncubatorType.unsafe, isPreloadImages: false);
 
   // category item list
@@ -49,6 +50,7 @@ class ModelManager {
     allModels.addAll([
       homeModel,
       inc1IncubatorModel,
+      scrapedIncubatorModel,
       unsafeIncubatorModel,
       exploreLikesModel,
       explorePopularModel,
@@ -64,6 +66,8 @@ class ModelManager {
     switch (incubatorType) {
       case IncubatorType.inc1:
         return inc1IncubatorModel;
+      case IncubatorType.scraped:
+        return scrapedIncubatorModel;
       case IncubatorType.unsafe:
         return unsafeIncubatorModel;
     }

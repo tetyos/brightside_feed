@@ -22,14 +22,24 @@ class IncubatorListModel extends ItemListModel {
 
   @override
   DatabaseQuery getDBQuery() {
+    String sortBy = incubatorType == IncubatorType.scraped
+        ? API_Identifier.searchQuery_SortBy_DatePublished
+        : API_Identifier.searchQuery_SortBy_DateAdded;
     return new DatabaseQuery(
-        sortBy: API_Identifier.searchQuery_SortBy_DateAdded,
+        sortBy: sortBy,
         limit: numberOfItemsToRequest,
         incubatorStatus: incubatorType.identifier);
   }
 
   @override
   DatabaseQuery getMoreItemsDBQuery(String ltDate) {
+    if (incubatorType == IncubatorType.scraped) {
+      return new DatabaseQuery(
+          sortBy: API_Identifier.searchQuery_SortBy_DatePublished,
+          limit: numberOfItemsToRequest,
+          datePublishedLT: items.last.datePublished!,
+          incubatorStatus: incubatorType.identifier);
+    }
     return new DatabaseQuery(
         sortBy: API_Identifier.searchQuery_SortBy_DateAdded,
         limit: numberOfItemsToRequest,
@@ -38,12 +48,13 @@ class IncubatorListModel extends ItemListModel {
   }
 }
 
-enum IncubatorType { inc1, unsafe }
+enum IncubatorType { inc1, unsafe, scraped}
 
 IncubatorType? getIncubatorTypeFromString(String? incubatorType) {
   if (incubatorType == null) return null;
   if (incubatorType == IncubatorType.inc1.identifier) return IncubatorType.inc1;
   if (incubatorType == IncubatorType.unsafe.identifier) return IncubatorType.unsafe;
+  if (incubatorType == IncubatorType.scraped.identifier) return IncubatorType.scraped;
 }
 
 extension IncubatorTypeExtension on IncubatorType {
@@ -53,15 +64,19 @@ extension IncubatorTypeExtension on IncubatorType {
         return 'inc1';
       case IncubatorType.unsafe:
         return 'unsafe';
+      case IncubatorType.scraped:
+        return 'scraped';
     }
   }
 
   int get tabNumber {
     switch (this) {
-      case IncubatorType.inc1:
+      case IncubatorType.scraped:
         return 1;
-      case IncubatorType.unsafe:
+      case IncubatorType.inc1:
         return 2;
+      case IncubatorType.unsafe:
+        return 3;
     }
   }
 }

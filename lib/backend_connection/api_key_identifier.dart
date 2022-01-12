@@ -8,6 +8,7 @@ const String itemId = "_id";
 // SearchQuery:
 
 const String searchQuery_SortBy_DateAdded = 'dateAdded';
+const String searchQuery_SortBy_DatePublished = 'datePublished';
 const String searchQuery_SortBy_lastVoteOn = 'lastVoteOn';
 
 // Voting Model

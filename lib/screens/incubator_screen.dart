@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nexth/components/incubator_scraped_card.dart';
 import 'package:nexth/components/incubator_start_page.dart';
 import 'package:nexth/components/incubator_unsafe_card.dart';
 import 'package:nexth/components/intro_card.dart';
@@ -25,7 +27,7 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: 3, vsync: this);
+    _tabController = new TabController(length: 4, vsync: this);
     _tabController.addListener(() {
       Provider.of<AppState>(context, listen: false).setIncubatorScreenCurrentTabAndNotify(_tabController.index);
     });
@@ -43,6 +45,13 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
             tabs: [
               Tab(
                 child: Row(children: [Icon(Icons.add_chart), SizedBox(width: 5), Text("Incubator")]),
+              ),
+              Tab(
+                child: Row(children: [
+                  FaIcon(FontAwesomeIcons.globe),
+                  SizedBox(width: 5),
+                  Text('News-scanner')
+                ]),
               ),
               Tab(
                 child: Row(children: [
@@ -70,6 +79,10 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
             physics: CustomPageViewScrollPhysics(),
             children: [
               IncubatorStartPage(),
+              IncubatorScrollView(
+                incubatorType: IncubatorType.scraped,
+                key: PageStorageKey<String>(IncubatorType.scraped.toString()),
+              ),
               IncubatorScrollView(
                 incubatorType: IncubatorType.inc1,
                 key: PageStorageKey<String>(IncubatorType.inc1.toString()),
@@ -109,7 +122,17 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
     super.initState();
     ModelManager _modelManager = ModelManager.instance;
     _itemListModel = _modelManager.getModelForIncubatorType(widget.incubatorType);
-    if (widget.incubatorType == IncubatorType.unsafe) {
+    if (widget.incubatorType == IncubatorType.scraped) {
+      _itemCardProvider = (itemData) => IncubatorScrapedCard(
+          linkPreviewData: itemData, isAdminCard: ModelManager.instance.isAdmin());
+      exploreIntroCard = const SliverToBoxAdapter(
+        child: const IntroCard(
+            title: "News scanner",
+            message:
+            "Here you find all recent news from pv-magazine.com and treehugger.com ."),
+      );
+    }
+    else if (widget.incubatorType == IncubatorType.unsafe) {
       _itemCardProvider = (itemData) => IncubatorUnsafeCard(
           linkPreviewData: itemData, isAdminCard: ModelManager.instance.isAdmin());
       exploreIntroCard = const SliverToBoxAdapter(

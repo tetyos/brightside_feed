@@ -111,7 +111,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             //borderRadius: BorderRadius.all(Radius.elliptical(300, 50)),
-            child: Image.asset( 'images/intro1.jpg', height: 180,),
+            child: Image.asset( 'images/intro1_blue.jpg', height: 180,),
           ),
         ),
         backgroundColor: kColorPrimary,

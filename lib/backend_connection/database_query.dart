@@ -12,10 +12,24 @@ class DatabaseQuery {
   String? incubatorStatus;
   String? dateLT;
   String? dateGT;
+  String? datePublishedLT;
+  String? datePublishedGT;
   String? voteType;
   bool? isFetchUserLikes;
 
-  DatabaseQuery({this.sortBy, this.sortType, this.limit, this.categories, this.incubatorStatus, this.dateLT, this.dateGT, this.voteType, this.skip, this.isFetchUserLikes});
+  DatabaseQuery(
+      {this.sortBy,
+      this.sortType,
+      this.limit,
+      this.categories,
+      this.incubatorStatus,
+      this.dateLT,
+      this.dateGT,
+      this.datePublishedLT,
+      this.datePublishedGT,
+      this.voteType,
+      this.skip,
+      this.isFetchUserLikes});
 
   Map<String, dynamic> toJson() => {
         if (sortBy != null) 'sortBy': sortBy,
@@ -26,6 +40,8 @@ class DatabaseQuery {
         if (incubatorStatus != null) 'incubatorStatus': incubatorStatus,
         if (voteType != null) 'voteType': voteType,
         if (dateLT != null) 'dateLT': dateLT,
+        if (datePublishedLT != null) 'datePublishedLT': datePublishedLT,
+        if (datePublishedGT != null) 'datePublishedGT': datePublishedGT,
         if (dateGT != null) 'dateGT': dateGT,
         if (isFetchUserLikes != null) 'isFetchUserLikes': isFetchUserLikes,
       };
