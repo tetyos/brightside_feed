@@ -35,13 +35,13 @@ class _IntroScreen2State extends State<IntroScreen2> {
     return [
       Slide(
         widgetTitle: Text(
-          "Welcome on nexth-News!",
+          "Welcome on Brightside-Tales!",
           style: titleTextStyle,
           textAlign: TextAlign.center,
         ),
         marginTitle: marginTitle,
         description:
-            "Here you will find news on events, tech and other things that help to advance our society into a new age...",
+            "Here you will find news on events, tech and other things that help to advance our society into a brighter age...",
         centerWidget: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: ClipRRect(
@@ -91,16 +91,21 @@ class _IntroScreen2State extends State<IntroScreen2> {
       // ),
       Slide(
         widgetTitle: Text(
-          "A new age..?",
+          "A brighter age..?",
           style: titleTextStyle,
           textAlign: TextAlign.center,
         ),
         marginTitle: marginTitle,
         widgetDescription: Text(
-          "Most of us are aware of the numerous challenges of today and the decades to come. "
-          "These challenges make it easy to overlook that we are also living in times that offer enormous possibilities for our future."
-          // "These challenges make it easy to overlook that we are also living in times of rapid advances in many areas - which in turn offer enormous possibilities for our future."
+          "The numerous challenges of today make it easy to overlook that we are also living in times that offer enormous possibilities for our future."
           "\n\nGoal of this project is to highlight the progress that our society makes everyday - a progress enabled by millions of people around the globe.",
+
+
+          // "Most of us are aware of the numerous challenges of today and the decades to come. "
+          // "These challenges make it easy to overlook that we are also living in times that offer enormous possibilities for our future."
+          // "\n\nGoal of this project is to highlight the progress that our society makes everyday - a progress enabled by millions of people around the globe.",
+
+          // "These challenges make it easy to overlook that we are also living in times of rapid advances in many areas - which in turn offer enormous possibilities for our future."
           // "\n\n'Some app name' highlights the progress that our society makes everyday. Hope behind that: If more people know what we are working for (and not only what we are fighting against), it may raise the chances of getting there.",
           textAlign: TextAlign.justify,
           style: TextStyle(color: Colors.white, fontSize: 18.0),
