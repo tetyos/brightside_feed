@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:nexth/components/more_menu.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/navigation/app_state.dart';
+import 'package:nexth/screens/add_scraped_item_screen.dart';
 import 'package:nexth/utils/constants.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
+import 'package:nexth/utils/ui_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -53,6 +55,7 @@ class IncubatorScrapedCard extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(child: renderDate(context)),
+                      PromoteButton(itemData: _itemData),
                       MoreMenu(itemData: _itemData, buttonColor: Colors.grey,)
                     ],
                   ),
@@ -127,4 +130,62 @@ class IncubatorScrapedCard extends StatelessWidget {
   }
 
   ItemData get linkPreviewData => _itemData;
+}
+
+class PromoteButton extends StatelessWidget {
+  final ItemData itemData;
+
+  PromoteButton({required this.itemData});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => showPromoteItemDialog(context),
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5),
+        color: Colors.transparent,
+        child: TextButton(
+          child: Row(
+            children: [
+              SizedBox(width: 10),
+              Icon(Icons.add_circle_outline, color: Theme.of(context).primaryColor),
+              SizedBox(width: 5),
+            ],
+          ),
+          onPressed: () => showPromoteItemDialog(context),
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
+            minimumSize: Size(30, 48),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showPromoteItemDialog(BuildContext context) {
+    if (!Provider.of<AppState>(context, listen: false).isUserLoggedIn) {
+      UIUtils.showSnackBar("You need to log in, in order to add items.", context);
+      return;
+    }
+
+    // we need to fetch root backButtonDispatcher and give priority back to it.
+    // otherwise inner-backButtonDispatcher has priority
+    ChildBackButtonDispatcher childBackButtonDispatcher = Router.of(context).backButtonDispatcher as ChildBackButtonDispatcher;
+    childBackButtonDispatcher.parent.takePriority();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => FractionallySizedBox(
+        heightFactor: MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.9 : 0.9,
+        child: AddScrapedItemScreen(itemData: itemData),
+      ),
+    ).whenComplete(() {
+      Router.of(context).backButtonDispatcher!.takePriority();
+    });
+  }
 }

@@ -209,6 +209,28 @@ class APIConnector {
     return false;
   }
 
+  /// executes the given update. returns true if successful.
+  static Future<bool> updateScrapedItem(ItemUpdate itemUpdate) async {
+    numberOfHttpRequests++;
+    if (numberOfHttpRequests > httpRequestThreshold) return false;
+    String payloadJson = Dart.jsonEncode(itemUpdate);
+
+    try {
+      http.Response response = await httpPostAuthorized(
+          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/update_scraped_item'),
+          payloadJson);
+      if (response.statusCode == 200) {
+        return true;
+      }
+      print("Scraped item update not be processed. StatusCode: ${response.statusCode}");
+      print(response.body);
+    } catch (e) {
+      print("Scraped item update could not be processed.");
+      print(e);
+    }
+    return false;
+  }
+
   static Future<http.Response> httpPostAuthorized(Uri uri, String bodyString) async {
     AuthSession res = await Amplify.Auth.fetchAuthSession(
       options: CognitoSessionOptions(getAWSCredentials: true),
