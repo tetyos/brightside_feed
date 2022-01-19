@@ -96,4 +96,8 @@ class AppState extends ChangeNotifier {
     _currentWebViewItem = webViewItem;
     notifyListeners();
   }
+
+  bool isAppShellVisible() {
+    return _currentWebViewItem == null;
+  }
 }

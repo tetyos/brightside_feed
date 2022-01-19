@@ -20,18 +20,21 @@ class _AppShellScreenState extends State<AppShellScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final RootBackButtonDispatcher backButtonDispatcher =
-    Router.of(context).backButtonDispatcher as RootBackButtonDispatcher;
-
     return Consumer<AppState>(
       builder: (context, appState, child) {
+        ChildBackButtonDispatcher? childBackButtonDispatcher;
+        if (appState.isAppShellVisible()) {
+          final RootBackButtonDispatcher backButtonDispatcher =
+              Router.of(context).backButtonDispatcher as RootBackButtonDispatcher;
+          childBackButtonDispatcher = ChildBackButtonDispatcher(backButtonDispatcher)..takePriority();
+        }
+
         return Scaffold(
           appBar: renderAppBarIfNecessary(appState),
           body: SafeArea(
             child: Router(
               routerDelegate: InnerRouterDelegate(),
-              backButtonDispatcher: ChildBackButtonDispatcher(backButtonDispatcher)
-                ..takePriority(),
+              backButtonDispatcher: childBackButtonDispatcher,
             ),
           ),
           floatingActionButton: renderFAB(appState),
