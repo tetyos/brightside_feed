@@ -74,9 +74,9 @@ extension IncubatorTypeExtension on IncubatorType {
       case IncubatorType.scraped:
         return 1;
       case IncubatorType.inc1:
-        return 2;
+        return 0;
       case IncubatorType.unsafe:
-        return 3;
+        return 2;
     }
   }
 }

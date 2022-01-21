@@ -12,15 +12,16 @@ class AppState extends ChangeNotifier {
   String _resetPasswordMail = "";
   String _confirmLoginMail = "";
 
+  bool isShowIncubatorIntro = true;
+  bool isShowCategoryUpdater = false;
+  bool isDefaultPreviewDataLoader = true;
+
   int explorerScreenCurrentTab = 1;
   int incubatorScreenCurrentTab = 0;
   int numberOfUserDefinedTabs = 0;
 
   ItemData? _currentSelectedItem;
   ItemData? _currentWebViewItem;
-
-  bool isShowCategoryUpdater = false;
-  bool isDefaultPreviewDataLoader = true;
 
   final GlobalKey homeScreenKey = GlobalKey();
   final GlobalKey incubatorScreenKey = GlobalKey();

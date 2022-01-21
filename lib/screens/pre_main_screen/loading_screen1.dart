@@ -185,10 +185,13 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     final prefs = await SharedPreferences.getInstance();
 
     bool isFirstLogin = prefs.getBool(kLocalStorageFirstLogin) ?? true;
+    bool isShowIncubatorIntro = prefs.getBool(kLocalStorageShowIncubatorIntro) ?? true;
+
     bool isIntroWatched = prefs.getBool(kLocalStorageIntroWatched) ?? false;
     bool isAlwaysShowIntro = prefs.getBool(kLocalStorageAlwaysShowIntro) ?? false;
     bool isShowCategoryUpdater = prefs.getBool(kLocalStorageShowCategoryUpdater) ?? false;
     Provider.of<AppState>(context, listen: false).isFirstLogin = isFirstLogin;
+    Provider.of<AppState>(context, listen: false).isShowIncubatorIntro = isShowIncubatorIntro;
     Provider.of<AppState>(context, listen: false).isShowIntro = !isIntroWatched || isAlwaysShowIntro;
     Provider.of<AppState>(context, listen: false).isShowCategoryUpdater = isShowCategoryUpdater;
 

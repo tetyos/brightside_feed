@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nexth/components/incubator_intro_card.dart';
 import 'package:nexth/components/incubator_scraped_card.dart';
-import 'package:nexth/components/incubator_start_page.dart';
 import 'package:nexth/components/incubator_unsafe_card.dart';
 import 'package:nexth/components/intro_card.dart';
 import 'package:nexth/components/item_list_scroll_view.dart';
@@ -27,7 +27,7 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: 4, vsync: this);
+    _tabController = new TabController(length: 3, vsync: this);
     _tabController.addListener(() {
       Provider.of<AppState>(context, listen: false).setIncubatorScreenCurrentTabAndNotify(_tabController.index);
     });
@@ -55,13 +55,6 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
               ),
               Tab(
                 child: Row(children: [
-                  Icon(Icons.people_alt_outlined),
-                  SizedBox(width: 5),
-                  Text('Trusted sources')
-                ]),
-              ),
-              Tab(
-                child: Row(children: [
                   Icon(Icons.warning_amber_outlined),
                   SizedBox(width: 5),
                   Text('Unknown sources')
@@ -78,14 +71,13 @@ class _IncubatorScreenState extends State<IncubatorScreen> with SingleTickerProv
             controller: _tabController,
             physics: CustomPageViewScrollPhysics(),
             children: [
-              IncubatorStartPage(),
-              IncubatorScrollView(
-                incubatorType: IncubatorType.scraped,
-                key: PageStorageKey<String>(IncubatorType.scraped.toString()),
-              ),
               IncubatorScrollView(
                 incubatorType: IncubatorType.inc1,
                 key: PageStorageKey<String>(IncubatorType.inc1.toString()),
+              ),
+              IncubatorScrollView(
+                incubatorType: IncubatorType.scraped,
+                key: PageStorageKey<String>(IncubatorType.scraped.toString()),
               ),
               IncubatorScrollView(
                 incubatorType: IncubatorType.unsafe,
@@ -143,12 +135,7 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
       );
     } else {
       exploreIntroCard = const SliverToBoxAdapter(
-        child: const IntroCard(
-            title: "New items: trusted websites",
-            message:
-                "Trusted means that the website itself can be trusted and does not host spam, inappropriate or illegal content. "
-                // "Trusted means NOT that the content is guaranteed to provided correct facts or anything."
-        ),
+        child: const IncubatorIntroCard(),
       );
     }
   }
