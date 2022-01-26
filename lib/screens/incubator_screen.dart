@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nexth/components/incubator/news_scanner_intro_card.dart';
 import 'package:nexth/components/incubator_intro_card.dart';
 import 'package:nexth/components/incubator_scraped_card.dart';
 import 'package:nexth/components/incubator_unsafe_card.dart';
@@ -116,22 +117,18 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
     _itemListModel = _modelManager.getModelForIncubatorType(widget.incubatorType);
     if (widget.incubatorType == IncubatorType.scraped) {
       _itemCardProvider = (itemData) => IncubatorScrapedCard(
-          linkPreviewData: itemData, isAdminCard: ModelManager.instance.isAdmin());
-      exploreIntroCard = const SliverToBoxAdapter(
-        child: const IntroCard(
-            title: "News scanner",
-            message:
-            "Here you find all recent news from pv-magazine.com and treehugger.com ."),
-      );
-    }
-    else if (widget.incubatorType == IncubatorType.unsafe) {
+            linkPreviewData: itemData,
+            isAdminCard: ModelManager.instance.isAdmin(),
+          );
+      exploreIntroCard = const SliverToBoxAdapter(child: const NewsScannerIntroCard());
+    } else if (widget.incubatorType == IncubatorType.unsafe) {
       _itemCardProvider = (itemData) => IncubatorUnsafeCard(
           linkPreviewData: itemData, isAdminCard: ModelManager.instance.isAdmin());
       exploreIntroCard = const SliverToBoxAdapter(
         child: const IntroCard(
             title: "New items: unknown websites",
             message:
-                "Content from unknown websites is sorted into this list first. Preview images are not shown on purpose here."),
+                "Content from unknown sources is sorted into this list until approved. Preview images are not shown on purpose here."),
       );
     } else {
       exploreIntroCard = const SliverToBoxAdapter(

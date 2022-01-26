@@ -35,7 +35,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
     return [
       Slide(
         widgetTitle: Text(
-          "Welcome on Brightside-Tales!",
+          "Welcome to your Brightside-Feed!",
           style: titleTextStyle,
           textAlign: TextAlign.center,
         ),
@@ -50,27 +50,6 @@ class _IntroScreen2State extends State<IntroScreen2> {
           ),
         ),
         // pathImage: 'images/intro2.png',
-        backgroundColor: kColorPrimary,
-      ),
-      Slide(
-        widgetTitle: Text(
-          "Community driven",
-          style: titleTextStyle,
-          textAlign: TextAlign.center,
-        ),
-        marginTitle: marginTitle,
-        description:
-            "You stumbled upon an inspiring article? Share it with the rest of the community.",
-        //  "Add fitting content by providing links to it."
-        //  "\n\n Or browse through already collected news and help to filter the one that inspire the most.",
-        centerWidget: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            //borderRadius: BorderRadius.all(Radius.elliptical(300, 50)),
-            child: Image.asset( 'images/intro3.png', height: 220,),
-          ),
-        ),
         backgroundColor: kColorPrimary,
       ),
       // Slide(
@@ -139,6 +118,27 @@ class _IntroScreen2State extends State<IntroScreen2> {
       //   // pathImage: 'images/intro1.png',
       //   backgroundColor: kColorPrimary,
       // ),
+      Slide(
+        widgetTitle: Text(
+          "Community driven",
+          style: titleTextStyle,
+          textAlign: TextAlign.center,
+        ),
+        marginTitle: marginTitle,
+        description:
+        "You stumbled upon an inspiring article? Share it with the rest of the community.",
+        //  "Add fitting content by providing links to it."
+        //  "\n\n Or browse through already collected news and help to filter the one that inspire the most.",
+        centerWidget: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            //borderRadius: BorderRadius.all(Radius.elliptical(300, 50)),
+            child: Image.asset( 'images/intro3.png', height: 220,),
+          ),
+        ),
+        backgroundColor: kColorPrimary,
+      ),
     ];
   }
 

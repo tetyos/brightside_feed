@@ -78,29 +78,18 @@ class _IncubatorIntroCardState extends State<IncubatorIntroCard> {
             textAlign: TextAlign.center,
           ),
           Text(
-            "After a threshold is met (for now 3 up-votes), the incubator status will be removed and the items will be visible in the rest of the app.\n",
+            "After a threshold is met (for now 3 up-votes), the incubator status is removed and the content is visible in the rest of the app.\n",
             style: TextStyle(color: Colors.black87, fontSize: 16),
             textAlign: TextAlign.center,
           ),
           Text(
-            "Trusted sources",
+            "News scanner",
             style: TextStyle(
                 color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           Text(
-            "Currently there are two lists: one for trusted hosts and one for hosts that have not been verified yet.\n",
-            style: TextStyle(color: Colors.black87, fontSize: 16),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            "Upcoming: News scanner",
-            style: TextStyle(
-                color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            "At a later point the incubator will also suggest automatically collected news.",
+            "The scanner shows all recent news from selected websites. Add news from the scanner to the incubator-list, if you think it fits here.",
             style: TextStyle(color: Colors.black87, fontSize: 16),
             textAlign: TextAlign.center,
           ),
@@ -118,10 +107,10 @@ class _IncubatorIntroCardState extends State<IncubatorIntroCard> {
             alignment: AlignmentDirectional.center,
             children: [
               Text(
-                "Incubator Section",
+                "Intro: Incubator Section ...",
                 style: TextStyle(
                   color: Colors.black87,
-                  fontSize: 20,
+                  fontSize: 18,
                 ),
               ),
               Row(
