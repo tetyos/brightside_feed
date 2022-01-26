@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nexth/components/incubator/incubator_scraped_card.dart';
 import 'package:nexth/components/incubator/news_scanner_intro_card.dart';
-import 'package:nexth/components/incubator_intro_card.dart';
-import 'package:nexth/components/incubator_scraped_card.dart';
-import 'package:nexth/components/incubator_unsafe_card.dart';
+import 'package:nexth/components/incubator/incubator_intro_card.dart';
+import 'package:nexth/components/incubator/incubator_unsafe_card.dart';
 import 'package:nexth/components/intro_card.dart';
 import 'package:nexth/components/item_list_scroll_view.dart';
 import 'package:nexth/model/list_models/incubator_list_model.dart';
