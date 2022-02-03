@@ -166,10 +166,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
 
   void navigateToNextScreen(BuildContext context) {
     bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
-    bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
-    if (!isUserLoggedIn) {
-      Provider.of<AppState>(context, listen: false).currentRoutePath = LoginScreenPath();
-    } else if (!isDataLoading) {
+    if (!isDataLoading) {
       Provider.of<AppState>(context, listen: false).currentRoutePath = NexthHomePath();
     } else {
       Provider.of<AppState>(context, listen: false).currentRoutePath = LoadingScreen2Path();

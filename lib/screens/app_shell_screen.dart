@@ -81,7 +81,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
                 if (appState.isUserLoggedIn) {
                   appState.currentRoutePath = NexthProfilePath();
                 } else {
-                  appState.currentRoutePath = LoginScreenPath();
+                  UIUtils.showSnackBar("Can not login in web version.", context);
                 }
               }),
           IconButton(

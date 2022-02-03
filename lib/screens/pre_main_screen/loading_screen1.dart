@@ -1,15 +1,11 @@
 import 'dart:convert' as Dart;
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:nexth/amplifyconfiguration.dart';
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/model/basic_test_urls.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/list_models/item_list_model.dart';
-import 'package:nexth/model/user_data.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
@@ -56,18 +52,15 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
 
   void _startupApp() async {
     Future<void> localStorageFuture = _loadDataFromLocalStorage();
-    Future<void> amplifyFuture = _configureAmplifyAndUpdateLoginStatus();
     Future<void> minDelayFuture = Future.delayed(Duration(milliseconds: 1500));
 
     List<Future<void>> finishOnLoadingScreenFutures = [];
     List<Future<void>> finishBeforeLoadingInitDataFutures = [];
 
     finishOnLoadingScreenFutures.add(localStorageFuture);
-    finishOnLoadingScreenFutures.add(amplifyFuture);
     finishOnLoadingScreenFutures.add(minDelayFuture);
 
     finishBeforeLoadingInitDataFutures.add(localStorageFuture);
-    finishBeforeLoadingInitDataFutures.add(amplifyFuture);
 
     Future<void> dataLoadingFuture = Future.wait(finishBeforeLoadingInitDataFutures).then((_) => _loadInitialData());
     // commend out above and uncomment to below to use hardcoded items
@@ -83,34 +76,6 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     await Future.wait(finishOnLoadingScreenFutures);
     _navigateToNextScreen();
     print("Data from local storage loaded and min delay over.");
-  }
-
-  Future<void> _configureAmplifyAndUpdateLoginStatus() async {
-    try {
-      // add Amplify plugins
-      AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
-      await Amplify.addPlugins([authPlugin]);
-
-      // configure Amplify
-      //
-      // note that Amplify cannot be configured more than once!
-      await Amplify.configure(amplifyconfig);
-      await _retrieveLoginStatus();
-    } catch (e) {
-      // todo improve error handling
-      print('An error occurred while configuring Amplify: $e');
-    }
-  }
-
-  Future<void> _retrieveLoginStatus() async {
-    try {
-      print("Checking login status. Ignore the following exception, if the user was not logged in.");
-      AuthUser user = await Amplify.Auth.getCurrentUser();
-      print("Login check complete. User logged in.");
-      ModelManager.instance.userModel = UserModel(id: user.userId);
-    } on AuthException {
-      print("Login check complete. User not logged in.");
-    }
   }
 
   /// For every item-list (home-list, categories, user-defined-lists, incubator) a small number of corresponding items is fetched from the backend. <br>
@@ -192,7 +157,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     bool isShowCategoryUpdater = prefs.getBool(kLocalStorageShowCategoryUpdater) ?? false;
     Provider.of<AppState>(context, listen: false).isFirstLogin = isFirstLogin;
     Provider.of<AppState>(context, listen: false).isShowIncubatorIntro = isShowIncubatorIntro;
-    Provider.of<AppState>(context, listen: false).isShowIntro = !isIntroWatched || isAlwaysShowIntro;
+    // Provider.of<AppState>(context, listen: false).isShowIntro = !isIntroWatched || isAlwaysShowIntro;
     Provider.of<AppState>(context, listen: false).isShowCategoryUpdater = isShowCategoryUpdater;
 
     if (isFirstLogin) {
@@ -211,13 +176,10 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   void _navigateToNextScreen() {
     bool isShowIntro = Provider.of<AppState>(context, listen: false).isShowIntro;
     bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
-    bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
 
     NexthRoutePath newPath;
     if (isShowIntro) {
       newPath = IntroScreenPath();
-    } else if (!isUserLoggedIn) {
-      newPath = LoginScreenPath();
     } else if (isDataLoading) {
       return;
       // if data is still loading, but intro and login are not necessary -> we want to stay on this screen
