@@ -5,7 +5,6 @@ import 'package:nexth/screens/home_screen.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/screens/item_detail_screen.dart';
-import 'package:nexth/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 
 class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
@@ -30,10 +29,6 @@ class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
             if (appState.currentRoutePath is NexthIncubatorPath)
               MaterialPage(
                 child: IncubatorScreen(key: appState.incubatorScreenKey),
-              ),
-            if (appState.currentRoutePath is NexthProfilePath)
-              MaterialPage(
-                child: ProfileScreen(key: appState.profileScreenKey),
               ),
             if (appState.currentSelectedItem != null)
               MaterialPage(

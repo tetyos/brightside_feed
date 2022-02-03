@@ -4,7 +4,7 @@ import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 
 class AppState extends ChangeNotifier {
-  NexthRoutePath _currentRoutePath = LoadingScreen1Path();
+  NexthRoutePath _currentRoutePath = NexthHomePath();
 
   bool _isDataLoading = true;
   bool isShowIntro = false;
@@ -18,7 +18,7 @@ class AppState extends ChangeNotifier {
 
   int explorerScreenCurrentTab = 1;
   int incubatorScreenCurrentTab = 0;
-  int numberOfUserDefinedTabs = 0;
+  int numberOfUserDefinedTabs = 1;
 
   ItemData? _currentSelectedItem;
   ItemData? _currentWebViewItem;

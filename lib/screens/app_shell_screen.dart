@@ -78,11 +78,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
               icon: appState.isUserLoggedIn ? Icons.person : Icons.login,
               currentlySelected: false,
               onPressed: () {
-                if (appState.isUserLoggedIn) {
-                  appState.currentRoutePath = NexthProfilePath();
-                } else {
-                  UIUtils.showSnackBar("Can not login in web version.", context);
-                }
+                UIUtils.showSnackBar("Can not login in web version.", context);
               }),
           IconButton(
             icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)),
@@ -152,9 +148,6 @@ class _AppShellScreenState extends State<AppShellScreen> {
   PreferredSizeWidget? renderAppBarIfNecessary(AppState appState) {
     if (appState.currentSelectedItem != null) {
       return AppBar(title: Text(appState.currentSelectedItem!.title));
-    }
-    if (appState.currentRoutePath is NexthProfilePath) {
-      return AppBar(title: Text("Profile"));
     }
     return null;
   }

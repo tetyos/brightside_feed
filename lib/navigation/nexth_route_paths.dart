@@ -16,28 +16,3 @@ class NexthExplorePath extends NexthRoutePath {
 class NexthIncubatorPath extends NexthRoutePath {
   const NexthIncubatorPath();
 }
-
-class NexthProfilePath extends NexthRoutePath {
-  const NexthProfilePath();
-}
-
-/// Pre main screen paths
-abstract class PreMainScreenPath extends NexthRoutePath {
-  const PreMainScreenPath();
-}
-
-class LoadingScreen1Path extends PreMainScreenPath {
-  const LoadingScreen1Path();
-}
-
-class LoadingScreen2Path extends PreMainScreenPath {
-  const LoadingScreen2Path();
-}
-
-class IntroScreenPath extends PreMainScreenPath {
-  const IntroScreenPath();
-}
-
-class LoginScreenPath extends PreMainScreenPath {
-  const LoginScreenPath();
-}

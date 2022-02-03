@@ -5,12 +5,6 @@ import 'package:nexth/bloc/item_list_model_cubit.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/screens/app_shell_screen.dart';
-import 'package:nexth/screens/pre_main_screen/confirm_screen.dart';
-import 'package:nexth/screens/pre_main_screen/intro_screen2.dart';
-import 'package:nexth/screens/pre_main_screen/loading_screen1.dart';
-import 'package:nexth/screens/pre_main_screen/loading_screen2.dart';
-import 'package:nexth/screens/pre_main_screen/login_screen.dart';
-import 'package:nexth/screens/pre_main_screen/reset_password_screen.dart';
 import 'package:nexth/screens/web_view_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -46,22 +40,13 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
 
   List<Page<dynamic>> getPages() {
     return [
-      if (!(_appState.currentRoutePath is PreMainScreenPath))
-        MaterialPage(
-          child: AppShellScreen(),
-        ),
+      MaterialPage(
+        child: AppShellScreen(),
+      ),
       if (_appState.currentWebViewItem != null)
         MaterialPage(
           child: WebViewScreen(),
         ),
-      if (_appState.currentRoutePath is LoadingScreen2Path) MaterialPage(child: LoadingScreen2()),
-      if (_appState.currentRoutePath is IntroScreenPath) MaterialPage(child: IntroScreen2()),
-      if (_appState.currentRoutePath is LoginScreenPath) MaterialPage(child: LoginScreen()),
-      if (_appState.currentRoutePath is LoginScreenPath && _appState.confirmLoginMail.isNotEmpty)
-        MaterialPage(child: ConfirmScreen()),
-      if (_appState.currentRoutePath is LoginScreenPath && _appState.resetPasswordMail.isNotEmpty)
-        MaterialPage(child: ResetPasswordScreen()),
-      if (_appState.currentRoutePath is LoadingScreen1Path) MaterialPage(child: LoadingScreen1()),
     ];
   }
 
