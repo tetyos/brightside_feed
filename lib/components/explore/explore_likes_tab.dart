@@ -42,7 +42,7 @@ class _ExploreLikesTabState extends State<ExploreLikesTab> {
       mainAxisSize: MainAxisSize.min,
       children: [const IntroCard(
         title: "Your likes",
-        message: "You need to log in, to see the items you liked or gave an award to.",
+        message: "Likes are currently only supported in app.",
       ),]
     );
   }

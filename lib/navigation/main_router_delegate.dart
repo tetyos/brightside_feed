@@ -5,7 +5,6 @@ import 'package:nexth/bloc/item_list_model_cubit.dart';
 import 'package:nexth/navigation/app_state.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/screens/app_shell_screen.dart';
-import 'package:nexth/screens/web_view_screen.dart';
 import 'package:provider/provider.dart';
 
 class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
@@ -43,10 +42,6 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
       MaterialPage(
         child: AppShellScreen(),
       ),
-      if (_appState.currentWebViewItem != null)
-        MaterialPage(
-          child: WebViewScreen(),
-        ),
     ];
   }
 

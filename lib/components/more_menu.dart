@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/utils/ui_utils.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MoreMenu extends StatelessWidget {
   final ItemData itemData;
@@ -29,9 +28,6 @@ class MoreMenu extends StatelessWidget {
           case "flag":
             UIUtils.showSnackBar("Not yet implemented", context);
             break;
-          case "browser":
-            launchUrl();
-            break;
         }
       },
       itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
@@ -40,15 +36,6 @@ class MoreMenu extends StatelessWidget {
           child: ListTile(
             leading: Icon(Icons.share_outlined),
             title: const Text('Share'),
-            dense: true,
-            horizontalTitleGap: 0,
-          ),
-        ),
-        PopupMenuItem<String>(
-          value: "browser",
-          child: ListTile(
-            leading: Icon(Icons.open_in_new_outlined),
-            title: const Text('Open in browser'),
             dense: true,
             horizontalTitleGap: 0,
           ),
@@ -64,18 +51,5 @@ class MoreMenu extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  void launchUrl() async {
-    String url = itemData.url;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      try {
-        await launch(url);
-      } catch (err) {
-        throw Exception('Could not launch $url. Error: $err');
-      }
-    }
   }
 }

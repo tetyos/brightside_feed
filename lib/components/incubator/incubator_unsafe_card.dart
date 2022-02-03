@@ -75,10 +75,6 @@ class IncubatorUnsafeCard extends StatelessWidget {
     return dateText;
   }
 
-  void launchWebView(BuildContext context) async {
-    Provider.of<AppState>(context, listen: false).currentWebViewItem = _itemData;
-  }
-
   Future<void> showOpenUrlDialog(BuildContext context) async {
     showDialog<String>(
       context: context,

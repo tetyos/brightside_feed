@@ -36,7 +36,7 @@ class _VoteButtonsState extends State<VoteButtons> {
 
   void onVoteCallback({required VoteModel voteModel}) async {
     if (!Provider.of<AppState>(context, listen: false).isUserLoggedIn) {
-      UIUtils.showSnackBar("Log in to be able to vote on items.", context);
+      UIUtils.showSnackBar("Voting is currently only supported in app.", context);
       return;
     }
     if (!isVoteProcessing) {

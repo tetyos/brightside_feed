@@ -31,7 +31,7 @@ class IncubatorScrapedCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: GestureDetector(
-        onTap: () => launchWebView(context),
+        onTap: () => launchUrl(),
         child: Center(
           child: Card(
             child: Column(
@@ -87,10 +87,6 @@ class IncubatorScrapedCard extends StatelessWidget {
       style: TextStyle(color: Colors.grey[500]),
     );
     return dateText;
-  }
-
-  void launchWebView(BuildContext context) async {
-    Provider.of<AppState>(context, listen: false).currentWebViewItem = _itemData;
   }
 
   Future<void> showOpenUrlDialog(BuildContext context) async {
@@ -166,7 +162,7 @@ class PromoteButton extends StatelessWidget {
 
   void showPromoteItemDialog(BuildContext context) {
     if (!Provider.of<AppState>(context, listen: false).isUserLoggedIn) {
-      UIUtils.showSnackBar("You need to log in, in order to add items.", context);
+      UIUtils.showSnackBar("Adding items is currently only supported in app.", context);
       return;
     }
 

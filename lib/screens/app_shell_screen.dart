@@ -124,7 +124,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
 
   void showAddUrlDialog() {
     if (!Provider.of<AppState>(context, listen: false).isUserLoggedIn) {
-      UIUtils.showSnackBar("You need to log in, in order to add items.", context);
+      UIUtils.showSnackBar("Adding items is currently only supported in app.", context);
       return;
     }
 

@@ -31,7 +31,7 @@ class ItemCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: GestureDetector(
-        onTap: () => launchWebView(context),
+        onTap: () => launchUrl(),
         child: Center(
           child: Card(
             child: Column(
@@ -93,10 +93,6 @@ class ItemCard extends StatelessWidget {
       return GestureDetector(onTap: () => showDetailScreen(context), child: dateText);
     }
     return dateText;
-  }
-
-  void launchWebView(BuildContext context) async {
-    Provider.of<AppState>(context, listen: false).currentWebViewItem = _itemData;
   }
 
   void launchUrl() async {
