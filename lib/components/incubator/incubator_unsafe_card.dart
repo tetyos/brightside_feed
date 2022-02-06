@@ -29,33 +29,36 @@ class IncubatorUnsafeCard extends StatelessWidget {
       child: GestureDetector(
         onTap: () => showOpenUrlDialog(context),
         child: Center(
-          child: Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(height: 10),
-                ListTile(
-                  title: Text(
-                    _itemData.title,
+          child: Container(
+            constraints: BoxConstraints(maxWidth: 800),
+            child: Card(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const SizedBox(height: 10),
+                  ListTile(
+                    title: Text(
+                      _itemData.title,
+                    ),
+                    subtitle: _shortDescription == null ? null : Text(_shortDescription!),
                   ),
-                  subtitle: _shortDescription == null ? null : Text(_shortDescription!),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(_host, style: TextStyle(color: kColorPrimary, fontWeight: FontWeight.bold),),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Row(
-                    children: [
-                      Expanded(child: renderDate(context)),
-                      VoteButtons(itemData: _itemData),
-                      MoreMenu(itemData: _itemData, buttonColor: Colors.grey,)
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(_host, style: TextStyle(color: kColorPrimary, fontWeight: FontWeight.bold),),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Row(
+                      children: [
+                        Expanded(child: renderDate(context)),
+                        VoteButtons(itemData: _itemData),
+                        MoreMenu(itemData: _itemData, buttonColor: Colors.grey,)
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

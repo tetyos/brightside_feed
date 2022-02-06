@@ -16,12 +16,20 @@ class ExploreHomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          IntroCard(title: "Explore Section", message: "Discover content by using predefined sections or create your own filter."),
-          CustomTabsOverviewCard(),
-          SectionsOverviewCard(),
-        ],
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 800),
+          child: Column(
+            children: [
+              IntroCard(
+                  title: "Explore Section",
+                  message: "Discover content by using predefined sections or create your own filter."),
+              CustomTabsOverviewCard(),
+              SectionsOverviewCard(),
+            ],
+          ),
+        ),
       ),
     );
   }
