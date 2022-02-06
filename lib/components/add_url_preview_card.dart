@@ -12,9 +12,7 @@ class AddUrlPreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget imageWidget = _linkPreviewData.imageProvider == null
-        ? Image.asset('images/default_card_images/no_picture.png')
-        : Image(image: _linkPreviewData.imageProvider!);
+    Widget imageWidget = _linkPreviewData.fadeInImage ?? Image.asset('images/default_card_images/no_picture.png');
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: Center(

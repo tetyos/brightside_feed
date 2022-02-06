@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart'
 as FlutterLinkPreviewer;
 import 'package:flutter_chat_types/flutter_chat_types.dart';
@@ -10,7 +11,7 @@ import 'package:nexth/model/item_data.dart';
 
 class PreviewDataLoader {
 
-  static Future<ItemData> fetchDataFromUrl(String url, bool isDefaultPreviewDataLoader) async {
+  static Future<ItemData> fetchDataFromUrl(String url, bool isDefaultPreviewDataLoader, BuildContext context) async {
     ItemData itemData;
 
     if (isDefaultPreviewDataLoader) {
@@ -35,7 +36,7 @@ class PreviewDataLoader {
           imageUrl: imageURL);
     }
 
-    await itemData.preLoadImage();
+    await itemData.preLoadImage(context);
     return itemData;
   }
 

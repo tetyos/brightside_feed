@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nexth/backend_connection/api_connector.dart';
 import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:nexth/bloc/item_list_model_cubit.dart';
@@ -49,17 +48,10 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
     _host = PreviewDataLoader.getHostFromUrl(_itemData.url);
 
     if (isUnsafeIncubatorItem) {
-      _itemData.preLoadImage().then((value) => setState(() {}));
+      _itemData.preLoadImage(context).then((value) => setState(() {}));
     }
 
-    Widget imageWidget = _itemData.imageProvider == null
-        ? SpinKitCircle(color: Colors.blueAccent)
-        : ClipRRect(
-            child: Image(
-              image: _itemData.imageProvider!,
-            ),
-            borderRadius: BorderRadius.circular(8),
-          );
+    Widget imageWidget = _itemData.fadeInImage ?? Image.asset('images/default_card_images/no_picture.png');
     _imageWidget = GestureDetector(
         onTap: launchUrl,
         child: imageWidget);

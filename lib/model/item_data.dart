@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nexth/model/category_tree_model.dart';
@@ -14,7 +13,7 @@ class ItemData {
   String id;
   String title;
   String? description;
-  CachedNetworkImageProvider? imageProvider;
+  FadeInImage? fadeInImage;
   String url;
   String dateAdded;
   String? datePublished;
@@ -113,32 +112,10 @@ class ItemData {
     'categories': categories,
   };
 
-  Future<void> preLoadImage() async {
+  Future<void> preLoadImage(BuildContext context) async {
     if (imageUrl != null) {
-      final completer = Completer<void>();
-      this.imageProvider = CachedNetworkImageProvider(imageUrl!, maxWidth: 800);
-      ImageStream imageStream = imageProvider!.resolve(ImageConfiguration.empty);
-      late ImageStreamListener streamListener;
-
-      final onError = (Object error, StackTrace? stackTrace) {
-        completer.completeError(error, stackTrace);
-      };
-
-      final listener = (ImageInfo info, bool _) {
-        if (!completer.isCompleted) {
-          //print('Completer complete' + imageUrl!);
-          completer.complete();
-        }
-        imageStream.removeListener(streamListener);
-      };
-
-      streamListener = ImageStreamListener(listener, onError: onError);
-
-      imageStream.addListener(streamListener);
-      await completer.future.onError((error, stackTrace) {
-        imageProvider = null;
-      });
-      //print('Future complete' + imageUrl!);
+      fadeInImage = FadeInImage.assetNetwork(placeholder: "images/russian_miner.png", image: imageUrl!, width: 800, imageCacheWidth: 800, placeholderCacheWidth: 800,);
+      await precacheImage(fadeInImage!.image, context);
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/components/item_list_scroll_view.dart';
 import 'package:nexth/model/item_data.dart';
@@ -42,17 +43,17 @@ abstract class ItemListModel {
   /// If less items are provided then were requested for initialization, it is assumed that no more items are currently available in DB.
   /// <br><br>
   /// Also loads the images for the first items of the model.
-  Future<void> prepareModel(List<ItemData> initialItems) async {
+  Future<void> prepareModel(List<ItemData> initialItems, BuildContext context) async {
     assert(initialItems.length <= itemsToFetchDuringAppStart, "More items were provided than requested. This should not happen.");
 
     _moreItemsAvailable = initialItems.length == itemsToFetchDuringAppStart;
     items.addAll(initialItems);
-    await preloadNextItems(imagesToPreloadDuringAppStart);
+    await preloadNextItems(imagesToPreloadDuringAppStart, context);
   }
 
   /// Method checks if the min number of items has been requested and the min number of images is loaded.
   /// If not, it loads them.
-  Future<void> assureMinNumberOfItems(bool isUserLoggedIn) async {
+  Future<void> assureMinNumberOfItems(bool isUserLoggedIn, BuildContext context) async {
     if (_moreItemsAvailable && items.length < minNumberOfItems) {
       await requestMoreItemsFromDB(isUserLoggedIn);
     }
@@ -60,12 +61,12 @@ abstract class ItemListModel {
     // => do it now
     int loadedItems = fullyLoadedItems.length + _numberOfImagesCurrentlyLoading;
     if (loadedItems < minNumberOfFullyLoadedItems) {
-      await preloadNextItems(minNumberOfFullyLoadedItems - loadedItems);
+      await preloadNextItems(minNumberOfFullyLoadedItems - loadedItems, context);
     }
   }
 
   /// Preloads the images for the next items. Only preloaded items are used by [ItemListScrollView]
-  Future<void> preloadNextItems(int numberOfItemsToPreload) async {
+  Future<void> preloadNextItems(int numberOfItemsToPreload, BuildContext context) async {
     int numberOfFullyLoadedItems = fullyLoadedItems.length;
     if (numberOfFullyLoadedItems == items.length) {
       return;
@@ -79,18 +80,18 @@ abstract class ItemListModel {
     }
     List<ItemData> itemsToLoad = items.sublist(numberOfFullyLoadedItems, to);
 
-    await _preloadImages(itemsToLoad);
+    await _preloadImages(itemsToLoad, context);
     _numberOfImagesCurrentlyLoading = 0;
     fullyLoadedItems.addAll(itemsToLoad);
   }
 
   /// Preloads the images for the first items. Only preloaded items are used by [ItemListScrollView]
-  Future<void> preloadItemsAfterRefresh() async {
+  Future<void> preloadItemsAfterRefresh(BuildContext context) async {
     int numberOfItemsToPreload = minNumberOfFullyLoadedItems > items.length ? items.length : minNumberOfFullyLoadedItems;
     _numberOfImagesCurrentlyLoading = numberOfItemsToPreload;
     List<ItemData> itemsToLoad = items.sublist(0, numberOfItemsToPreload);
 
-    await _preloadImages(itemsToLoad);
+    await _preloadImages(itemsToLoad, context);
     _numberOfImagesCurrentlyLoading = 0;
     fullyLoadedItems = itemsToLoad;
   }
@@ -124,14 +125,14 @@ abstract class ItemListModel {
     return _moreItemsAvailable && isNotEnoughItemsLeft;
   }
 
-  Future<void > executeRefresh(bool isUserLoggedIn) async {
+  Future<void > executeRefresh(bool isUserLoggedIn, BuildContext context) async {
     List<ItemData> newItems = await ModelManager.instance.getItems(getDBQuery(), isUserLoggedIn);
     items = newItems;
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here
       _moreItemsAvailable = false;
     }
-    await preloadItemsAfterRefresh();
+    await preloadItemsAfterRefresh(context);
   }
 
   void reset() {
@@ -141,11 +142,11 @@ abstract class ItemListModel {
     _numberOfImagesCurrentlyLoading = 0;
   }
 
-  Future<void> _preloadImages(List<ItemData> itemsToLoad) async {
+  Future<void> _preloadImages(List<ItemData> itemsToLoad, BuildContext context) async {
     if (isPreloadImages) {
       List<Future<void>> futures = [];
       for (ItemData linkPreviewData in itemsToLoad) {
-        futures.add(linkPreviewData.preLoadImage());
+        futures.add(linkPreviewData.preLoadImage(context));
       }
       await Future.wait(futures);
     }

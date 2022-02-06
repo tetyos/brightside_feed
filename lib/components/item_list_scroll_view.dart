@@ -140,7 +140,7 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
     // initially only few items and images are preloaded, so loading times are short. Some ItemListModel don't preload items/images at all.
     // Hence, we need to load more data here.
     bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
-    itemListModel.assureMinNumberOfItems(isUserLoggedIn).then((_) {
+    itemListModel.assureMinNumberOfItems(isUserLoggedIn, context).then((_) {
       if (mounted) {
         setState(() {
           isFetchingItemData = false;
@@ -153,7 +153,7 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
   Future<void> _loadMoreItems() async {
     if (!isLoadingImages && itemListModel.hasImagesToPreload()) {
       setState(() => isLoadingImages = true);
-      await itemListModel.preloadNextItems(2);
+      await itemListModel.preloadNextItems(2, context);
 
       if (mounted) {
         setState(() {
@@ -189,7 +189,7 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
     isLoadingImages = true;
 
     bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
-    await itemListModel.executeRefresh(isUserLoggedIn);
+    await itemListModel.executeRefresh(isUserLoggedIn, context);
     if (mounted) {
       setState(() {
         isFetchingItemData = false;

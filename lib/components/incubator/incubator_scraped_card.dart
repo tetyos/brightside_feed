@@ -69,12 +69,7 @@ class IncubatorScrapedCard extends StatelessWidget {
   }
 
   void createImageWidget() {
-    Image image;
-    if (_itemData.imageProvider != null) {
-      image = Image(image: _itemData.imageProvider!);
-    } else {
-      image = Image.asset('images/default_card_images/no_picture.png');
-    }
+    Widget image = _itemData.fadeInImage ?? Image.asset('images/default_card_images/no_picture.png');
     imageWidget = ClipRRect(
       child: image,
       borderRadius: BorderRadius.circular(8),

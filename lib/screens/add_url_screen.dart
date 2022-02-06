@@ -171,7 +171,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
       _lastInput = input;
     });
     try {
-      _itemData = await PreviewDataLoader.fetchDataFromUrl(input, isDefaultPreviewDataLoader);
+      _itemData = await PreviewDataLoader.fetchDataFromUrl(input, isDefaultPreviewDataLoader, context);
       _previewCard = AddUrlPreviewCard(linkPreviewData: _itemData!);
     } catch (e, s) {
       print(e);
