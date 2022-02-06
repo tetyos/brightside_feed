@@ -25,11 +25,14 @@ class _IncubatorIntroCardState extends State<IncubatorIntroCard> {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-        child: Card(
-          elevation: 3,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-          child: isShowCard ? renderCard() : renderMinimizedCard(),
-          color: kColorPrimaryLight,
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 800),
+          child: Card(
+            elevation: 3,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+            child: isShowCard ? renderCard() : renderMinimizedCard(),
+            color: kColorPrimaryLight,
+          ),
         ),
       ),
     );

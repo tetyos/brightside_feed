@@ -44,26 +44,30 @@ class _ExplorerScreenState extends State<ExplorerScreen> with SingleTickerProvid
     return Column(children: [
       Container(
         color: kColorPrimary,
-        child: TabBar(
-          tabs: [
-            Tab(
-              child: Row(children: [Icon(Icons.favorite_border_outlined), SizedBox(width: 5), Text("Your likes")]),
-            ),
-            Tab(
-              child: Row(children: [Icon(Icons.dashboard_outlined), SizedBox(width: 5), Text("Explore Home")]),
-            ),
-            Tab(
-              child: Row(children: [FaIcon(FontAwesomeIcons.award), SizedBox(width: 5), Text("Popular")]),
-            ),
-            Tab(
-              child: Row(children: [Icon(Icons.category_rounded), SizedBox(width: 5), Text("Category: " + currentCategory)]),
-            ),
-            Tab(
-              child: Row(children: [Icon(Icons.add_outlined), SizedBox(width: 5), Text("Custom filter")]),
-            ),
-          ],
-          isScrollable: true,
-          controller: _tabController,
+        width: double.infinity,
+        child: Center(
+          child: TabBar(
+            tabs: [
+              Tab(
+                child: Row(children: [Icon(Icons.favorite_border_outlined), SizedBox(width: 5), Text("Your likes")]),
+              ),
+              Tab(
+                child: Row(children: [Icon(Icons.dashboard_outlined), SizedBox(width: 5), Text("Explore Home")]),
+              ),
+              Tab(
+                child: Row(children: [FaIcon(FontAwesomeIcons.award), SizedBox(width: 5), Text("Popular")]),
+              ),
+              Tab(
+                child: Row(
+                    children: [Icon(Icons.category_rounded), SizedBox(width: 5), Text("Category: " + currentCategory)]),
+              ),
+              Tab(
+                child: Row(children: [Icon(Icons.add_outlined), SizedBox(width: 5), Text("Custom filter")]),
+              ),
+            ],
+            isScrollable: true,
+            controller: _tabController,
+          ),
         ),
       ),
       Expanded(
