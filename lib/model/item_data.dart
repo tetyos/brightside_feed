@@ -8,6 +8,7 @@ import 'package:nexth/model/list_models/incubator_list_model.dart';
 import 'package:nexth/model/model_manager.dart';
 import 'package:nexth/model/vote_model.dart';
 import 'package:nexth/utils/preview_data_loader.dart';
+import 'package:nexth/utils/ui_utils.dart';
 
 class ItemData {
   String id;
@@ -114,7 +115,7 @@ class ItemData {
 
   Future<void> preLoadImage(BuildContext context) async {
     if (imageUrl != null) {
-      fadeInImage = FadeInImage.assetNetwork(placeholder: "images/russian_miner.png", image: imageUrl!, width: 800, imageCacheWidth: 800, placeholderCacheWidth: 800,);
+      fadeInImage = FadeInImage.memoryNetwork(placeholder: UIUtils.kTransparentImage, image: imageUrl!, width: 800, imageCacheWidth: 800, placeholderCacheWidth: 800,);
       await precacheImage(fadeInImage!.image, context);
     }
   }
