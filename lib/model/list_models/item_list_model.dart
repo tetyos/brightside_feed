@@ -84,17 +84,6 @@ abstract class ItemListModel {
     fullyLoadedItems.addAll(itemsToLoad);
   }
 
-  /// Preloads the images for the first items. Only preloaded items are used by [ItemListScrollView]
-  Future<void> preloadItemsAfterRefresh() async {
-    int numberOfItemsToPreload = minNumberOfFullyLoadedItems > items.length ? items.length : minNumberOfFullyLoadedItems;
-    _numberOfImagesCurrentlyLoading = numberOfItemsToPreload;
-    List<ItemData> itemsToLoad = items.sublist(0, numberOfItemsToPreload);
-
-    await _preloadImages(itemsToLoad);
-    _numberOfImagesCurrentlyLoading = 0;
-    fullyLoadedItems = itemsToLoad;
-  }
-
   Future<void> requestMoreItemsFromDB(bool isUserLoggedIn) async {
     DatabaseQuery dbQuery = items.length > 0 ? getMoreItemsDBQuery(items.last.dateAdded) : getDBQuery();
     List<ItemData> newItems = await ModelManager.instance.getItems(dbQuery, isUserLoggedIn);
@@ -125,13 +114,14 @@ abstract class ItemListModel {
   }
 
   Future<void > executeRefresh(bool isUserLoggedIn) async {
+    reset();
     List<ItemData> newItems = await ModelManager.instance.getItems(getDBQuery(), isUserLoggedIn);
     items = newItems;
     if (newItems.length < numberOfItemsToRequest) {
       // todo in case of backend error / network error or anything -> 0 items are currently returned. throw exception there and catch here
       _moreItemsAvailable = false;
     }
-    await preloadItemsAfterRefresh();
+    await preloadNextItems(minNumberOfFullyLoadedItems);
   }
 
   void reset() {
