@@ -1,11 +1,11 @@
 {
-    "name": "nexth-news",
-    "short_name": "nexth",
+    "name": "brightside-feed",
+    "short_name": "brightside",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "nexth-news is a community driven news aggregator.\nFocus is content in relation to events, projects, individuals etc. which help to bring our society closer to a next age - an 'age of freedom' as the think-tank 'rethinkx' calls it.",
+    "description": "The Brightside-Feed provides news on events, tech and other things that help to advance our society into a brighter age.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

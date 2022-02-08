@@ -1,7 +1,6 @@
-# nexth
+# Brightside-Feed
 
-nexth-news is a community driven news aggregator.
-Focus is content in relation to events, projects, individuals etc. which help to bring our society closer to a next age - an 'age of freedom' as the think-tank 'rethinkx' calls it.
+Brightside-Feed provides news on events, tech and other things that help to advance our society into a brighter age.
 
 ## Getting Started
 
