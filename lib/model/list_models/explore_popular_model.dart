@@ -33,7 +33,7 @@ class ExplorePopularModel extends ItemListModel {
     return new DatabaseQuery(
         sortBy: votingType.totalVotesIdentifier,
         limit: numberOfItemsToRequest,
-        dateLT: ltDate,
+        skip: items.length,
         dateGT: getStartingDate(periodicity),
         voteType: votingType.totalVotesIdentifier);
   }
