@@ -30,8 +30,12 @@ class _IncubatorIntroCardState extends State<IncubatorIntroCard> {
           child: Card(
             elevation: 3,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-            child: isShowCard ? renderCard() : renderMinimizedCard(),
             color: kColorPrimaryLight,
+            child: TextButton(
+              onPressed: toggleShowCardButton,
+              style: TextButton.styleFrom(textStyle: TextStyle(fontWeight: FontWeight.normal), padding: EdgeInsets.zero),
+              child: isShowCard ? renderCard() : renderMinimizedCard(),
+            ),
           ),
         ),
       ),
