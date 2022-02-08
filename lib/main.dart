@@ -29,7 +29,7 @@ class _NexthAppState extends State<NexthApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Nexth news',
+      title: 'brightside-feed',
       // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         // colorScheme: ColorScheme.light(
