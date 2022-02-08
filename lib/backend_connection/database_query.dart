@@ -35,7 +35,7 @@ class DatabaseQuery {
         if (sortBy != null) 'sortBy': sortBy,
         if (sortType != null) 'sortType': sortType,
         if (limit != null) 'limit': limit,
-        if (skip != null && (isFetchUserLikes?? false)) 'skip': skip,
+        if (skip != null) 'skip': skip,
         if (categories != null) 'categories': categories,
         if (incubatorStatus != null) 'incubatorStatus': incubatorStatus,
         if (voteType != null) 'voteType': voteType,
