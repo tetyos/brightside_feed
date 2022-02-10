@@ -7,11 +7,11 @@ import 'package:nexth/backend_connection/database_query.dart';
 import 'package:nexth/backend_connection/item_update.dart';
 import 'package:nexth/model/item_data.dart';
 import 'package:nexth/model/vote_model.dart';
+import 'package:nexth/project_config.dart';
 
 class APIConnector {
   static int httpRequestThreshold = 100;
   static int numberOfHttpRequests = 0;
-
 
   static Future<dynamic> getInitialData(String allQueriesJson, bool isUserLoggedIn) async {
     numberOfHttpRequests++;
@@ -22,11 +22,11 @@ class APIConnector {
       if (isUserLoggedIn) {
         response = await httpPostAuthorized(
             Uri.parse(
-                'https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_init_data_authorized'),
+                '$backendApiUrl/get_init_data_authorized'),
             allQueriesJson);
       } else {
         response = await http.post(
-          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_init_data'),
+          Uri.parse('$backendApiUrl/get_init_data'),
           headers: <String, String>{
             'Content-Type': 'application/json',
           },
@@ -56,11 +56,11 @@ class APIConnector {
       if (isUserLoggedIn) {
         response = await httpPostAuthorized(
             Uri.parse(
-                'https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_items_authorized'),
+                '$backendApiUrl/get_items_authorized'),
             queriesAsJson);
       } else {
         response = await http.post(
-          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_items'),
+          Uri.parse('$backendApiUrl/get_items'),
           headers: <String, String>{
             'Content-Type': 'application/json',
           },
@@ -90,7 +90,7 @@ class APIConnector {
 
     try {
       http.Response response = await httpPostAuthorized(
-          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_item'),
+          Uri.parse('$backendApiUrl/post_item'),
           itemAsJson);
       if (response.statusCode == 200) {
         Map<String, dynamic> itemJson = Dart.jsonDecode(response.body);
@@ -116,7 +116,7 @@ class APIConnector {
     String itemIdsJson = Dart.jsonEncode(itemIds.toList());
     try {
       http.Response response = await httpPostAuthorized(
-          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/get_user_data'),
+          Uri.parse('$backendApiUrl/get_user_data'),
           itemIdsJson);
       if (response.statusCode != 200) {
         print("Votes could not be retrieved. Statuscode: ${response.statusCode}");
@@ -147,7 +147,7 @@ class APIConnector {
 
     try {
       http.Response response = await httpPostAuthorized(
-          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_votes'),
+          Uri.parse('$backendApiUrl/post_votes'),
           payloadJson);
       if (response.statusCode == 200) {
         return true;
@@ -173,7 +173,7 @@ class APIConnector {
 
     try {
       http.Response response = await httpPostAuthorized(
-          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/post_admin_action'),
+          Uri.parse('$backendApiUrl/post_admin_action'),
           payloadJson);
       if (response.statusCode == 200) {
         return true;
@@ -195,7 +195,7 @@ class APIConnector {
 
     try {
       http.Response response = await httpPostAuthorized(
-          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/update_item'),
+          Uri.parse('$backendApiUrl/update_item'),
           payloadJson);
       if (response.statusCode == 200) {
         return true;
@@ -217,7 +217,7 @@ class APIConnector {
 
     try {
       http.Response response = await httpPostAuthorized(
-          Uri.parse('https://6gkjxm84k5.execute-api.eu-central-1.amazonaws.com/update_scraped_item'),
+          Uri.parse('$backendApiUrl/update_scraped_item'),
           payloadJson);
       if (response.statusCode == 200) {
         return true;

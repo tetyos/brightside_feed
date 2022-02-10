@@ -67,3 +67,4 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+/lib/project_config.dart

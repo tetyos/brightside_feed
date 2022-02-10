@@ -209,6 +209,9 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   }
 
   void _navigateToNextScreen() {
+    if (!mounted) {
+      return;
+    }
     bool isShowIntro = Provider.of<AppState>(context, listen: false).isShowIntro;
     bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
     bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
