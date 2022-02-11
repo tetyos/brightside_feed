@@ -23,7 +23,7 @@ class IncubatorListModel extends ItemListModel {
   @override
   DatabaseQuery getDBQuery() {
     String sortBy = incubatorType == IncubatorType.scraped
-        ? API_Identifier.searchQuery_SortBy_DatePublished
+        ? API_Identifier.searchQuery_SortBy_DateScraped
         : API_Identifier.searchQuery_SortBy_DateAdded;
     return new DatabaseQuery(
         sortBy: sortBy,
@@ -35,9 +35,9 @@ class IncubatorListModel extends ItemListModel {
   DatabaseQuery getMoreItemsDBQuery(String ltDate) {
     if (incubatorType == IncubatorType.scraped) {
       return new DatabaseQuery(
-          sortBy: API_Identifier.searchQuery_SortBy_DatePublished,
+          sortBy: API_Identifier.searchQuery_SortBy_DateScraped,
           limit: numberOfItemsToRequest,
-          datePublishedLT: items.last.datePublished!,
+          dateScrapedLT: items.last.dateScraped!,
           incubatorStatus: incubatorType.identifier);
     }
     return new DatabaseQuery(

@@ -12,14 +12,16 @@ import 'package:url_launcher/url_launcher.dart';
 class IncubatorScrapedCard extends StatelessWidget {
   final ItemData _itemData;
   final String? _shortDescription;
-  final String _dateString;
+  final String _datePublishedString;
+  final String _dateScrapedString;
   final String _host;
   late final Widget imageWidget;
   final bool isAdminCard;
 
   IncubatorScrapedCard({required ItemData linkPreviewData, this.isAdminCard = false})
       : _itemData = linkPreviewData,
-        _dateString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.datePublished!),
+        _datePublishedString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.datePublished!),
+        _dateScrapedString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.dateScraped!),
         _shortDescription =
             PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 150),
         _host = PreviewDataLoader.getHostFromUrl(linkPreviewData.url) {
@@ -62,6 +64,14 @@ class IncubatorScrapedCard extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (isAdminCard)
+                    Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Text(_dateScrapedString + " (scraped)", style: TextStyle(color: Colors.grey[500]))),
+                  if (isAdminCard)
+                    SizedBox(
+                      height: 10,
+                    )
                 ],
               ),
             ),
@@ -85,8 +95,12 @@ class IncubatorScrapedCard extends StatelessWidget {
   }
 
   Widget renderDate(BuildContext context) {
+    String dateString = _datePublishedString;
+    if (isAdminCard) {
+      dateString += " (published)";
+    }
     Widget dateText = Text(
-      _dateString,
+      dateString,
       style: TextStyle(color: Colors.grey[500]),
     );
     return dateText;
