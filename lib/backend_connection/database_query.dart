@@ -14,6 +14,8 @@ class DatabaseQuery {
   String? dateGT;
   String? datePublishedLT;
   String? datePublishedGT;
+  String? dateScrapedLT;
+  String? dateScrapedGT;
   String? voteType;
   bool? isFetchUserLikes;
 
@@ -27,6 +29,8 @@ class DatabaseQuery {
       this.dateGT,
       this.datePublishedLT,
       this.datePublishedGT,
+      this.dateScrapedLT,
+      this.dateScrapedGT,
       this.voteType,
       this.skip,
       this.isFetchUserLikes});
@@ -42,6 +46,8 @@ class DatabaseQuery {
         if (dateLT != null) 'dateLT': dateLT,
         if (datePublishedLT != null) 'datePublishedLT': datePublishedLT,
         if (datePublishedGT != null) 'datePublishedGT': datePublishedGT,
+        if (dateScrapedLT != null) 'dateScrapedLT': dateScrapedLT,
+        if (dateScrapedGT != null) 'dateScrapedGT': dateScrapedGT,
         if (dateGT != null) 'dateGT': dateGT,
         if (isFetchUserLikes != null) 'isFetchUserLikes': isFetchUserLikes,
       };

@@ -18,6 +18,7 @@ class ItemData {
   String url;
   String dateAdded;
   String? datePublished;
+  String? dateScraped;
   String? imageUrl;
   List<CategoryElement> categories = [];
   IncubatorType? incubatorStatus;
@@ -47,6 +48,7 @@ class ItemData {
         url = json['url'],
         dateAdded = json['dateAdded'] ?? DateTime.now().toIso8601String(),
         datePublished = json['datePublished'],
+        dateScraped = json['dateScraped'],
         title = json['title'],
         description = json['description'],
         imageUrl = json['imageUrl'],
@@ -81,6 +83,7 @@ class ItemData {
     url = newJson['url'];
     dateAdded = newJson['dateAdded'];
     datePublished = newJson['datePublished'];
+    dateScraped = newJson['dateScraped'];
     title = newJson['title'];
     description = newJson['description'];
     imageUrl = newJson['imageUrl'];
