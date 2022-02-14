@@ -12,6 +12,7 @@ class AppState extends ChangeNotifier {
   String _resetPasswordMail = "";
   String _confirmLoginMail = "";
 
+  bool isShowContentDescription = true;
   bool isShowIncubatorIntro = true;
   bool isShowCategoryUpdater = false;
   bool isDefaultPreviewDataLoader = true;

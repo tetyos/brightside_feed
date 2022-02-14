@@ -14,6 +14,7 @@ class ItemCard extends StatelessWidget {
   final String? _shortDescription;
   final String _dateString;
   final String _host;
+
   late final Widget imageWidget;
   final bool isAdminCard;
 
@@ -21,13 +22,15 @@ class ItemCard extends StatelessWidget {
       : _itemData = linkPreviewData,
         _dateString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.dateAdded),
         _shortDescription =
-            PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 150),
+        PreviewDataLoader.shortenDescriptionIfNecessary(linkPreviewData.description, 150),
         _host = PreviewDataLoader.getHostFromUrl(linkPreviewData.url) {
     createImageWidget();
   }
 
   @override
   Widget build(BuildContext context) {
+    AppState appState = Provider.of<AppState>(context, listen: false);
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: GestureDetector(
@@ -42,12 +45,7 @@ class ItemCard extends StatelessWidget {
                 children: <Widget>[
                   imageWidget,
                   const SizedBox(height: 10),
-                  ListTile(
-                    title: Text(
-                      _itemData.title,
-                    ),
-                    subtitle: _shortDescription == null ? null : Text(_shortDescription!),
-                  ),
+                  renderTitleAndDescription(appState.isShowContentDescription),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(_host, style: TextStyle(color: kColorPrimary, fontWeight: FontWeight.bold),),
@@ -62,7 +60,7 @@ class ItemCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (Provider.of<AppState>(context, listen: false).isShowCategoryUpdater)
+                  if (appState.isShowCategoryUpdater)
                     CategoryUpdater(itemData: _itemData),
                 ],
               ),
@@ -119,5 +117,24 @@ class ItemCard extends StatelessWidget {
 
   void showDetailScreen(BuildContext context) {
     Provider.of<AppState>(context, listen: false).currentSelectedItem = _itemData;
+  }
+
+  renderTitleAndDescription(bool isShowContentDescription) {
+    if (isShowContentDescription && _shortDescription != null ) {
+      return ListTile(
+        title: Text(
+          _itemData.title,
+        ),
+        subtitle: Text(_shortDescription!),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 3, top: 3),
+        child: Text(
+          _itemData.title,
+          style: TextStyle(fontSize: 16),
+        ),
+      );
+    }
   }
 }

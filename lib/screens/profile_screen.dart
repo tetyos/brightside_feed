@@ -24,6 +24,7 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(height: 20),
               Image.asset("images/russian_miner.gif"),
               SizedBox(height: 20),
+              UserSettings(),
               if (ModelManager.instance.isAdmin())
                 AdminAddonButtons(),
               ElevatedButton(
@@ -38,6 +39,47 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class UserSettings extends StatefulWidget {
+  const UserSettings({Key? key}) : super(key: key);
+
+  @override
+  _UserSettingsState createState() => _UserSettingsState();
+}
+
+class _UserSettingsState extends State<UserSettings> {
+  bool isShowContentDescription = true;
+
+  @override
+  void initState() {
+    super.initState();
+    isShowContentDescription = Provider.of<AppState>(context, listen: false).isShowContentDescription;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Show content description:"),
+            Switch(value: isShowContentDescription, onChanged: toggleShowContentDescription, activeColor: Theme.of(context).primaryColor),
+          ],
+        ),
+      ],
+    );
+  }
+
+  void toggleShowContentDescription(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(kLocalStorageShowContentDescription, value);
+    Provider.of<AppState>(context, listen: false).isShowContentDescription = value;
+    setState(() {
+      isShowContentDescription = value;
+    });
   }
 }
 
@@ -56,13 +98,10 @@ class _AdminAddonButtonsState extends State<AdminAddonButtons> {
   @override
   void initState() {
     super.initState();
-    isDefaultPreviewDataLoader = Provider.of<AppState>(context, listen: false).isDefaultPreviewDataLoader;
-    SharedPreferences.getInstance().then((prefs) {
-      setState(() {
-        isShowIntroSelected = prefs.getBool(kLocalStorageAlwaysShowIntro) ?? false;
-        isShowCategoryUpdaterSelected = prefs.getBool(kLocalStorageShowCategoryUpdater) ?? false;
-      });
-    });
+    AppState appState  = Provider.of<AppState>(context, listen: false);
+    isDefaultPreviewDataLoader = appState.isDefaultPreviewDataLoader;
+    isShowIntroSelected = appState.isShowIntro;
+    isShowCategoryUpdaterSelected = appState.isShowCategoryUpdater;
   }
 
   @override

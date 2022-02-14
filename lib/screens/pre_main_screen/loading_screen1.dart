@@ -183,17 +183,23 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
   /// Adds all items stored as json in shared preferences to the hardcoded test data.
   Future<void> _loadDataFromLocalStorage() async {
     final prefs = await SharedPreferences.getInstance();
+    AppState appState  = Provider.of<AppState>(context, listen: false);
 
+    // user settings
     bool isFirstLogin = prefs.getBool(kLocalStorageFirstLogin) ?? true;
     bool isShowIncubatorIntro = prefs.getBool(kLocalStorageShowIncubatorIntro) ?? true;
+    appState.isFirstLogin = isFirstLogin;
+    appState.isShowIncubatorIntro = isShowIncubatorIntro;
 
+    bool isShowContentDescription = prefs.getBool(kLocalStorageShowContentDescription) ?? true;
+    appState.isShowContentDescription = isShowContentDescription;
+
+    // admin settings
     bool isIntroWatched = prefs.getBool(kLocalStorageIntroWatched) ?? false;
     bool isAlwaysShowIntro = prefs.getBool(kLocalStorageAlwaysShowIntro) ?? false;
     bool isShowCategoryUpdater = prefs.getBool(kLocalStorageShowCategoryUpdater) ?? false;
-    Provider.of<AppState>(context, listen: false).isFirstLogin = isFirstLogin;
-    Provider.of<AppState>(context, listen: false).isShowIncubatorIntro = isShowIncubatorIntro;
-    Provider.of<AppState>(context, listen: false).isShowIntro = !isIntroWatched || isAlwaysShowIntro;
-    Provider.of<AppState>(context, listen: false).isShowCategoryUpdater = isShowCategoryUpdater;
+    appState.isShowIntro = !isIntroWatched || isAlwaysShowIntro;
+    appState.isShowCategoryUpdater = isShowCategoryUpdater;
 
     if (isFirstLogin) {
       prefs.setBool(kLocalStorageFirstLogin, false);

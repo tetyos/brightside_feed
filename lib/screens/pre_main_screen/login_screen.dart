@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
         recoverPasswordDescription:
         "We will sent a verification code, which allows you to choose a new password.");
     return FlutterLogin(
-      title: 'Nexth News',
+      title: 'Brightside-Feed',
       // logo: 'assets/images/ecorp-lightblue.png',
       messages: loginMessages,
       onLogin: _signIn,

@@ -23,6 +23,9 @@ const kColorOrange1 = Color(0xFFED7117);
 const kLocalStorageFirstLogin = "isFirstLogin";
 const kLocalStorageShowIncubatorIntro = "isShowIncubatorIntro";
 
+// user prefs
+const kLocalStorageShowContentDescription = "isShowContentDescription";
+
 // admin prefs
 const kLocalStorageIntroWatched = "isIntroWatched";
 const kLocalStorageAlwaysShowIntro = "isAlwaysShowIntro";
