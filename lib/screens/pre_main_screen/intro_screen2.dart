@@ -22,6 +22,10 @@ class _IntroScreen2State extends State<IntroScreen2> {
   final EdgeInsets marginTitle =
       const EdgeInsets.only(top: 50.0, bottom: 30.0, left: 20.0, right: 20.0);
 
+  final Image image1 = Image.asset( 'images/intro1_blue.jpg', height: 180);
+  final Image image3 = Image.asset( 'images/intro3.png', height: 220);
+  final Image image4 = Image.asset( 'images/intro4.png');
+
   YoutubePlayerController _youtubePlayerController = YoutubePlayerController(
     initialVideoId: 'ZPMNmZjdgz0',
     params: YoutubePlayerParams(
@@ -30,6 +34,48 @@ class _IntroScreen2State extends State<IntroScreen2> {
       endAt: Duration(seconds: 195),
     ),
   );
+
+  @override
+  void initState() {
+    super.initState();
+    precacheImage(image1.image, context);
+    precacheImage(image3.image, context);
+    precacheImage(image4.image, context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IntroSlider(
+      slides: getSlides(),
+      onDonePress: () => onDone(context),
+      onSkipPress: () => navigateToNextScreen(context),
+      backgroundColorAllSlides: kColorPrimary,
+    );
+  }
+
+  @override
+  void dispose() {
+    _youtubePlayerController.close();
+    super.dispose();
+  }
+
+  void onDone(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(kLocalStorageIntroWatched, true);
+    navigateToNextScreen(context);
+  }
+
+  void navigateToNextScreen(BuildContext context) {
+    bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
+    bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
+    if (!isUserLoggedIn) {
+      Provider.of<AppState>(context, listen: false).currentRoutePath = LoginScreenPath();
+    } else if (!isDataLoading) {
+      Provider.of<AppState>(context, listen: false).currentRoutePath = NexthHomePath();
+    } else {
+      Provider.of<AppState>(context, listen: false).currentRoutePath = LoadingScreen2Path();
+    }
+  }
 
   List<Slide> getSlides() {
     return [
@@ -41,12 +87,12 @@ class _IntroScreen2State extends State<IntroScreen2> {
         ),
         marginTitle: marginTitle,
         description:
-            "Here you will find news on events, tech and other things that help to advance our society into a brighter age...",
+        "Here you will find news on events, tech and other things that help to advance our society into a brighter age...",
         centerWidget: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.elliptical(4000, 1200)),
-            child: Image.asset( 'images/intro4.png',),
+            child: image4,
           ),
         ),
         // pathImage: 'images/intro2.png',
@@ -77,7 +123,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
         marginTitle: marginTitle,
         widgetDescription: Text(
           "The numerous challenges of today make it easy to overlook that we are also living in times that offer enormous possibilities for our future."
-          "\n\nGoal of this project is to highlight the progress that our society makes everyday - a progress enabled by millions of people around the globe.",
+              "\n\nGoal of this project is to highlight the progress that our society makes everyday - a progress enabled by millions of people around the globe.",
 
 
           // "Most of us are aware of the numerous challenges of today and the decades to come. "
@@ -95,7 +141,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             //borderRadius: BorderRadius.all(Radius.elliptical(300, 50)),
-            child: Image.asset( 'images/intro1_blue.jpg', height: 180,),
+            child: image1,
           ),
         ),
         backgroundColor: kColorPrimary,
@@ -134,45 +180,11 @@ class _IntroScreen2State extends State<IntroScreen2> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             //borderRadius: BorderRadius.all(Radius.elliptical(300, 50)),
-            child: Image.asset( 'images/intro3.png', height: 220,),
+            child: image3,
           ),
         ),
         backgroundColor: kColorPrimary,
       ),
     ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IntroSlider(
-      slides: getSlides(),
-      onDonePress: () => onDone(context),
-      onSkipPress: () => navigateToNextScreen(context),
-      backgroundColorAllSlides: kColorPrimary,
-    );
-  }
-
-  @override
-  void dispose() {
-    _youtubePlayerController.close();
-    super.dispose();
-  }
-
-  void onDone(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(kLocalStorageIntroWatched, true);
-    navigateToNextScreen(context);
-  }
-
-  void navigateToNextScreen(BuildContext context) {
-    bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
-    bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
-    if (!isUserLoggedIn) {
-      Provider.of<AppState>(context, listen: false).currentRoutePath = LoginScreenPath();
-    } else if (!isDataLoading) {
-      Provider.of<AppState>(context, listen: false).currentRoutePath = NexthHomePath();
-    } else {
-      Provider.of<AppState>(context, listen: false).currentRoutePath = LoadingScreen2Path();
-    }
   }
 }

@@ -17,7 +17,7 @@ class IntroScreen extends StatelessWidget {
           "Goal of this project is to highlight the progress of our society that is made possible by millions of people around the globe. "
           "Even though it seems unlikely at the moment - there is a chance for our society to advance into an utopian-like civilization. One, in which it will not be so relevant anymore in which nation you are born or which gender you are of. In which access food, energy, transportation, information, and shelter are a fundamental right. "
           "For more information why this is a possibility, check out the report by the think tank: RethinkX.",
-      image: Image.asset('images/intro2.png'),
+      image: Image.asset('images/intro4.png'),
     ),
     PageViewModel(
       title: "Community driven",
