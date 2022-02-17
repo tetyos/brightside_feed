@@ -27,6 +27,8 @@ class AppState extends ChangeNotifier {
   final GlobalKey incubatorScreenKey = GlobalKey();
   final GlobalKey explorerScreenKey = GlobalKey();
   final GlobalKey profileScreenKey = GlobalKey();
+  final GlobalKey aboutScreenKey = GlobalKey();
+  final GlobalKey impressumScreenKey = GlobalKey();
 
   NexthRoutePath get currentRoutePath => _currentRoutePath;
 

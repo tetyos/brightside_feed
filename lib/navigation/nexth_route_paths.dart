@@ -16,3 +16,11 @@ class NexthExplorePath extends NexthRoutePath {
 class NexthIncubatorPath extends NexthRoutePath {
   const NexthIncubatorPath();
 }
+
+class AboutPath extends NexthRoutePath {
+  const AboutPath();
+}
+
+class ImpressumPath extends NexthRoutePath {
+  const ImpressumPath();
+}

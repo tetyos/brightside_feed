@@ -17,7 +17,12 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
         return NexthExplorePath();
       } else if (uri.pathSegments.first == 'incubator') {
         return NexthIncubatorPath();
-      } else if (uri.pathSegments.first == 'home') {
+      } else if (uri.pathSegments.first == 'about') {
+        return NexthIncubatorPath();
+      } else if (uri.pathSegments.first == 'impressum') {
+        return NexthIncubatorPath();
+      }
+      else if (uri.pathSegments.first == 'home') {
         return NexthHomePath();
       }
     }
@@ -34,6 +39,12 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
     }
     if (path is NexthIncubatorPath) {
       return RouteInformation(location: '/incubator');
+    }
+    if (path is NexthIncubatorPath) {
+      return RouteInformation(location: '/about');
+    }
+    if (path is NexthIncubatorPath) {
+      return RouteInformation(location: '/impressum');
     }
     print("NOT GOOD, UNKNOWN PATH");
     // todo replace this with error page or something

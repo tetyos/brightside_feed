@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nexth/navigation/app_state.dart';
+import 'package:nexth/navigation/drawer_right.dart';
 import 'package:nexth/navigation/inner_route_delegate.dart';
 import 'package:nexth/navigation/nexth_route_paths.dart';
 import 'package:nexth/screens/add_url_screen.dart';
@@ -31,6 +32,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
 
         return Scaffold(
           appBar: renderAppBarIfNecessary(appState),
+          endDrawer: DrawerRight(),
           body: SafeArea(
             child: Router(
               routerDelegate: InnerRouterDelegate(),
@@ -148,6 +150,12 @@ class _AppShellScreenState extends State<AppShellScreen> {
   PreferredSizeWidget? renderAppBarIfNecessary(AppState appState) {
     if (appState.currentSelectedItem != null) {
       return AppBar(title: Text(appState.currentSelectedItem!.title));
+    }
+    if (appState.currentRoutePath is AboutPath) {
+      return AppBar(title: Text('About'));
+    }
+    if (appState.currentRoutePath is ImpressumPath) {
+      return AppBar(title: Text('Impressum'));
     }
     return null;
   }
