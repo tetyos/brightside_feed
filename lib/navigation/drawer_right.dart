@@ -44,14 +44,6 @@ class DrawerRight extends StatelessWidget {
               // Navigator.of(context).pop();
             },
           ),
-          ListTile(
-            leading: Icon(Icons.import_contacts),
-            title: Text('Impressum'),
-            onTap: () {
-              Provider.of<AppState>(context, listen: false).currentRoutePath = ImpressumPath();
-              Navigator.of(context).pop();
-            },
-          ),
         ],
       ),
     );

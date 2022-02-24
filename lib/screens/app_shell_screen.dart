@@ -154,9 +154,6 @@ class _AppShellScreenState extends State<AppShellScreen> {
     if (appState.currentRoutePath is AboutPath) {
       return AppBar(title: Text('About'));
     }
-    if (appState.currentRoutePath is ImpressumPath) {
-      return AppBar(title: Text('Impressum'));
-    }
     return null;
   }
 }

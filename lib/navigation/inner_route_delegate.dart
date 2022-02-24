@@ -35,10 +35,6 @@ class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
               MaterialPage(
                 child: AboutScreen(key: appState.aboutScreenKey),
               ),
-            if (appState.currentRoutePath is ImpressumPath)
-              MaterialPage(
-                child: AboutScreen(key: appState.impressumScreenKey),
-              ),
             if (appState.currentSelectedItem != null)
               MaterialPage(
                 key: ValueKey('ItemDetails'),

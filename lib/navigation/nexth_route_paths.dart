@@ -20,7 +20,3 @@ class NexthIncubatorPath extends NexthRoutePath {
 class AboutPath extends NexthRoutePath {
   const AboutPath();
 }
-
-class ImpressumPath extends NexthRoutePath {
-  const ImpressumPath();
-}
