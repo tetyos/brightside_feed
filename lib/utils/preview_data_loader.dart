@@ -7,7 +7,7 @@ as FlutterLinkPreviewer;
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:intl/intl.dart';
 import 'package:link_preview_generator/link_preview_generator.dart';
-import 'package:nexth/model/item_data.dart';
+import 'package:brightside_feed/model/item_data.dart';
 
 class PreviewDataLoader {
 

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nexth/components/category_chooser/category_cubit.dart';
+import 'package:brightside_feed/components/category_chooser/category_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nexth/model/category_tree_model.dart';
-import 'package:nexth/utils/constants.dart';
+import 'package:brightside_feed/model/category_tree_model.dart';
+import 'package:brightside_feed/utils/constants.dart';
 
 class SecondLevelButton extends StatefulWidget {
   final LevelTwoCategory levelTwoCategory;

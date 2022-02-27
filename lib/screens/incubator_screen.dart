@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nexth/components/incubator/incubator_scraped_card.dart';
-import 'package:nexth/components/incubator/news_scanner_intro_card.dart';
-import 'package:nexth/components/incubator/incubator_intro_card.dart';
-import 'package:nexth/components/incubator/incubator_unsafe_card.dart';
-import 'package:nexth/components/intro_card.dart';
-import 'package:nexth/components/item_list_scroll_view.dart';
-import 'package:nexth/model/list_models/incubator_list_model.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/list_models/item_list_model.dart';
-import 'package:nexth/model/model_manager.dart';
-import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/utils/constants.dart';
-import 'package:nexth/utils/custom_page_view_scroll_physics.dart';
+import 'package:brightside_feed/components/incubator/incubator_scraped_card.dart';
+import 'package:brightside_feed/components/incubator/news_scanner_intro_card.dart';
+import 'package:brightside_feed/components/incubator/incubator_intro_card.dart';
+import 'package:brightside_feed/components/incubator/incubator_unsafe_card.dart';
+import 'package:brightside_feed/components/intro_card.dart';
+import 'package:brightside_feed/components/item_list_scroll_view.dart';
+import 'package:brightside_feed/model/list_models/incubator_list_model.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/model/list_models/item_list_model.dart';
+import 'package:brightside_feed/model/model_manager.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
+import 'package:brightside_feed/utils/constants.dart';
+import 'package:brightside_feed/utils/custom_page_view_scroll_physics.dart';
 import 'package:provider/provider.dart';
 
 class IncubatorScreen extends StatefulWidget {

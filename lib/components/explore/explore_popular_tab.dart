@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/components/intro_card.dart';
-import 'package:nexth/components/item_list_scroll_view.dart';
-import 'package:nexth/model/list_models/item_list_model.dart';
-import 'package:nexth/model/model_manager.dart';
+import 'package:brightside_feed/components/intro_card.dart';
+import 'package:brightside_feed/components/item_list_scroll_view.dart';
+import 'package:brightside_feed/model/list_models/item_list_model.dart';
+import 'package:brightside_feed/model/model_manager.dart';
 
 class ExplorePopularTab extends StatefulWidget {
 

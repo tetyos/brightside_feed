@@ -1,4 +1,4 @@
-import 'package:nexth/model/category_tree_model.dart';
+import 'package:brightside_feed/model/category_tree_model.dart';
 
 /// Helper class for generating the json-query that is needed for the HTTP-API.
 class DatabaseQuery {

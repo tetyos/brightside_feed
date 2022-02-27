@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/utils/constants.dart';
-import 'package:nexth/utils/ui_utils.dart';
+import 'package:brightside_feed/utils/constants.dart';
+import 'package:brightside_feed/utils/ui_utils.dart';
 
 class ExploreAddFilterTab extends StatelessWidget {
 

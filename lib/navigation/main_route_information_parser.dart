@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/nexth_route_paths.dart';
 
 class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> {
 

@@ -2,7 +2,7 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nexth/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/nexth_route_paths.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/backend_connection/api_connector.dart';
-import 'package:nexth/backend_connection/item_update.dart';
-import 'package:nexth/bloc/item_list_model_cubit.dart';
-import 'package:nexth/components/add_url_preview_card.dart';
-import 'package:nexth/model/category_tree_model.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/components/category_chooser/category_chooser.dart';
-import 'package:nexth/model/list_models/incubator_list_model.dart';
-import 'package:nexth/model/model_manager.dart';
-import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/navigation/nexth_route_paths.dart';
-import 'package:nexth/utils/ui_utils.dart';
+import 'package:brightside_feed/backend_connection/api_connector.dart';
+import 'package:brightside_feed/backend_connection/item_update.dart';
+import 'package:brightside_feed/bloc/item_list_model_cubit.dart';
+import 'package:brightside_feed/components/add_url_preview_card.dart';
+import 'package:brightside_feed/model/category_tree_model.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/components/category_chooser/category_chooser.dart';
+import 'package:brightside_feed/model/list_models/incubator_list_model.dart';
+import 'package:brightside_feed/model/model_manager.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
+import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/utils/ui_utils.dart';
 import 'package:provider/provider.dart';
 
 class AddScrapedItemScreen extends StatefulWidget {

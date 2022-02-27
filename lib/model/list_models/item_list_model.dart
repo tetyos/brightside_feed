@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/backend_connection/database_query.dart';
-import 'package:nexth/components/item_list_scroll_view.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/model_manager.dart';
+import 'package:brightside_feed/backend_connection/database_query.dart';
+import 'package:brightside_feed/components/item_list_scroll_view.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/model/model_manager.dart';
 
 /// The ItemListModel provides the basic functions for managing the model behind all item-lists.
 abstract class ItemListModel {

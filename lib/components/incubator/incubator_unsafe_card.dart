@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/components/more_menu.dart';
-import 'package:nexth/components/vote_buttons.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/utils/constants.dart';
-import 'package:nexth/utils/preview_data_loader.dart';
+import 'package:brightside_feed/components/more_menu.dart';
+import 'package:brightside_feed/components/vote_buttons.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
+import 'package:brightside_feed/utils/constants.dart';
+import 'package:brightside_feed/utils/preview_data_loader.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 

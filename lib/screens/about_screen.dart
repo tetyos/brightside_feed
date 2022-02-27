@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/utils/constants.dart';
+import 'package:brightside_feed/utils/constants.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({Key? key}) : super(key: key);

@@ -1,18 +1,18 @@
-import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
-import 'package:nexth/backend_connection/api_connector.dart';
-import 'package:nexth/backend_connection/database_query.dart';
-import 'package:nexth/model/category_tree_model.dart';
-import 'package:nexth/model/category_tree_non_tech.dart';
-import 'package:nexth/model/category_tree_tech.dart';
-import 'package:nexth/model/list_models/category_list_model.dart';
-import 'package:nexth/model/list_models/explore_likes_model.dart';
-import 'package:nexth/model/list_models/explore_popular_model.dart';
-import 'package:nexth/model/list_models/home_list_model.dart';
-import 'package:nexth/model/list_models/incubator_list_model.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/list_models/item_list_model.dart';
-import 'package:nexth/model/user_data.dart';
-import 'package:nexth/model/vote_model.dart';
+import 'package:brightside_feed/backend_connection/api_key_identifier.dart' as API_Identifier;
+import 'package:brightside_feed/backend_connection/api_connector.dart';
+import 'package:brightside_feed/backend_connection/database_query.dart';
+import 'package:brightside_feed/model/category_tree_model.dart';
+import 'package:brightside_feed/model/category_tree_non_tech.dart';
+import 'package:brightside_feed/model/category_tree_tech.dart';
+import 'package:brightside_feed/model/list_models/category_list_model.dart';
+import 'package:brightside_feed/model/list_models/explore_likes_model.dart';
+import 'package:brightside_feed/model/list_models/explore_popular_model.dart';
+import 'package:brightside_feed/model/list_models/home_list_model.dart';
+import 'package:brightside_feed/model/list_models/incubator_list_model.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/model/list_models/item_list_model.dart';
+import 'package:brightside_feed/model/user_data.dart';
+import 'package:brightside_feed/model/vote_model.dart';
 
 class ModelManager {
   static ModelManager _instance = ModelManager._();

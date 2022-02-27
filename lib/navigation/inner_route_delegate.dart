@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/screens/about_screen.dart';
-import 'package:nexth/screens/explore_screen.dart';
-import 'package:nexth/screens/incubator_screen.dart';
-import 'package:nexth/screens/home_screen.dart';
-import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/navigation/nexth_route_paths.dart';
-import 'package:nexth/screens/item_detail_screen.dart';
+import 'package:brightside_feed/screens/about_screen.dart';
+import 'package:brightside_feed/screens/explore_screen.dart';
+import 'package:brightside_feed/screens/incubator_screen.dart';
+import 'package:brightside_feed/screens/home_screen.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
+import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/screens/item_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>

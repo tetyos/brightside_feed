@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nexth/model/category_tree_model.dart';
-import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
-import 'package:nexth/model/list_models/incubator_list_model.dart';
-import 'package:nexth/model/model_manager.dart';
-import 'package:nexth/model/vote_model.dart';
-import 'package:nexth/utils/preview_data_loader.dart';
-import 'package:nexth/utils/ui_utils.dart';
+import 'package:brightside_feed/model/category_tree_model.dart';
+import 'package:brightside_feed/backend_connection/api_key_identifier.dart' as API_Identifier;
+import 'package:brightside_feed/model/list_models/incubator_list_model.dart';
+import 'package:brightside_feed/model/model_manager.dart';
+import 'package:brightside_feed/model/vote_model.dart';
+import 'package:brightside_feed/utils/preview_data_loader.dart';
+import 'package:brightside_feed/utils/ui_utils.dart';
 
 class ItemData {
   String id;

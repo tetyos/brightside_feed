@@ -2,12 +2,12 @@ import 'dart:convert' as Dart;
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:http/http.dart' as http;
-import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
-import 'package:nexth/backend_connection/database_query.dart';
-import 'package:nexth/backend_connection/item_update.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/vote_model.dart';
-import 'package:nexth/project_config.dart';
+import 'package:brightside_feed/backend_connection/api_key_identifier.dart' as API_Identifier;
+import 'package:brightside_feed/backend_connection/database_query.dart';
+import 'package:brightside_feed/backend_connection/item_update.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/model/vote_model.dart';
+import 'package:brightside_feed/project_config.dart';
 
 class APIConnector {
   static int httpRequestThreshold = 100;

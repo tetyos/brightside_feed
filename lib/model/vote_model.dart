@@ -1,5 +1,5 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nexth/backend_connection/api_key_identifier.dart' as API_Identifier;
+import 'package:brightside_feed/backend_connection/api_key_identifier.dart' as API_Identifier;
 import 'package:flutter/material.dart';
 
 abstract class VoteModel {

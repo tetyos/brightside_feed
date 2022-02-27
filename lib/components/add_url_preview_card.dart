@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/utils/preview_data_loader.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/utils/preview_data_loader.dart';
 
 class AddUrlPreviewCard extends StatelessWidget {
   final ItemData _linkPreviewData;

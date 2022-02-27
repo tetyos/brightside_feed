@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:nexth/model/category_tree_model.dart';
-import 'package:nexth/model/list_models/category_list_model.dart';
-import 'package:nexth/model/list_models/explore_popular_model.dart';
-import 'package:nexth/model/list_models/incubator_list_model.dart';
-import 'package:nexth/model/list_models/item_list_model.dart';
-import 'package:nexth/model/model_manager.dart';
-import 'package:nexth/model/vote_model.dart';
+import 'package:brightside_feed/model/category_tree_model.dart';
+import 'package:brightside_feed/model/list_models/category_list_model.dart';
+import 'package:brightside_feed/model/list_models/explore_popular_model.dart';
+import 'package:brightside_feed/model/list_models/incubator_list_model.dart';
+import 'package:brightside_feed/model/list_models/item_list_model.dart';
+import 'package:brightside_feed/model/model_manager.dart';
+import 'package:brightside_feed/model/vote_model.dart';
 
 part 'item_list_model_state.dart';
 

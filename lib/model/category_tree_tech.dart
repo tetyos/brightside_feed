@@ -1,4 +1,4 @@
-import 'package:nexth/model/category_tree_model.dart';
+import 'package:brightside_feed/model/category_tree_model.dart';
 
 const RootCategory kTechCategory = const RootCategory(
   displayTitle: "Tech",

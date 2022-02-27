@@ -1,4 +1,4 @@
-package com.nexth;
+package com.brightside_feed;
 
 import io.flutter.embedding.android.FlutterActivity;
 
