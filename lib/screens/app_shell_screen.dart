@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:brightside_feed/navigation/app_state.dart';
 import 'package:brightside_feed/navigation/drawer_right.dart';
 import 'package:brightside_feed/navigation/inner_route_delegate.dart';
-import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/route_paths.dart';
 import 'package:brightside_feed/screens/add_url_screen.dart';
 import 'package:brightside_feed/screens/filter_popular_screen.dart';
 import 'package:brightside_feed/utils/constants.dart' as Constants;
@@ -58,23 +58,23 @@ class _AppShellScreenState extends State<AppShellScreen> {
         children: <Widget>[
           BottomNavItem(
               icon: Icons.home_outlined,
-              currentlySelected: appState.currentRoutePath is NexthHomePath,
+              currentlySelected: appState.currentRoutePath is HomePath,
               onPressed: () {
-                appState.currentRoutePath = NexthHomePath();
+                appState.currentRoutePath = HomePath();
               }),
           BottomNavItem(
               icon: Icons.dashboard_outlined,
-              currentlySelected: appState.currentRoutePath is NexthExplorePath,
+              currentlySelected: appState.currentRoutePath is ExplorePath,
               onPressed: () {
                 appState.setExplorerScreenCurrentTabAndNotify(appState.explorerScreenStartTab);
-                appState.currentRoutePath = NexthExplorePath();
+                appState.currentRoutePath = ExplorePath();
               }),
           BottomNavItem(
               icon: Icons.add_chart,
-              currentlySelected: appState.currentRoutePath is NexthIncubatorPath,
+              currentlySelected: appState.currentRoutePath is IncubatorPath,
               onPressed: () {
                 appState.setIncubatorScreenCurrentTabAndNotify(0);
-                appState.currentRoutePath = NexthIncubatorPath();
+                appState.currentRoutePath = IncubatorPath();
               }),
           BottomNavItem(
               icon: appState.isUserLoggedIn ? Icons.person : Icons.login,
@@ -92,7 +92,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
   }
 
   FloatingActionButton renderFAB(AppState appState) {
-    if (appState.currentRoutePath is NexthExplorePath && appState.explorerScreenCurrentTab == 2) {
+    if (appState.currentRoutePath is ExplorePath && appState.explorerScreenCurrentTab == 2) {
       return FloatingActionButton(
         onPressed: showFilterDialog,
         tooltip: 'Change filter',

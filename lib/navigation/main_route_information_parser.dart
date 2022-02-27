@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/route_paths.dart';
 
-class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> {
+class MainRouteInformationParser extends RouteInformationParser<AbstractRoutePath> {
 
   @override
-  Future<NexthRoutePath> parseRouteInformation(
+  Future<AbstractRoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
     if (routeInformation.location == null) {
       // todo can this actually happen?
@@ -14,28 +14,28 @@ class MainRouteInformationParser extends RouteInformationParser<NexthRoutePath> 
 
     if (uri.pathSegments.isNotEmpty) {
       if (uri.pathSegments.first == 'explore') {
-        return NexthExplorePath();
+        return ExplorePath();
       } else if (uri.pathSegments.first == 'incubator') {
-        return NexthIncubatorPath();
+        return IncubatorPath();
       } else if (uri.pathSegments.first == 'about') {
         return AboutPath();
       }
       else if (uri.pathSegments.first == 'home') {
-        return NexthHomePath();
+        return HomePath();
       }
     }
-    return NexthHomePath();
+    return HomePath();
   }
 
   @override
-  RouteInformation restoreRouteInformation(NexthRoutePath path) {
-    if (path is NexthHomePath) {
+  RouteInformation restoreRouteInformation(AbstractRoutePath path) {
+    if (path is HomePath) {
       return RouteInformation(location: '/home');
     }
-    if (path is NexthExplorePath) {
+    if (path is ExplorePath) {
       return RouteInformation(location: '/explore');
     }
-    if (path is NexthIncubatorPath) {
+    if (path is IncubatorPath) {
       return RouteInformation(location: '/incubator');
     }
     if (path is AboutPath) {

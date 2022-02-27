@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:brightside_feed/bloc/item_list_model_cubit.dart';
 import 'package:brightside_feed/navigation/app_state.dart';
-import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/route_paths.dart';
 import 'package:brightside_feed/screens/app_shell_screen.dart';
 import 'package:provider/provider.dart';
 
-class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin<NexthRoutePath> {
+class MainRouterDelegate extends RouterDelegate<AbstractRoutePath>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<AbstractRoutePath> {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final AppState _appState = AppState();
 
@@ -62,12 +62,12 @@ class MainRouterDelegate extends RouterDelegate<NexthRoutePath>
   }
 
   @override
-  NexthRoutePath get currentConfiguration {
+  AbstractRoutePath get currentConfiguration {
     return _appState.currentRoutePath;
   }
 
   @override
-  Future<void> setNewRoutePath(NexthRoutePath path) {
+  Future<void> setNewRoutePath(AbstractRoutePath path) {
     _appState.currentRoutePath = path;
     return SynchronousFuture<void>(null);
   }
