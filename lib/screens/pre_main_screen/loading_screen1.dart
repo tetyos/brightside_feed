@@ -42,8 +42,15 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Some App Name", style: TextStyle(fontSize: 40, color: kColorPrimary),),
-            SizedBox(height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset("images/logo.png", width: 40, height: 40,),
+                SizedBox(width: 10,),
+                Text("brightside-feed", style: TextStyle(fontSize: 40, color: kColorPrimary),),
+              ],
+            ),
+            SizedBox(height: 120),
             SpinKitCubeGrid(
               color: kColorPrimary,
               size: 100.0,

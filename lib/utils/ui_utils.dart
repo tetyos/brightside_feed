@@ -15,7 +15,7 @@ class UIUtils {
   static Widget renderDivider() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Divider(color: Colors.black),
+      child: Divider(color: Colors.black, thickness: 0.8,),
     );
   }
 }

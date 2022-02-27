@@ -143,7 +143,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => FractionallySizedBox(
-        heightFactor: MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.9 : 0.9,
+        heightFactor: MediaQuery.of(context).viewInsets.bottom == 0.0 ? 0.8 : 0.8,
         child: AddUrlScreen(),
       ),
     ).whenComplete(() => setState((){}));

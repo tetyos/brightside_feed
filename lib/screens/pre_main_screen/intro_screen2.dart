@@ -36,8 +36,8 @@ class _IntroScreen2State extends State<IntroScreen2> {
   );
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     precacheImage(image1.image, context);
     precacheImage(image3.image, context);
     precacheImage(image4.image, context);

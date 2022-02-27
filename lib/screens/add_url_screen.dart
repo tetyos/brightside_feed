@@ -69,15 +69,18 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
             ]),
             SizedBox(height: 40),
             Text('Choose categories of content', textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             CategoryChooser(callback: (currentCategories) => _categoriesSelection = currentCategories),
+            // SizedBox(height: 10),
+            // Text('Add optional meta data', textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),
+            // SizedBox(height: 10),
+            // SizedBox(height: 10),
+            // LanguageDropdownButton(callback: (String? value) => _languageSelection = value),
             SizedBox(height: 10),
-            Text('Add optional meta data', textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0)),
+            UIUtils.renderDivider(),
             SizedBox(height: 10),
-            SizedBox(height: 10),
-            LanguageDropdownButton(callback: (String? value) => _languageSelection = value),
-            SizedBox(height: 30),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.secondaryVariant),
               onPressed: onAdd,
               child: Text('Add'),
             ),
@@ -193,7 +196,7 @@ class PreviewPlaceHolderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       child: Card(
         color: Colors.white,
         child: Padding(
