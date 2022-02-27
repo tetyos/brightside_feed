@@ -8,15 +8,15 @@ void main() {
   // WidgetsFlutterBinding.ensureInitialized();
   // // Initialize Firebase
   // await Firebase.initializeApp();
-  runApp(NexthApp());
+  runApp(BrightsideApp());
 }
 
-class NexthApp extends StatefulWidget {
+class BrightsideApp extends StatefulWidget {
   @override
-  _NexthAppState createState() => _NexthAppState();
+  _BrightsideAppState createState() => _BrightsideAppState();
 }
 
-class _NexthAppState extends State<NexthApp> {
+class _BrightsideAppState extends State<BrightsideApp> {
   final MainRouterDelegate _mainRouterDelegate = MainRouterDelegate();
   final MainRouteInformationParser _mainRouteInformationParser = MainRouteInformationParser();
 

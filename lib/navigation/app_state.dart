@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:brightside_feed/model/item_data.dart';
 import 'package:brightside_feed/model/model_manager.dart';
-import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/route_paths.dart';
 
 class AppState extends ChangeNotifier {
-  NexthRoutePath _currentRoutePath = LoadingScreen1Path();
+  AbstractRoutePath _currentRoutePath = LoadingScreen1Path();
 
   bool _isDataLoading = true;
   bool isShowIntro = false;
@@ -29,9 +29,9 @@ class AppState extends ChangeNotifier {
   final GlobalKey explorerScreenKey = GlobalKey();
   final GlobalKey profileScreenKey = GlobalKey();
 
-  NexthRoutePath get currentRoutePath => _currentRoutePath;
+  AbstractRoutePath get currentRoutePath => _currentRoutePath;
 
-  set currentRoutePath(NexthRoutePath newRoutePath) {
+  set currentRoutePath(AbstractRoutePath newRoutePath) {
     if (currentSelectedItem != null) {
       currentSelectedItem = null;
     }

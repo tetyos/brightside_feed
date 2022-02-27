@@ -10,7 +10,7 @@ import 'package:brightside_feed/model/category_tree_model.dart';
 import 'package:brightside_feed/model/list_models/incubator_list_model.dart';
 import 'package:brightside_feed/model/item_data.dart';
 import 'package:brightside_feed/navigation/app_state.dart';
-import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/route_paths.dart';
 import 'package:brightside_feed/components/category_chooser/category_chooser.dart';
 import 'package:brightside_feed/utils/constants.dart' as Constants;
 import 'package:brightside_feed/utils/preview_data_loader.dart';
@@ -104,7 +104,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
           print("Item with id: '" + itemData.id + "' had no incubatorStatus. This should not happen.");
         } else {
           Provider.of<AppState>(context, listen: false).setIncubatorScreenCurrentTabAndNotify(incubatorTypeOfItem.tabNumber);
-          Provider.of<AppState>(context, listen: false).currentRoutePath = NexthIncubatorPath();
+          Provider.of<AppState>(context, listen: false).currentRoutePath = IncubatorPath();
           context.read<ItemListModelCubit>().resetIncubatorModel(incubatorTypeOfItem);
           UIUtils.showSnackBar("Link added!", context);
         }

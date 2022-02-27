@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:brightside_feed/model/model_manager.dart';
 import 'package:brightside_feed/model/user_data.dart';
 import 'package:brightside_feed/navigation/app_state.dart';
-import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/route_paths.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (appState.isDataLoading) {
           appState.currentRoutePath = LoadingScreen2Path();
         } else {
-          appState.currentRoutePath = NexthHomePath();
+          appState.currentRoutePath = HomePath();
         }
       },
       loginAfterSignUp: false,

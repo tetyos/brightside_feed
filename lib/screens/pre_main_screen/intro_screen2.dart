@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:brightside_feed/navigation/app_state.dart';
-import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/route_paths.dart';
 import 'package:brightside_feed/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,7 +71,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
     if (!isUserLoggedIn) {
       Provider.of<AppState>(context, listen: false).currentRoutePath = LoginScreenPath();
     } else if (!isDataLoading) {
-      Provider.of<AppState>(context, listen: false).currentRoutePath = NexthHomePath();
+      Provider.of<AppState>(context, listen: false).currentRoutePath = HomePath();
     } else {
       Provider.of<AppState>(context, listen: false).currentRoutePath = LoadingScreen2Path();
     }
@@ -81,7 +81,7 @@ class _IntroScreen2State extends State<IntroScreen2> {
     return [
       Slide(
         widgetTitle: Text(
-          "Welcome to your Brightside-Feed!",
+          "Welcome to the Brightside-Feed!",
           style: titleTextStyle,
           textAlign: TextAlign.center,
         ),

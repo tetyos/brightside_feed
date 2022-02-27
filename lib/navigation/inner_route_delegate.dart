@@ -3,13 +3,13 @@ import 'package:brightside_feed/screens/explore_screen.dart';
 import 'package:brightside_feed/screens/incubator_screen.dart';
 import 'package:brightside_feed/screens/home_screen.dart';
 import 'package:brightside_feed/navigation/app_state.dart';
-import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/route_paths.dart';
 import 'package:brightside_feed/screens/item_detail_screen.dart';
 import 'package:brightside_feed/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 
-class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin<NexthRoutePath> {
+class InnerRouterDelegate extends RouterDelegate<AbstractRoutePath>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<AbstractRoutePath> {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
@@ -22,16 +22,16 @@ class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
             MaterialPage(
               child: HomeScreen(key: appState.homeScreenKey),
             ),
-            if (appState.currentRoutePath is NexthExplorePath)
+            if (appState.currentRoutePath is ExplorePath)
               MaterialPage(
                 key: ValueKey('Explorer'),
                 child: ExplorerScreen(key: appState.explorerScreenKey),
               ),
-            if (appState.currentRoutePath is NexthIncubatorPath)
+            if (appState.currentRoutePath is IncubatorPath)
               MaterialPage(
                 child: IncubatorScreen(key: appState.incubatorScreenKey),
               ),
-            if (appState.currentRoutePath is NexthProfilePath)
+            if (appState.currentRoutePath is ProfilePath)
               MaterialPage(
                 child: ProfileScreen(key: appState.profileScreenKey),
               ),
@@ -47,11 +47,11 @@ class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
             }
             if (appState.currentSelectedItem != null) {
               appState.currentSelectedItem = null;
-            } else if (appState.currentRoutePath is NexthExplorePath &&
+            } else if (appState.currentRoutePath is ExplorePath &&
                 appState.explorerScreenCurrentTab != appState.explorerScreenStartTab) {
               appState.setExplorerScreenCurrentTabAndNotify(appState.explorerScreenStartTab);
             } else {
-              appState.currentRoutePath = NexthHomePath();
+              appState.currentRoutePath = HomePath();
             }
             return true;
           },
@@ -61,7 +61,7 @@ class InnerRouterDelegate extends RouterDelegate<NexthRoutePath>
   }
 
   @override
-  Future<void> setNewRoutePath(NexthRoutePath path) async {
+  Future<void> setNewRoutePath(AbstractRoutePath path) async {
     // This is not required for inner router delegate because it does not
     // parse route
     throw UnimplementedError();

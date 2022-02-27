@@ -9,7 +9,7 @@ import 'package:brightside_feed/components/category_chooser/category_chooser.dar
 import 'package:brightside_feed/model/list_models/incubator_list_model.dart';
 import 'package:brightside_feed/model/model_manager.dart';
 import 'package:brightside_feed/navigation/app_state.dart';
-import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/route_paths.dart';
 import 'package:brightside_feed/utils/ui_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +68,7 @@ class _AddScrapedItemScreenState extends State<AddScrapedItemScreen> {
     if (successful) {
       ModelManager.instance.deleteItem(widget._itemData);
       Provider.of<AppState>(context, listen: false).setIncubatorScreenCurrentTabAndNotify(IncubatorType.inc1.tabNumber);
-      Provider.of<AppState>(context, listen: false).currentRoutePath = NexthIncubatorPath();
+      Provider.of<AppState>(context, listen: false).currentRoutePath = IncubatorPath();
       context.read<ItemListModelCubit>().resetIncubatorModel(IncubatorType.inc1);
       UIUtils.showSnackBar("Item added!", context);
     } else {

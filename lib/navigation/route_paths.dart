@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 
 @immutable
-abstract class NexthRoutePath {
-  const NexthRoutePath();
+abstract class AbstractRoutePath {
+  const AbstractRoutePath();
 }
 
-class NexthHomePath extends NexthRoutePath {
-  const NexthHomePath();
+class HomePath extends AbstractRoutePath {
+  const HomePath();
 }
 
-class NexthExplorePath extends NexthRoutePath {
-  const NexthExplorePath();
+class ExplorePath extends AbstractRoutePath {
+  const ExplorePath();
 }
 
-class NexthIncubatorPath extends NexthRoutePath {
-  const NexthIncubatorPath();
+class IncubatorPath extends AbstractRoutePath {
+  const IncubatorPath();
 }
 
-class NexthProfilePath extends NexthRoutePath {
-  const NexthProfilePath();
+class ProfilePath extends AbstractRoutePath {
+  const ProfilePath();
 }
 
 /// Pre main screen paths
-abstract class PreMainScreenPath extends NexthRoutePath {
+abstract class PreMainScreenPath extends AbstractRoutePath {
   const PreMainScreenPath();
 }
 

@@ -12,7 +12,7 @@ import 'package:brightside_feed/model/list_models/item_list_model.dart';
 import 'package:brightside_feed/model/user_data.dart';
 import 'package:brightside_feed/navigation/app_state.dart';
 import 'package:brightside_feed/model/model_manager.dart';
-import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/navigation/route_paths.dart';
 import 'package:brightside_feed/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -229,7 +229,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     bool isDataLoading = Provider.of<AppState>(context, listen: false).isDataLoading;
     bool isUserLoggedIn = Provider.of<AppState>(context, listen: false).isUserLoggedIn;
 
-    NexthRoutePath newPath;
+    AbstractRoutePath newPath;
     if (isShowIntro) {
       newPath = IntroScreenPath();
     } else if (!isUserLoggedIn) {
@@ -238,7 +238,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
       return;
       // if data is still loading, but intro and login are not necessary -> we want to stay on this screen
     } else {
-      newPath = NexthHomePath();
+      newPath = HomePath();
     }
 
     Provider.of<AppState>(context, listen: false).currentRoutePath = newPath;
@@ -254,7 +254,7 @@ class _LoadingScreen1State extends State<LoadingScreen1> {
     bool isNavigateToHomeScreen =
         (appState.isUserLoggedIn && !appState.isShowIntro) || appState.currentRoutePath is LoadingScreen2Path;
     if (isNavigateToHomeScreen) {
-      appState.currentRoutePath = NexthHomePath();
+      appState.currentRoutePath = HomePath();
     }
   }
 }
