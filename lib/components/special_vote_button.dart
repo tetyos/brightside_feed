@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/vote_model.dart';
-import 'package:nexth/utils/constants.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/model/vote_model.dart';
+import 'package:brightside_feed/utils/constants.dart';
 
 class SpecialVoteButton extends StatelessWidget {
   final ItemData itemData;

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nexth/model/model_manager.dart';
-import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/utils/constants.dart';
+import 'package:brightside_feed/model/model_manager.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
+import 'package:brightside_feed/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

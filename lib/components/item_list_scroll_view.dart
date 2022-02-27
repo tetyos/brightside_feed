@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nexth/bloc/item_list_model_cubit.dart';
-import 'package:nexth/components/item_card.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/model/list_models/item_list_model.dart';
-import 'package:nexth/model/model_manager.dart';
-import 'package:nexth/navigation/app_state.dart';
+import 'package:brightside_feed/bloc/item_list_model_cubit.dart';
+import 'package:brightside_feed/components/item_card.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/model/list_models/item_list_model.dart';
+import 'package:brightside_feed/model/model_manager.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
 import 'package:provider/provider.dart';
 
 /// Creates a scroll view from the given [ItemListModel]. <br>

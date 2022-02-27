@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nexth/components/explore/category_tabs.dart';
-import 'package:nexth/components/explore/explore_add_filter_tab.dart';
-import 'package:nexth/components/explore/explore_popular_tab.dart';
-import 'package:nexth/components/explore/explore_likes_tab.dart';
-import 'package:nexth/components/explore/explore_home_tab.dart';
-import 'package:nexth/model/category_tree_model.dart';
-import 'package:nexth/model/model_manager.dart';
-import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/utils/constants.dart';
-import 'package:nexth/utils/custom_page_view_scroll_physics.dart';
+import 'package:brightside_feed/components/explore/category_tabs.dart';
+import 'package:brightside_feed/components/explore/explore_add_filter_tab.dart';
+import 'package:brightside_feed/components/explore/explore_popular_tab.dart';
+import 'package:brightside_feed/components/explore/explore_likes_tab.dart';
+import 'package:brightside_feed/components/explore/explore_home_tab.dart';
+import 'package:brightside_feed/model/category_tree_model.dart';
+import 'package:brightside_feed/model/model_manager.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
+import 'package:brightside_feed/utils/constants.dart';
+import 'package:brightside_feed/utils/custom_page_view_scroll_physics.dart';
 import 'package:provider/provider.dart';
 
 class ExplorerScreen extends StatefulWidget {

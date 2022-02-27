@@ -1,17 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nexth/bloc/item_list_model_cubit.dart';
-import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/navigation/nexth_route_paths.dart';
-import 'package:nexth/screens/app_shell_screen.dart';
-import 'package:nexth/screens/pre_main_screen/confirm_screen.dart';
-import 'package:nexth/screens/pre_main_screen/intro_screen2.dart';
-import 'package:nexth/screens/pre_main_screen/loading_screen1.dart';
-import 'package:nexth/screens/pre_main_screen/loading_screen2.dart';
-import 'package:nexth/screens/pre_main_screen/login_screen.dart';
-import 'package:nexth/screens/pre_main_screen/reset_password_screen.dart';
-import 'package:nexth/screens/web_view_screen.dart';
+import 'package:brightside_feed/bloc/item_list_model_cubit.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
+import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/screens/app_shell_screen.dart';
+import 'package:brightside_feed/screens/pre_main_screen/confirm_screen.dart';
+import 'package:brightside_feed/screens/pre_main_screen/intro_screen2.dart';
+import 'package:brightside_feed/screens/pre_main_screen/loading_screen1.dart';
+import 'package:brightside_feed/screens/pre_main_screen/loading_screen2.dart';
+import 'package:brightside_feed/screens/pre_main_screen/login_screen.dart';
+import 'package:brightside_feed/screens/pre_main_screen/reset_password_screen.dart';
+import 'package:brightside_feed/screens/web_view_screen.dart';
 import 'package:provider/provider.dart';
 
 class MainRouterDelegate extends RouterDelegate<NexthRoutePath>

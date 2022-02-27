@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/navigation/inner_route_delegate.dart';
-import 'package:nexth/navigation/nexth_route_paths.dart';
-import 'package:nexth/screens/add_url_screen.dart';
-import 'package:nexth/screens/filter_popular_screen.dart';
-import 'package:nexth/utils/constants.dart' as Constants;
-import 'package:nexth/utils/constants.dart';
-import 'package:nexth/utils/ui_utils.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
+import 'package:brightside_feed/navigation/inner_route_delegate.dart';
+import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/screens/add_url_screen.dart';
+import 'package:brightside_feed/screens/filter_popular_screen.dart';
+import 'package:brightside_feed/utils/constants.dart' as Constants;
+import 'package:brightside_feed/utils/constants.dart';
+import 'package:brightside_feed/utils/ui_utils.dart';
 import 'package:provider/provider.dart';
 
 class AppShellScreen extends StatefulWidget {

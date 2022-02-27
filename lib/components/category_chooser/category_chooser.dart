@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nexth/components/category_chooser/second_level_button.dart';
-import 'package:nexth/components/category_chooser/category_cubit.dart';
-import 'package:nexth/model/category_tree_model.dart';
-import 'package:nexth/components/category_chooser/third_level_button.dart';
-import 'package:nexth/model/category_tree_non_tech.dart';
-import 'package:nexth/model/category_tree_tech.dart';
-import 'package:nexth/utils/constants.dart';
-import 'package:nexth/utils/ui_utils.dart';
+import 'package:brightside_feed/components/category_chooser/second_level_button.dart';
+import 'package:brightside_feed/components/category_chooser/category_cubit.dart';
+import 'package:brightside_feed/model/category_tree_model.dart';
+import 'package:brightside_feed/components/category_chooser/third_level_button.dart';
+import 'package:brightside_feed/model/category_tree_non_tech.dart';
+import 'package:brightside_feed/model/category_tree_tech.dart';
+import 'package:brightside_feed/utils/constants.dart';
+import 'package:brightside_feed/utils/ui_utils.dart';
 
 class CategoryChooser extends StatefulWidget {
   final Function(List<CategoryElement>) callback;

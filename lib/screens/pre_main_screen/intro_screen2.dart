@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
-import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/navigation/nexth_route_paths.dart';
-import 'package:nexth/utils/constants.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
+import 'package:brightside_feed/navigation/nexth_route_paths.dart';
+import 'package:brightside_feed/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/backend_connection/api_connector.dart';
-import 'package:nexth/backend_connection/item_update.dart';
-import 'package:nexth/components/category_chooser/category_chooser.dart';
-import 'package:nexth/model/category_tree_model.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/utils/constants.dart';
-import 'package:nexth/utils/ui_utils.dart';
+import 'package:brightside_feed/backend_connection/api_connector.dart';
+import 'package:brightside_feed/backend_connection/item_update.dart';
+import 'package:brightside_feed/components/category_chooser/category_chooser.dart';
+import 'package:brightside_feed/model/category_tree_model.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/utils/constants.dart';
+import 'package:brightside_feed/utils/ui_utils.dart';
 
 class CategoryUpdater extends StatefulWidget {
   final ItemData itemData;

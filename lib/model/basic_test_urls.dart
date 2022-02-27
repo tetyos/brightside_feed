@@ -1,6 +1,6 @@
-import 'package:nexth/model/category_tree_non_tech.dart';
-import 'package:nexth/model/category_tree_tech.dart';
-import 'package:nexth/model/item_data.dart';
+import 'package:brightside_feed/model/category_tree_non_tech.dart';
+import 'package:brightside_feed/model/category_tree_tech.dart';
+import 'package:brightside_feed/model/item_data.dart';
 
 class BasicTestUrls {
   static const String items_stored_string = 'number_of_items_stored';

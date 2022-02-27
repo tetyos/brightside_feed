@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/bloc/item_list_model_cubit.dart';
-import 'package:nexth/model/list_models/explore_popular_model.dart';
-import 'package:nexth/model/model_manager.dart';
-import 'package:nexth/model/vote_model.dart';
+import 'package:brightside_feed/bloc/item_list_model_cubit.dart';
+import 'package:brightside_feed/model/list_models/explore_popular_model.dart';
+import 'package:brightside_feed/model/model_manager.dart';
+import 'package:brightside_feed/model/vote_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FilterPopularScreen extends StatefulWidget {

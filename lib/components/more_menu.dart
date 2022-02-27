@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/model/item_data.dart';
-import 'package:nexth/utils/ui_utils.dart';
+import 'package:brightside_feed/model/item_data.dart';
+import 'package:brightside_feed/utils/ui_utils.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 

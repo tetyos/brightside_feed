@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify.dart';
-import 'package:nexth/navigation/app_state.dart';
-import 'package:nexth/screens/pre_main_screen/login_screen.dart';
-import 'package:nexth/utils/ui_utils.dart';
+import 'package:brightside_feed/navigation/app_state.dart';
+import 'package:brightside_feed/screens/pre_main_screen/login_screen.dart';
+import 'package:brightside_feed/utils/ui_utils.dart';
 import 'package:provider/provider.dart';
 
 class ResetPasswordScreen extends StatefulWidget {

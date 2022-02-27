@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nexth/navigation/main_route_information_parser.dart';
-import 'package:nexth/navigation/main_router_delegate.dart';
-import 'package:nexth/utils/constants.dart' as Constants;
+import 'package:brightside_feed/navigation/main_route_information_parser.dart';
+import 'package:brightside_feed/navigation/main_router_delegate.dart';
+import 'package:brightside_feed/utils/constants.dart' as Constants;
 
 void main() {
   // // Ensure that Firebase is initialized
