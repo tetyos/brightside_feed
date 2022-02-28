@@ -39,7 +39,7 @@ class DrawerRight extends StatelessWidget {
             leading: FaIcon(FontAwesomeIcons.download),
             title: Text('Android App'),
             onTap: () {
-              downloadFile("assets/downloads/brightside-feed.apk");
+              showOpenUrlDialog(context);
               // Provider.of<AppState>(context, listen: false).currentRoutePath = AboutPath();
               // Navigator.of(context).pop();
             },
@@ -53,5 +53,40 @@ class DrawerRight extends StatelessWidget {
     AnchorElement anchorElement =  new AnchorElement(href: url);
     anchorElement.download = "brightside-feed.apk";
     anchorElement.click();
+  }
+
+  Future<void> showOpenUrlDialog(BuildContext context) async {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Download the Android app?'),
+        content: RichText(
+          text: TextSpan(
+            style: TextStyle(color: Colors.black, fontSize: 14),
+            children: <TextSpan>[
+              TextSpan(text: "Starts download of "),
+              TextSpan(
+                text: "brightside-feed.apk",
+                style: TextStyle(color: Colors.black, fontSize: 14, fontStyle: FontStyle.italic),
+              ),
+              TextSpan(text: " (14MB)"),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              downloadFile("assets/downloads/brightside-feed.apk");
+              Navigator.pop(context, 'OK');
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 }
