@@ -76,7 +76,7 @@ class ItemCard extends StatelessWidget {
     if (_itemData.imageProvider != null) {
       image = Image(image: _itemData.imageProvider!);
     } else {
-      image = Image.asset('images/default_card_images/no_picture.png');
+      image = Image.asset('images/default_card_images/default.jpg');
     }
     imageWidget = ClipRRect(
       child: image,
