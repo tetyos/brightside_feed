@@ -119,7 +119,9 @@ class ItemData {
   Future<void> preLoadImage(BuildContext context) async {
     if (imageUrl != null) {
       fadeInImage = FadeInImage.memoryNetwork(placeholder: UIUtils.kTransparentImage, image: imageUrl!, width: 800, imageCacheWidth: 800, placeholderCacheWidth: 800,);
-      await precacheImage(fadeInImage!.image, context);
+      await precacheImage(fadeInImage!.image, context, onError: (error, stackTrace) {
+        fadeInImage = null;
+      });
     }
   }
 }
