@@ -1,16 +1,9 @@
 # Brightside-Feed
 
-Brightside-Feed provides news on events, tech and other things that help to advance our society into a brighter age.
+Brightside-Feed is a project to provide news on events, tech and other things that help to advance our society into a brighter age.
 
-## Getting Started
+This repository contains the frontend built with flutter. 
+It also contains a branch with a trimmed down version of the project, which is currently used to run the following website:
+ 
+https://brightside-feed.com/ 
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
