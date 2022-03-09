@@ -10,7 +10,7 @@ import 'package:brightside_feed/model/vote_model.dart';
 import 'package:brightside_feed/project_config.dart';
 
 class APIConnector {
-  static int httpRequestThreshold = 100;
+  static int httpRequestThreshold = 500;
   static int numberOfHttpRequests = 0;
 
   static Future<dynamic> getInitialData(String allQueriesJson, bool isUserLoggedIn) async {
