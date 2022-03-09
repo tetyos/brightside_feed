@@ -26,7 +26,7 @@ const LevelTwoCategory socialJusticeCategory = const LevelTwoCategory(
 );
 
 const LevelTwoCategory peaceBuildingCategory = const LevelTwoCategory(
-  displayTitle: "Peacebuilding",
+  displayTitle: "Cooperation",
   categoryIdentifier: "peaceBuilding",
   levelThreeElements: [],
 );

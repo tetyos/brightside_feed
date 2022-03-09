@@ -30,7 +30,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
   ItemData? _itemData;
   String? _lastInput;
   List<CategoryElement> _categoriesSelection = [];
-  String? _languageSelection;
+  // String? _languageSelection;
 
   bool isDefaultPreviewDataLoader = true;
 
@@ -80,7 +80,7 @@ class _AddUrlScreenState extends State<AddUrlScreen> {
             UIUtils.renderDivider(),
             SizedBox(height: 10),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.secondaryVariant),
+              style: ElevatedButton.styleFrom(primary: Theme.of(context).colorScheme.primary),
               onPressed: onAdd,
               child: Text('Add'),
             ),

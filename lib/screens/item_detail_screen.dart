@@ -145,9 +145,10 @@ class _ItemDetailScreenState extends State<ItemDetailScreen> {
         Expanded(
           child: Row(
             children: [
-              Icon(Icons.remove_red_eye_outlined),
-              SizedBox(width: 2),
-              Text("4.505"),
+              // uncomment if views get used at some point
+              // Icon(Icons.remove_red_eye_outlined),
+              // SizedBox(width: 2),
+              // Text("4.505"),
             ],
           ),
         ),

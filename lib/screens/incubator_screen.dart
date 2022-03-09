@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:brightside_feed/components/incubator/incubator_scraped_card.dart';
+import 'package:brightside_feed/components/incubator/news_scanner_card.dart';
 import 'package:brightside_feed/components/incubator/news_scanner_intro_card.dart';
 import 'package:brightside_feed/components/incubator/incubator_intro_card.dart';
 import 'package:brightside_feed/components/incubator/incubator_unsafe_card.dart';
@@ -116,7 +116,7 @@ class _IncubatorScrollViewState extends State<IncubatorScrollView> {
     ModelManager _modelManager = ModelManager.instance;
     _itemListModel = _modelManager.getModelForIncubatorType(widget.incubatorType);
     if (widget.incubatorType == IncubatorType.scraped) {
-      _itemCardProvider = (itemData) => IncubatorScrapedCard(
+      _itemCardProvider = (itemData) => NewsScannerCard(
             linkPreviewData: itemData,
             isAdminCard: ModelManager.instance.isAdmin(),
           );

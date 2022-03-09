@@ -9,7 +9,7 @@ import 'package:brightside_feed/utils/ui_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class IncubatorScrapedCard extends StatelessWidget {
+class NewsScannerCard extends StatelessWidget {
   final ItemData _itemData;
   final String? _shortDescription;
   final String _datePublishedString;
@@ -18,7 +18,7 @@ class IncubatorScrapedCard extends StatelessWidget {
   late final Widget imageWidget;
   final bool isAdminCard;
 
-  IncubatorScrapedCard({required ItemData linkPreviewData, this.isAdminCard = false})
+  NewsScannerCard({required ItemData linkPreviewData, this.isAdminCard = false})
       : _itemData = linkPreviewData,
         _datePublishedString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.datePublished!),
         _dateScrapedString = PreviewDataLoader.getFormattedDateFromIso8601(linkPreviewData.dateScraped!),
@@ -64,14 +64,14 @@ class IncubatorScrapedCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (isAdminCard)
-                    Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(_dateScrapedString + " (scraped)", style: TextStyle(color: Colors.grey[500]))),
-                  if (isAdminCard)
-                    SizedBox(
-                      height: 10,
-                    )
+                  // if (isAdminCard)
+                  //   Padding(
+                  //       padding: const EdgeInsets.only(left: 16.0),
+                  //       child: Text(_dateScrapedString + " (scraped)", style: TextStyle(color: Colors.grey[500]))),
+                  // if (isAdminCard)
+                  //   SizedBox(
+                  //     height: 10,
+                  //   )
                 ],
               ),
             ),
@@ -96,9 +96,9 @@ class IncubatorScrapedCard extends StatelessWidget {
 
   Widget renderDate(BuildContext context) {
     String dateString = _datePublishedString;
-    if (isAdminCard) {
-      dateString += " (published)";
-    }
+    // if (isAdminCard) {
+    //   dateString += " (published)";
+    // }
     Widget dateText = Text(
       dateString,
       style: TextStyle(color: Colors.grey[500]),
