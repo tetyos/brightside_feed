@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:brightside_feed/navigation/app_state.dart';
-import 'package:brightside_feed/navigation/drawer_right.dart';
 import 'package:brightside_feed/navigation/inner_route_delegate.dart';
 import 'package:brightside_feed/navigation/route_paths.dart';
 import 'package:brightside_feed/screens/add_url_screen.dart';
@@ -8,6 +7,7 @@ import 'package:brightside_feed/screens/filter_popular_screen.dart';
 import 'package:brightside_feed/utils/constants.dart' as Constants;
 import 'package:brightside_feed/utils/constants.dart';
 import 'package:brightside_feed/utils/ui_utils.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class AppShellScreen extends StatefulWidget {
@@ -32,7 +32,6 @@ class _AppShellScreenState extends State<AppShellScreen> {
 
         return Scaffold(
           appBar: renderAppBarIfNecessary(appState),
-          endDrawer: DrawerRight(),
           body: SafeArea(
             child: Router(
               routerDelegate: InnerRouterDelegate(),
@@ -77,10 +76,10 @@ class _AppShellScreenState extends State<AppShellScreen> {
                 appState.currentRoutePath = IncubatorPath();
               }),
           BottomNavItem(
-              icon: appState.isUserLoggedIn ? Icons.person : Icons.login,
+              icon: FontAwesomeIcons.infoCircle,
               currentlySelected: false,
               onPressed: () {
-                UIUtils.showSnackBar("Can not login in web version.", context);
+                Provider.of<AppState>(context, listen: false).currentRoutePath = AboutPath();
               }),
           IconButton(
             icon: Icon(Icons.person, color: Color.fromRGBO(0, 0, 0, 0)),

@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:brightside_feed/utils/constants.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({Key? key}) : super(key: key);
@@ -72,6 +75,33 @@ class AboutScreen extends StatelessWidget {
                             color: kColorSecondary,
                             margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                             child: ListTile(
+                                leading: FaIcon(FontAwesomeIcons.download, color: Colors.white,),
+                                title: Text(
+                                  "Download Android App",
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onTap: () {
+                                  showOpenUrlDialog(context);
+                                  // Provider.of<AppState>(context, listen: false).currentRoutePath = AboutPath();
+                                  // Navigator.of(context).pop();
+                                }
+                            ),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            minWidth: 0,
+                            maxWidth: 300,
+                          ),
+                          child: Card(
+                            color: kColorSecondary,
+                            margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                            child: ListTile(
                               leading: Icon(
                                 Icons.contact_mail,
                                 color: Colors.white,
@@ -86,7 +116,7 @@ class AboutScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -95,6 +125,47 @@ class AboutScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void downloadFile(String url) {
+    AnchorElement anchorElement =  new AnchorElement(href: url);
+    anchorElement.download = "brightside-feed.apk";
+    anchorElement.click();
+  }
+
+  Future<void> showOpenUrlDialog(BuildContext context) async {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Download the Android app?'),
+        content: RichText(
+          text: TextSpan(
+            style: TextStyle(color: Colors.black, fontSize: 14),
+            children: <TextSpan>[
+              TextSpan(text: "Starts download of "),
+              TextSpan(
+                text: "brightside-feed.apk",
+                style: TextStyle(color: Colors.black, fontSize: 14, fontStyle: FontStyle.italic),
+              ),
+              TextSpan(text: " (14MB)"),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              downloadFile("assets/downloads/brightside-feed.apk");
+              Navigator.pop(context, 'OK');
+            },
+            child: const Text('OK'),
+          ),
+        ],
       ),
     );
   }
