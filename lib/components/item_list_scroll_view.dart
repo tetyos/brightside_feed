@@ -59,6 +59,9 @@ class _ItemListScrollViewState extends State<ItemListScrollView> {
         if (state is ItemListModelReset && state.itemListModel == widget.itemListModel) {
           _initModel();
         }
+        if (state is ItemListModelChanged && state.itemListModel == widget.itemListModel) {
+          setState(() {});
+        }
       },
       child: Scrollbar(
         // todo interaction does not work

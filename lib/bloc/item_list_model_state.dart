@@ -16,3 +16,10 @@ class ItemListModelReset extends ItemListModelState {
 
   ItemListModelReset({required this.itemListModel});
 }
+
+class ItemListModelChanged extends ItemListModelState {
+  @override
+  final ItemListModel itemListModel;
+
+  ItemListModelChanged({required this.itemListModel});
+}

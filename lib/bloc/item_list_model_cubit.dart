@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:brightside_feed/model/item_data.dart';
 import 'package:meta/meta.dart';
 import 'package:brightside_feed/model/category_tree_model.dart';
 import 'package:brightside_feed/model/list_models/category_list_model.dart';
@@ -32,5 +33,11 @@ class ItemListModelCubit extends Cubit<ItemListModelState> {
     ItemListModel itemListModel = ModelManager.instance.getModelForIncubatorType(incubatorType);
     itemListModel.reset();
     emit(ItemListModelReset(itemListModel: itemListModel));
+  }
+
+  void deleteItem(IncubatorType incubatorType, ItemData itemData) {
+    ItemListModel itemListModel = ModelManager.instance.getModelForIncubatorType(incubatorType);
+    ModelManager.instance.deleteItem(itemData);
+    emit(ItemListModelChanged(itemListModel: itemListModel));
   }
 }
